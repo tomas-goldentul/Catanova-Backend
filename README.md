@@ -24,10 +24,10 @@ El backend está diseñado bajo un modelo **SaaS (Software as a Service)**, perm
 
 Estamos construyendo el futuro de la gestión textil. Puedes contactarnos a través de nuestros perfiles profesionales:
 
-* **Federico Ajami** - *Backend Developer / Architecture* - [LinkedIn](https://www.linkedin.com/in/link-a-tu-perfil)
-* **Ciro Ranieli** - *Backend Developer / IA Integrations* - [LinkedIn](https://www.linkedin.com/in/link-a-tu-perfil)
-* **Tomas Goldentul** - *Backend Developer / Database* - [LinkedIn](https://www.linkedin.com/in/link-a-tu-perfil)
-* **Maximo Hevia** - *Backend Developer / Security* - [LinkedIn](https://www.linkedin.com/in/link-a-tu-perfil)
+* **Federico Ajami** - *Project Leader* - [LinkedIn](https://www.linkedin.com/in/)
+* **Ciro Ranieli** - *Fronend developer* - [LinkedIn](https://www.linkedin.com/in/ciro-ranieli-a627b5401)
+* **Tomas Goldentul** - *Backend Developer* - [LinkedIn](https://www.linkedin.com/in/tomas-goldentul)
+* **Maximo Hevia** - *Fullstack* - [LinkedIn](https://www.linkedin.com/in/max-hevia)
 
 ## 🏁 Configuración del Entorno
 
