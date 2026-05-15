@@ -1,16 +1,28 @@
 import express from "express"; 
 import cors from "cors";
+
+
 import productoRoutes from "./modules/productos/productos.routes.js";
 
 const app = express();
 const port = 3000;          
 
+// Middlewares
 app.use(cors());                 
 app.use(express.json()); 
 
-// prefijo API
+// --- RUTAS ---
+
 app.use("/productos", productoRoutes);
 
+
+
+app.get("/", (req, res) => {
+    res.send("¡Servidor de Catanova funcionando!");
+});
+
+// Inicio del servidor
 app.listen(port, () => {
-    console.log(`Listening on http://localhost:${port}`);
-})  
+    console.log(`Servidor corriendo en: http://localhost:${port}`);
+
+});
