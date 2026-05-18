@@ -1,7 +1,7 @@
 import express from "express"; 
 import cors from "cors";
 
-
+import tiendasRoutes from "./modules/tiendas/tiendas.routes.js";
 import productoRoutes from "./modules/productos/productos.routes.js";
 
 const app = express();
@@ -14,6 +14,7 @@ app.use(express.json());
 // --- RUTAS ---
 
 app.use("/productos", productoRoutes);
+app.use("/tiendas", tiendasRoutes);
 
 
 

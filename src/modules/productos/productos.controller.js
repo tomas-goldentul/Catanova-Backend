@@ -1,4 +1,4 @@
-import { getAllProductos, agregarProducto, buscarProductoPorNombre } from "./productos.model.js";
+import { getAllProductos, agregarProducto, buscarProductoPorNombre} from "./productos.model.js";
 
 export const getProductos = async (req, res) => {
   try {
@@ -18,12 +18,13 @@ export const insertProducto = async (req, res) => {
 
   try {
     const { nombre, precio, stock, imagen, activo, id_tienda } = req.query;
-    const existe = await buscarProductoPorNombre(nombre);
+
     //verificar si el nombre esta repetido
+    const existe = await buscarProductoPorNombre(nombre);
     if (existe) {
       return res.status(400).json({ message: "El producto ya existe" });
     }
-    
+
     const producto = {
       nombre,
       precio: Number(precio),
@@ -40,4 +41,6 @@ export const insertProducto = async (req, res) => {
     res.status(500).json({ message: "Error al agregar productos", error: error.message });
   }
 }
+
+
 

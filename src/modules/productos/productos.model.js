@@ -18,10 +18,11 @@ export const agregarProducto = async (producto) => {
   return result.rows[0];
 };
 
-export const buscarProductoPorNombre = async(nombreBuscar) =>{
+export const buscarProductoPorNombre = async (nombreBuscar) => {
   const nombre = nombreBuscar;
   const query = ` SELECT * FROM  productos WHERE nombre = $1 LIMIT 1`
   const values = [nombre];
-    const result = await db.query(query, values);
+  const result = await db.query(query, values);
   return result.rows.length > 0;
 }
+
