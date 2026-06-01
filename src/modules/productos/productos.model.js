@@ -1,9 +1,15 @@
 import db from "../../config/db-config.js";
 
-export const getAllProductos = async () => {
+export const getProductosActivos = async () => {
   const result = await db.query("SELECT * FROM productos WHERE activo = true");
   return result.rows;
 };
+
+export const getAllProductos = async() =>{
+    const result = await db.query("SELECT * FROM productos");
+  return result.rows;
+}
+
 
 export const agregarProducto = async (producto) => {
   const { nombre, precio, stock, imagen, activo, id_tienda } = producto;
