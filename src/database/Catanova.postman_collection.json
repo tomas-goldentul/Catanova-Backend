@@ -1,0 +1,147 @@
+{
+	"info": {
+		"_postman_id": "34f0f610-aed6-463d-a9d5-7eb4cbb4977a",
+		"name": "Catanova",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Productos",
+			"item": [
+				{
+					"name": "GetProductosActivos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/productos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InsertProducto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Logitech \",\r\n  \"precio\": 45000,\r\n  \"stock\": 15,\r\n  \"imagen\": \"mouse.jpg\",\r\n  \"activo\": true,\r\n  \"id_tienda\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/productos/insert",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllProductos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/productos/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tienda",
+			"item": [
+				{
+					"name": "InsertTienda",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Catanova\",\r\n  \"email\": \"minimal@catanova.com\",\r\n  \"slogan\": \"Tienda sin colores configurados\",\r\n  \"telefono\": \"44445555\",\r\n  \"direccion\": \"Av. Corrientes 1234\",\r\n  \"id_duenio\": 1,\r\n  \"id_provincia\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/tiendas/insert",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tiendas",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateTienda",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Catanova Hardware Renombrado\",\r\n  \"email\": \"SDS@catanovahw.com\",\r\n  \"slogan\": \"Componentes con nuevo nombre identificador\",\r\n  \"telefono\": \"1133334444\",\r\n  \"direccion\": \"Av. Cabildo 2400\",\r\n  \"color_primario\": \"#111111\",\r\n  \"color_secundario\": null,\r\n  \"color_terciario\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/tiendas/update/Tienda Ropa",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tiendas",
+								"update",
+								"Tienda Ropa"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
