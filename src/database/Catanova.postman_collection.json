@@ -29,6 +29,26 @@
 					"response": []
 				},
 				{
+					"name": "GetAllProductos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/productos/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "InsertProducto",
 					"request": {
 						"method": "POST",
@@ -58,12 +78,21 @@
 					"response": []
 				},
 				{
-					"name": "GetAllProductos",
+					"name": "UpdateEstado",
 					"request": {
-						"method": "GET",
+						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"estado\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:3000/productos/all",
+							"raw": "http://localhost:3000/productos/estado/Laptop Lenovo ThinkPad",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -71,7 +100,8 @@
 							"port": "3000",
 							"path": [
 								"productos",
-								"all"
+								"estado",
+								"Laptop Lenovo ThinkPad"
 							]
 						}
 					},
