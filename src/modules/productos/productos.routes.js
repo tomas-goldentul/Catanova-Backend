@@ -1,8 +1,11 @@
 import express from "express";
-import { GetProductosActivos, insertProducto, getProductos } from "./productos.controller.js";
+import { GetProductosActivos, insertProducto, getProductos, updateEstadoProducto } from "./productos.controller.js";
 const router = express.Router();
 
+//trae productos activos
 router.get("/", GetProductosActivos);
+
+//agregar producto
 router.post('/insert', async (req, res) => {
   try {
     const datosProducto = req.body;
@@ -29,6 +32,7 @@ router.post('/insert', async (req, res) => {
   }
 });
 
+//trae todos los productos (activos e inactivos)
 router.get('/all', async (req, res) => {
 
   try {
@@ -42,11 +46,30 @@ router.get('/all', async (req, res) => {
     return res.status(400).json({ message: error.message });
 
   }
+})
 
+router.put('/estado/:nombre', async (req, res) => {
+  try {
+    const { nombre } = req.params;
+    const { estado } = req.body;
+    const result = await updateEstadoProducto(nombre, estado);
+    const mensajeTexto = estado
+      ? "Producto activado con éxito"
+      : "Producto inactivado con éxito";
 
+    res.status(200).json({
+      message: mensajeTexto,
+      data: result
+    });
+  }
+  catch (error) {
+    console.error("Error en ruta estado:", error.message);
 
-
-
+    if (error.message.includes("no existe") || error.message.includes("true o false")) {
+      return res.status(400).json({ message: error.message });
+    }
+    res.status(500).json({ message: "Error interno del servidor", error: error.message });
+  }
 
 })
 

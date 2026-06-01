@@ -5,11 +5,16 @@ export const getProductosActivos = async () => {
   return result.rows;
 };
 
-export const getAllProductos = async() =>{
-    const result = await db.query("SELECT * FROM productos");
+export const getAllProductos = async () => {
+  const result = await db.query("SELECT * FROM productos");
   return result.rows;
 }
 
+export const getProductosId = async (id) => {
+  const query = await db.query("SELECT * FROM productos where id = $1");
+  const result = await db.query(query, [id]);
+  return result.rows[0];
+}
 
 export const agregarProducto = async (producto) => {
   const { nombre, precio, stock, imagen, activo, id_tienda } = producto;
@@ -30,5 +35,12 @@ export const buscarProductoPorNombre = async (nombreBuscar) => {
   const values = [nombre];
   const result = await db.query(query, values);
   return result.rows.length > 0;
+}
+
+export const modificarEstado = async (nombre, activo) =>{
+  const query = `Update Productos set activo = $1 where nombre = $2 RETURNING *`
+  const values = [activo, nombre];
+  const result = await db.query(query, values);
+  return result.rows[0];
 }
 

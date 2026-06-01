@@ -1,4 +1,4 @@
-import { getProductosActivos, agregarProducto, buscarProductoPorNombre, getAllProductos } from "./productos.model.js";
+import { getProductosActivos, agregarProducto, buscarProductoPorNombre, getAllProductos, modificarEstado } from "./productos.model.js";
 
 export const GetProductosActivos = async (req, res) => {
   try {
@@ -40,6 +40,15 @@ export const getProductos = async () => {
   }
 
   return listaProductos;
+}
+
+export const updateEstadoProducto = async (nombre, estado) => {
+  const existeProducto = await buscarProductoPorNombre(nombre);
+  if (!existeProducto) {
+    throw new Error("El producto ingresado no existe");
+  }
+  const productoActualizado = await modificarEstado(nombre, estado);
+  return productoActualizado;
 }
 
 
