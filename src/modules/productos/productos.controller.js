@@ -14,33 +14,24 @@ export const getProductos = async (req, res) => {
   }
 };
 
-export const insertProducto = async (req, res) => {
-
-  try {
-    const { nombre, precio, stock, imagen, activo, id_tienda } = req.query;
-
-    //verificar si el nombre esta repetido
-    const existe = await buscarProductoPorNombre(nombre);
-    if (existe) {
-      return res.status(400).json({ message: "El producto ya existe" });
-    }
-
-    const producto = {
-      nombre,
-      precio: Number(precio),
-      stock: Number(stock),
-      imagen,
-      activo: activo === "true",
-      id_tienda: Number(id_tienda),
-    };
-    const result = await agregarProducto(producto);
-    res.json(result);
+export const insertProducto = async ({ nombre, precio, stock, imagen, activo, id_tienda }) => {
+  
+  const existe = await buscarProductoPorNombre(nombre);
+  if (existe) {
+    throw new Error("El producto ya existe"); 
   }
-  catch (error) {
-    console.error("Error en insertProducto:", error);
-    res.status(500).json({ message: "Error al agregar productos", error: error.message });
-  }
-}
+
+  const producto = {
+    nombre,
+    precio: Number(precio),
+    stock: Number(stock),
+    imagen,
+    activo: Boolean(activo), 
+    id_tienda: Number(id_tienda),
+  };
+
+  return await agregarProducto(producto);
+};
 
 
 
