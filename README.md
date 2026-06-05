@@ -36,4 +36,5 @@ Estamos construyendo el futuro de la gestión textil. Puedes contactarnos a trav
    npm i
    npm i express
    npm i cors
+   npm i dotenv
    node --watch src/app.js
