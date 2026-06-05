@@ -75,7 +75,7 @@ router.put('/estado/:id', async (req, res) => {
 })
 
 //actualizar producto
-router.get('/update/:id', async (req, res) => {
+router.put('/update/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const datosCompletos = {

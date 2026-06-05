@@ -24,6 +24,24 @@ export const insertTienda = async ({
     throw new Error("La tienda ya existe");
   }
   const fechaFinal = fecha_creacion || new Date().toISOString().split('T')[0];
+
+  // Validaciones numéricas seguras: convertir solo si vienen y son válidos. 
+  // Aclaración: Number() convierte la entrada a número. Ésto se usa porque los valores que llegan desde postman suelen ser strings.
+  // La función Number.isFinite() verifica si el resultado es un número finito, para evitar errores.
+  let duenioId = null;
+  if (id_duenio !== undefined && id_duenio !== null && id_duenio !== '') {
+    const parsed = Number(id_duenio);
+    if (!Number.isFinite(parsed)) throw new Error('id_duenio inválido');
+    duenioId = parsed;
+  }
+
+  let provinciaId = null;
+  if (id_provincia !== undefined && id_provincia !== null && id_provincia !== '') {
+    const parsed = Number(id_provincia);
+    if (!Number.isFinite(parsed)) throw new Error('id_provincia inválido');
+    provinciaId = parsed;
+  }
+
   const tienda = {
     nombre,
     email,
@@ -31,8 +49,8 @@ export const insertTienda = async ({
     telefono: telefono,
     direccion,
     fecha_creacion: fechaFinal,
-    id_duenio: Number(id_duenio),
-    id_provincia: Number(id_provincia),
+    id_duenio: duenioId,
+    id_provincia: provinciaId,
     color_primario: color_primario || null,
     color_secundario: color_secundario || null,
     color_terciario: color_terciario || null
@@ -46,6 +64,7 @@ export const updateTienda = async (datosTienda) => {
   const { id_tienda, nombre, email, slogan, telefono, direccion } = datosTienda;
 
   if (!id_tienda) throw new Error("El ID de la tienda es obligatorio.");
+  if (!Number.isFinite(Number(id_tienda))) throw new Error('id_tienda inválido');
   if (!nombre || !email || !slogan || !telefono || !direccion) {
     throw new Error("Faltan completar campos");
   }

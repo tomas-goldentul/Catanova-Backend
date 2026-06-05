@@ -21,6 +21,11 @@ export const insertProducto = async ({ nombre, precio, stock, imagen, activo, id
     throw new Error("El producto ya existe");
   }
 
+  // Validaciones numéricas
+  if (!Number.isFinite(Number(precio))) throw new Error('precio inválido');
+  if (!Number.isFinite(Number(stock))) throw new Error('stock inválido');
+  if (!Number.isFinite(Number(id_tienda))) throw new Error('id_tienda inválido');
+
   const producto = {
     nombre,
     precio: Number(precio),
@@ -43,7 +48,8 @@ export const getProductos = async () => {
 }
 
 export const updateEstadoProducto = async (id, estado) => {
-  const existeProducto = await getProductosId(id);
+  if (!Number.isFinite(Number(id))) throw new Error('id_producto inválido');
+  const existeProducto = await getProductosId(Number(id));
   if (!existeProducto) {
     throw new Error("El producto ingresado no existe");
   }
@@ -57,6 +63,11 @@ export const actualizarProducto = async (datosProducto) => {
   if (!nombre || precio === undefined || stock === undefined || id_tienda === undefined) {
     throw new Error("Faltan completar campos obligatorios");
   }
+
+  if (!Number.isFinite(Number(id_producto))) throw new Error('id_producto inválido');
+  if (!Number.isFinite(Number(precio))) throw new Error('precio inválido');
+  if (!Number.isFinite(Number(stock))) throw new Error('stock inválido');
+  if (!Number.isFinite(Number(id_tienda))) throw new Error('id_tienda inválido');
 
   const productoActual = await getProductosId(id_producto);
   if (!productoActual) {
