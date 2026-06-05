@@ -11,10 +11,9 @@ export const getAllProductos = async () => {
 }
 
 export const getProductosId = async (id) => {
-  const query = await db.query("SELECT * FROM productos where id = $1");
+  const query = `SELECT * FROM productos where id_producto = $1;`
   const result = await db.query(query, [id]);
-  return result.rows[0];
-}
+  return result.rows[0];}
 
 export const agregarProducto = async (producto) => {
   const { nombre, precio, stock, imagen, activo, id_tienda } = producto;
@@ -37,10 +36,46 @@ export const buscarProductoPorNombre = async (nombreBuscar) => {
   return result.rows.length > 0;
 }
 
-export const modificarEstado = async (nombre, activo) =>{
-  const query = `Update Productos set activo = $1 where nombre = $2 RETURNING *`
-  const values = [activo, nombre];
+export const modificarEstado = async (id, activo) => {
+  const query = `Update Productos set activo = $1 where id_producto = $2 RETURNING *`
+  const values = [activo, id];
   const result = await db.query(query, values);
   return result.rows[0];
 }
 
+export const modificarProducto = async (producto) =>{
+  const { 
+    id_producto, 
+    nombre, 
+    precio, 
+    stock, 
+    imagen, 
+    activo, 
+    id_tienda 
+  } = producto;
+
+  const query = `
+    UPDATE productos 
+    SET nombre = $1, 
+        precio = $2, 
+        stock = $3, 
+        imagen = $4, 
+        activo = $5, 
+        id_tienda = $6
+    WHERE id_producto = $7
+    RETURNING *;
+  `;
+
+  const values = [
+    nombre,     
+    precio,     
+    stock,      
+    imagen,       
+    activo,    
+    id_tienda,    
+    id_producto   
+  ];
+
+  const result = await db.query(query, values);
+  return result.rows[0]; 
+}

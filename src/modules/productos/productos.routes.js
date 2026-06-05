@@ -1,5 +1,5 @@
 import express from "express";
-import { GetProductosActivos, insertProducto, getProductos, updateEstadoProducto } from "./productos.controller.js";
+import { GetProductosActivos, insertProducto, getProductos, updateEstadoProducto, actualizarProducto } from "./productos.controller.js";
 const router = express.Router();
 
 //trae productos activos
@@ -48,11 +48,12 @@ router.get('/all', async (req, res) => {
   }
 })
 
-router.put('/estado/:nombre', async (req, res) => {
+//actualizar estado
+router.put('/estado/:id', async (req, res) => {
   try {
-    const { nombre } = req.params;
+    const { id } = req.params;
     const { estado } = req.body;
-    const result = await updateEstadoProducto(nombre, estado);
+    const result = await updateEstadoProducto(id, estado);
     const mensajeTexto = estado
       ? "Producto activado con éxito"
       : "Producto inactivado con éxito";
@@ -71,6 +72,34 @@ router.put('/estado/:nombre', async (req, res) => {
     res.status(500).json({ message: "Error interno del servidor", error: error.message });
   }
 
+})
+
+//actualizar producto
+router.get('/update/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const datosCompletos = {
+      id_producto: Number(id),
+      ...req.body
+    };
+    const result = await actualizarProducto(datosCompletos);
+
+    res.status(200).json({
+      message: "Producto actualizado con éxito",
+      data: result
+    });
+  }
+    catch (error) {
+      console.error("Error en la ruta updateProducto:", error.message);
+      if (
+        error.message.includes("Faltan completar") ||
+        error.message.includes("no existe") ||
+        error.message.includes("ya está en uso")
+      ) {
+        return res.status(400).json({ message: error.message });
+      }
+      res.status(500).json({ message: "Error interno del servidor", error: error.message });
+    }
 })
 
 

@@ -1,4 +1,4 @@
-import { getProductosActivos, agregarProducto, buscarProductoPorNombre, getAllProductos, modificarEstado } from "./productos.model.js";
+import { getProductosActivos, agregarProducto, buscarProductoPorNombre, getAllProductos, modificarEstado, getProductosId, modificarProducto } from "./productos.model.js";
 
 export const GetProductosActivos = async (req, res) => {
   try {
@@ -42,14 +42,44 @@ export const getProductos = async () => {
   return listaProductos;
 }
 
-export const updateEstadoProducto = async (nombre, estado) => {
-  const existeProducto = await buscarProductoPorNombre(nombre);
+export const updateEstadoProducto = async (id, estado) => {
+  const existeProducto = await getProductosId(id);
   if (!existeProducto) {
     throw new Error("El producto ingresado no existe");
   }
-  const productoActualizado = await modificarEstado(nombre, estado);
+  const productoActualizado = await modificarEstado(id, estado);
   return productoActualizado;
 }
 
+export const actualizarProducto = async (datosProducto) => {
+  const { id_producto, nombre, precio, stock, imagen, activo, id_tienda } = datosProducto;
+  if (!id_producto) throw new Error("El ID del producto es obligatorio.");
+  if (!nombre || precio === undefined || stock === undefined || id_tienda === undefined) {
+    throw new Error("Faltan completar campos obligatorios");
+  }
 
+  const productoActual = await getProductosId(id_producto);
+  if (!productoActual) {
+    throw new Error("El producto no existe");
+  }
+
+  if (productoActual.nombre !== nombre) {
+    const nombreDuplicado = await buscarProductoPorNombre(nombre);
+    if (nombreDuplicado) {
+      throw new Error("El nuevo nombre ya está en uso");
+    }
+  }
+
+  const productoFormateado = {
+    id_producto: Number(id_producto),
+    nombre,
+    precio: Number(precio),
+    stock: Number(stock),
+    imagen: imagen || "",
+    activo: Boolean(activo),
+    id_tienda: Number(id_tienda),
+  };
+
+  return await modificarProducto(productoFormateado);
+};
 
