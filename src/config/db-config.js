@@ -1,14 +1,14 @@
 import pg from 'pg';
-
+import 'dotenv/config';
 const { Pool } = pg;
 
 // 1. Definimos el objeto de configuración
 const DBConfig = {
-    host: 'localhost',
-    database: 'Catanova_DB', // Asegúrate de que este sea el nombre exacto en pgAdmin
-    user: 'postgres',
-    password: 'root',
-    port: 5432
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 5432,
+    database: process.env.DB_NAME
 };
 
 // 2. Creamos la instancia del Pool (esto es lo que realmente hace las consultas)
