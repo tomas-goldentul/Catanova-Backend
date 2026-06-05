@@ -252,9 +252,9 @@ CREATE TABLE public.tiendas (
     fecha_creacion date NOT NULL,
     id_duenio integer NOT NULL,
     id_provincia integer NOT NULL,
-    color_primario character varying(7) NOT NULL,
-    color_secundario character varying(7) NOT NULL,
-    color_terciario character varying(7) NOT NULL
+    color_primario character varying(7),
+    color_secundario character varying(7),
+    color_terciario character varying(7)
 );
 
 ALTER TABLE public.tiendas OWNER TO postgres;

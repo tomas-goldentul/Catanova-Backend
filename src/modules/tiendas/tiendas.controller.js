@@ -1,4 +1,4 @@
-import { crearTienda, buscarTiendaPorNombre, editarTienda } from "./tiendas.model.js";
+import { crearTienda, buscarTiendaPorNombre, editarTienda, getTiendaById } from "./tiendas.model.js";
 
 async function verificarTiendaPorNombre(nombre) {
   const existe = await buscarTiendaPorNombre(nombre);
@@ -19,7 +19,7 @@ export const insertTienda = async ({
   color_terciario
 }) => {
 
-  const existe = await verificarTiendaPorNombre(nombre);
+  const existe = await buscarTiendaPorNombre(nombre);
   if (existe) {
     throw new Error("La tienda ya existe");
   }
@@ -43,28 +43,29 @@ export const insertTienda = async ({
 
 
 export const updateTienda = async (datosTienda) => {
-  const { nombre_original, nombre, email, slogan, telefono, direccion } = datosTienda;
-  if (!nombre_original) throw new Error("El nombre de la tienda es obligatorio.");
+  const { id_tienda, nombre, email, slogan, telefono, direccion } = datosTienda;
+
+  if (!id_tienda) throw new Error("El ID de la tienda es obligatorio.");
   if (!nombre || !email || !slogan || !telefono || !direccion) {
     throw new Error("Faltan completar campos");
   }
 
-  const existe = await verificarTiendaPorNombre(nombre_original);
-  if (!existe) {
+  const tiendaActual = await getTiendaById(id_tienda);
+  if (!tiendaActual) {
     throw new Error("La tienda no existe");
   }
 
-  // Verifica si existe el nuevo nombre que quiere poner
-  if (nombre_original !== nombre) {
-    const nuevoNombreRepetido = await buscarTiendaPorNombre(nombre);
-
-    if (nuevoNombreRepetido && nuevoNombreRepetido.email !== existe.email) {
+  if (tiendaActual.nombre !== nombre) {
+    const nombreDuplicado = await buscarTiendaPorNombre(nombre);
+    if (nombreDuplicado) {
       throw new Error("El nuevo nombre ya está en uso");
     }
   }
+
   datosTienda.color_primario = datosTienda.color_primario || null;
   datosTienda.color_secundario = datosTienda.color_secundario || null;
   datosTienda.color_terciario = datosTienda.color_terciario || null;
+
   const tiendaModificada = await editarTienda(datosTienda);
   return tiendaModificada;
 }

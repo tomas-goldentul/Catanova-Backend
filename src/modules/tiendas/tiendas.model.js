@@ -18,12 +18,19 @@ export const buscarTiendaPorNombre = async (nombreBuscar) => {
   const query = ` SELECT * FROM  tiendas WHERE nombre = $1 LIMIT 1`
   const values = [nombre];
   const result = await db.query(query, values);
-  return result.rows.length > 0;
+  return result.rows[0];
 }
+
+export const getTiendaById = async (id) => {
+  const query = `SELECT * FROM tiendas WHERE id_tienda = $1`;
+  const result = await db.query(query, [id]);
+  return result.rows[0];
+}
+
 export const editarTienda = async (tienda) => {
  const {
-    nombre_original, // El nombre actual en la BD para buscarla
-    nombre,          // El nuevo nombre (puede ser igual o distinto)
+    id_tienda, 
+    nombre,
     email,
     slogan,
     telefono,
@@ -43,11 +50,11 @@ export const editarTienda = async (tienda) => {
         color_primario = $6, 
         color_secundario = $7, 
         color_terciario = $8
-    WHERE nombre = $9
+    WHERE id_tienda = $9
     RETURNING *;
   `;
 
-const values = [
+  const values = [
     nombre,
     email,
     slogan,
@@ -56,9 +63,9 @@ const values = [
     color_primario,
     color_secundario,
     color_terciario,
-    nombre_original 
+    id_tienda 
   ];
 
   const result = await db.query(query, values);
-  return result.rows[0]; 
+  return result.rows[0];
 };

@@ -27,12 +27,12 @@ router.post('/insert', async (req, res) => {
 });
 
 //actualizar tienda
-router.put('/update/:nombre', async (req, res) => {
+router.put('/update/:id', async (req, res) => {
     try {
-        const { nombre } = req.params;
+        const { id } = req.params;
 
         const datosCompletos = {
-            nombre_original: nombre,
+            id_tienda: Number(id),
             ...req.body
         };
 
