@@ -84,7 +84,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"estado\": false\r\n}",
+							"raw": "{\r\n  \"estado\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -92,7 +92,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/productos/estado/Laptop Lenovo ThinkPad",
+							"raw": "http://localhost:3000/productos/estado/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -101,7 +101,40 @@
 							"path": [
 								"productos",
 								"estado",
-								"Laptop Lenovo ThinkPad"
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateProducto",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Remera\",\r\n  \"precio\": 1850.50,\r\n  \"stock\": 45,\r\n  \"imagen\": \"url-de-la-imagen.jpg\",\r\n  \"activo\": false,\r\n  \"id_tienda\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/productos/update/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"update",
+								"3"
 							]
 						}
 					},
@@ -148,7 +181,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nombre\": \"Catanova Hardware Renombrado\",\r\n  \"email\": \"SDS@catanovahw.com\",\r\n  \"slogan\": \"Componentes con nuevo nombre identificador\",\r\n  \"telefono\": \"1133334444\",\r\n  \"direccion\": \"Av. Cabildo 2400\",\r\n  \"color_primario\": \"#111111\",\r\n  \"color_secundario\": null,\r\n  \"color_terciario\": null\r\n}",
+							"raw": "{\r\n  \"nombre\": \"Catanovaaa\",\r\n  \"email\": \"SDS@catanovahw.com\",\r\n  \"slogan\": \"Componentes con nuevo nombre identificador\",\r\n  \"telefono\": \"1133334444\",\r\n  \"direccion\": \"Av. Cabildo 2400\",\r\n  \"color_primario\": \"#111111\",\r\n  \"color_secundario\": null,\r\n  \"color_terciario\": null\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -156,7 +189,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/tiendas/update/Tienda Ropa",
+							"raw": "http://localhost:3000/tiendas/update/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -165,7 +198,7 @@
 							"path": [
 								"tiendas",
 								"update",
-								"Tienda Ropa"
+								"1"
 							]
 						}
 					},
