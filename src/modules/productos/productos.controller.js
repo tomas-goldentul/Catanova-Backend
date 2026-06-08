@@ -1,4 +1,4 @@
-import { getProductosActivos, agregarProducto, buscarProductoPorNombre, getAllProductos, modificarEstado, getProductosId, modificarProducto } from "./productos.model.js";
+import * as productosModel from "./productos.model.js";
 import { getTiendaId } from "../tiendas/tiendas.controller.js"
 
 // ==========================================
@@ -10,14 +10,14 @@ export const verificarExistenciaTienda = async (id_tienda) => {
 }
 
 const verificarExistenciaProducto = async (id_producto) => {
-    const productoActual = await getProductosId(id_producto);
+    const productoActual = await productosModel.getProductosId(id_producto);
     if (!productoActual) throw new Error("El producto no existe");
     return productoActual;
 };
 
 export const GetProductosActivos = async (req, res) => {
     try {
-        const filasModificadas = await getProductosActivos();
+        const filasModificadas = await productosModel.getProductosActivos();
         if (!filasModificadas || filasModificadas.length === 0) {
             return res.json([]);
         }
@@ -31,7 +31,7 @@ export const GetProductosActivos = async (req, res) => {
 
 export const insertProducto = async ({ nombre, precio, stock, imagen, activo, id_tienda }) => {
 
-    const existe = await buscarProductoPorNombre(nombre);
+    const existe = await productosModel.buscarProductoPorNombre(nombre);
     if (existe) {
         throw new Error("El producto ya existe");
     }
@@ -45,11 +45,11 @@ export const insertProducto = async ({ nombre, precio, stock, imagen, activo, id
         id_tienda: Number(id_tienda),
     };
 
-    return await agregarProducto(producto);
+    return await productosModel.agregarProducto(producto);
 };
 
 export const getProductos = async () => {
-    const listaProductos = await getAllProductos();
+    const listaProductos = await productosModel.getAllProductos();
     if (listaProductos.length === 0) {
         throw new Error("No hay productos cargados");
     }
@@ -59,7 +59,7 @@ export const getProductos = async () => {
 
 export const updateEstadoProducto = async (id, estado) => {
     await verificarExistenciaProducto(id);
-    const productoActualizado = await modificarEstado(id, estado);
+    const productoActualizado = await productosModel.modificarEstado(id, estado);
     return productoActualizado;
 }
 
@@ -70,13 +70,10 @@ export const actualizarProducto = async (datosProducto) => {
         throw new Error("Faltan completar campos obligatorios");
     }
 
-    const productoActual = await getProductosId(id_producto);
-    if (!productoActual) {
-        throw new Error("El producto no existe");
-    }
+   const productoActual = await verificarExistenciaProducto(id_producto);
 
     if (productoActual.nombre !== nombre) {
-        const nombreDuplicado = await buscarProductoPorNombre(nombre);
+        const nombreDuplicado = await productosModel.buscarProductoPorNombre(nombre);
         if (nombreDuplicado) {
             throw new Error("El nuevo nombre ya está en uso");
         }
@@ -93,5 +90,13 @@ export const actualizarProducto = async (datosProducto) => {
         id_tienda: Number(id_tienda),
     };
 
-    return await modificarProducto(productoFormateado);
+    return await productosModel.modificarProducto(productoFormateado);
 };
+
+export const eliminarProducto = async (id_producto) =>{
+    if (!id_producto){
+        throw new Error ("El id_producto es obligatorio")
+    }
+    await verificarExistenciaProducto(id_producto);
+    return await productosModel.eliminarProducto(id_producto)
+}

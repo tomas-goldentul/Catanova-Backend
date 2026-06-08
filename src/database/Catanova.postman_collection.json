@@ -55,7 +55,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nombre\": \"Logitech \",\r\n  \"precio\": 45000,\r\n  \"stock\": 15,\r\n  \"imagen\": \"mouse.jpg\",\r\n  \"activo\": true,\r\n  \"id_tienda\": 2\r\n}",
+							"raw": "{\r\n  \"nombre\": \"Campera \",\r\n  \"precio\": 45000,\r\n  \"stock\": 15,\r\n  \"imagen\": \"mouse.jpg\",\r\n  \"activo\": true,\r\n  \"id_tienda\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -84,7 +84,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"estado\": true\r\n}",
+							"raw": "{\r\n  \"estado\": false\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -92,7 +92,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/productos/estado/2",
+							"raw": "http://localhost:3000/productos/estado/99",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -101,7 +101,7 @@
 							"path": [
 								"productos",
 								"estado",
-								"2"
+								"99"
 							]
 						}
 					},
@@ -136,6 +136,27 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "DeleteProducto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/productos/delete/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"delete",
+								"5"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -149,7 +170,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nombre\": \"Catanova\",\r\n  \"email\": \"minimal@catanova.com\",\r\n  \"slogan\": \"Tienda sin colores configurados\",\r\n  \"telefono\": \"44445555\",\r\n  \"direccion\": \"Av. Corrientes 1234\",\r\n  \"id_duenio\": 1,\r\n  \"id_provincia\": 3\r\n}",
+							"raw": "{\r\n  \"nombre\": \"Catanova ropaa\",\r\n  \"email\": \"minimal@catanova.com\",\r\n  \"slogan\": \"Tienda sin colores configurados\",\r\n  \"telefono\": \"44445555\",\r\n  \"direccion\": \"Av. Corrientes 1234\",\r\n  \"id_duenio\": 1,\r\n  \"id_provincia\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

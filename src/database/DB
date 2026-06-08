@@ -156,7 +156,9 @@ CREATE TABLE public.productos (
     stock integer NOT NULL,
     imagen character varying(255) NOT NULL,
     activo boolean NOT NULL,
-    id_tienda integer NOT NULL
+    id_tienda integer NOT NULL,
+    eliminado boolean NOT NULL DEFAULT false,
+    id_categoria integer NULL 
 );
 
 ALTER TABLE public.productos OWNER TO postgres;
@@ -415,7 +417,9 @@ ALTER TABLE ONLY public.tiendas
     ADD CONSTRAINT tiendas_id_provincia_fkey FOREIGN KEY (id_provincia) REFERENCES public.provincias(id_provincia);
 
 ALTER TABLE ONLY public.productos
-    ADD CONSTRAINT productos_id_tienda_fkey FOREIGN KEY (id_tienda) REFERENCES public.tiendas(id_tienda);
+    ADD CONSTRAINT productos_id_categoria_fkey 
+    FOREIGN KEY (id_categoria) REFERENCES public.categorias(id_categoria) 
+    ON DELETE SET NULL;
 
 ALTER TABLE ONLY public.productosxcategorias
     ADD CONSTRAINT productosxcategorias_id_producto_fkey FOREIGN KEY (id_producto) REFERENCES public.productos(id_producto);
