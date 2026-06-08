@@ -1,5 +1,7 @@
 import express from "express";
 import * as productosController from "./productos.controller.js";
+import { StatusCodes } from "http-status-codes";
+
 const router = express.Router();
 
 //trae productos activos
