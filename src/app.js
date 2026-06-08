@@ -6,7 +6,7 @@ dotenv.config();
 
 import tiendasRoutes from "./modules/tiendas/tiendas.routes.js";
 import productoRoutes from "./modules/productos/productos.routes.js";
-
+import pedidosRouter from "./modules/pedidos/pedidos.routes.js";
 const app = express();
 const port = Number(process.env.PORT) || 3000;          
 
@@ -18,6 +18,7 @@ app.use(express.json());
 
 app.use("/productos", productoRoutes);
 app.use("/tiendas", tiendasRoutes);
+app.use("/pedidos", pedidosRouter);
 
 
 
