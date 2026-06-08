@@ -88,3 +88,14 @@ export const eliminarProducto = async (id_producto) => {
   return result.rows[0];
 
 }
+
+export const restarStockProducto = async (id_producto, cantidad) => {
+  const sql = `
+    UPDATE productos 
+    SET stock = stock - $1 
+    WHERE id_producto = $2
+    RETURNING *;
+  `;
+  const result = await db.query(sql, [cantidad, id_producto]);
+  return result.rows[0];
+};
