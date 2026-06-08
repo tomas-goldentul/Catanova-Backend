@@ -1,5 +1,5 @@
 import { getProductosActivos, agregarProducto, buscarProductoPorNombre, getAllProductos, modificarEstado, getProductosId, modificarProducto } from "./productos.model.js";
-import { getTiendaId } from "../tiendas/tiendas.controller.js"
+import { getTiendaId } from "../tiendas/tiendas.controller.js" 
 export const GetProductosActivos = async(req, res) => {
     try {
         const filasModificadas = await getProductosActivos();
@@ -73,7 +73,7 @@ export const actualizarProducto = async(datosProducto) => {
             throw new Error("El nuevo nombre ya está en uso");
         }
     }
-    const existeTienda = await getTiendaId(id_tienda)
+    const existeTienda = await getTiendaId(id_tienda) //hacer despues una funcion que se encarge de hacer esto para evitar codigo repetido
 
     if (!existeTienda) {
         throw new Error("El id tienda no existe");

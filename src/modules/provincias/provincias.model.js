@@ -4,3 +4,8 @@ export const getProvinciassId = async(id_Provincia) => {
     const result = await db.query(query, [id_Provincia]);
     return result.rows[0];
 }
+export const getAllProvincias = async() => {
+    const query = `SELECT * FROM provincias;`
+    const result = await db.query(query);
+    return result.rows[0];
+}
