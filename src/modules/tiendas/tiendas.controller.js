@@ -51,9 +51,21 @@ export const insertTienda = async({
 export const updateTienda = async(datosTienda) => {
     const { id_tienda, nombre, email, slogan, telefono, direccion } = datosTienda;
 
-    if (!id_tienda) throw new Error("El ID de la tienda es obligatorio.");
-    if (!nombre || !email || !slogan || !telefono || !direccion) {
-        throw new Error("Faltan completar campos");
+  if (!id_tienda) throw new Error("El ID de la tienda es obligatorio.");
+  if (!Number.isFinite(Number(id_tienda))) throw new Error('id_tienda inválido');
+  if (!nombre || !email || !slogan || !telefono || !direccion) {
+    throw new Error("Faltan completar campos");
+  }
+
+  const tiendaActual = await getTiendaById(id_tienda);
+  if (!tiendaActual) {
+    throw new Error("La tienda no existe");
+  }
+
+  if (tiendaActual.nombre !== nombre) {
+    const nombreDuplicado = await buscarTiendaPorNombre(nombre);
+    if (nombreDuplicado) {
+      throw new Error("El nuevo nombre ya está en uso");
     }
 
     const tiendaActual = await getTiendaById(id_tienda);
