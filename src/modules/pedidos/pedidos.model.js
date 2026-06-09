@@ -9,3 +9,10 @@ export const insertarPedidoBase = async (direccion, id_usuario, metodo_pago) => 
   const result = await db.query(sql, [direccion, id_usuario, metodo_pago]);
   return result.rows[0].id_pedido;
 };  
+
+
+export const getAllPedidos = async() =>{
+  const sql = `SELECT * FROM pedidos;`
+  const result = await db.query(sql);
+    return result.rows[0];
+}
