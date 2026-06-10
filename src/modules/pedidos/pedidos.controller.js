@@ -41,8 +41,8 @@ export const procesarNuevoPedido = async (datosPedido) => {
 };
 
 export const getAllPedidos = async () => {
-  const pedidos = await pedidosModel.getAllPedidos();
-  if (!pedidos) {
+  const pedidos = await pedidosModel.getAllPedidosConDetalles();
+  if (pedidos.length === 0) {
     throw new Error("No hay pedidos cargados en el sitema")
   }
   return pedidos;

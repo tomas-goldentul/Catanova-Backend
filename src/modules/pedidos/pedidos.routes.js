@@ -22,8 +22,9 @@ router.post("/", async (req, res) => {
 
 router.get("/getAll", async (req, res) =>{
   try{
-    const resultado = await getAllPedidos();
-    return res.status(StatusCodes.OK).json(resultado);
+    const resultados = await getAllPedidos();
+ 
+    return res.status(StatusCodes.OK).json(resultados);
   }
   catch (error){
       console.error("Error en la ruta get /pedidos:", error.message);

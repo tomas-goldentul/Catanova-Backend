@@ -10,9 +10,16 @@ export const insertarPedidoBase = async (direccion, id_usuario, metodo_pago) => 
   return result.rows[0].id_pedido;
 };  
 
+export const getAllPedidosConDetalles = async () => {
+  const sql = `
+    SELECT
+      p.*,
+      dp.*
+    FROM pedidos p
+    INNER JOIN detallepedidos dp
+      ON p.id_Pedido = dp.id_Pedido
+  `;
 
-export const getAllPedidos = async() =>{
-  const sql = `SELECT * FROM pedidos;`
   const result = await db.query(sql);
-    return result.rows[0];
+  return result.rows;
 }
