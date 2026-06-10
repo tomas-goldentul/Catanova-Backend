@@ -39,3 +39,11 @@ export const procesarNuevoPedido = async (datosPedido) => {
     message: "Pedido procesado y stock actualizado con éxito."
   };
 };
+
+export const getAllPedidos = async () => {
+  const pedidos = await pedidosModel.getAllPedidosConDetalles();
+  if (pedidos.length === 0) {
+    throw new Error("No hay pedidos cargados en el sitema")
+  }
+  return pedidos;
+}

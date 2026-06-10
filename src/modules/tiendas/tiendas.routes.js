@@ -1,18 +1,20 @@
 import express from "express";
 import { insertTienda, updateTienda } from "./tiendas.controller.js";
+import { StatusCodes } from "http-status-codes";
 
 const router = express.Router();
+
 //crear tienda
 router.post('/insert', async (req, res) => {
     try {
         const datosTienda = req.body;
 
         if (!datosTienda.nombre) {
-            return res.status(400).json({ message: "El campo 'nombre' es obligatorio." });
+            return res.status(StatusCodes.BAD_REQUEST).json({ message: "El campo 'nombre' es obligatorio." });
         }
 
         const result = await insertTienda(datosTienda);
-        res.status(201).json({
+        res.status(StatusCodes.CREATED).json({
             message: "Tienda creada con éxito",
             data: result
         });
@@ -20,9 +22,9 @@ router.post('/insert', async (req, res) => {
     } catch (error) {
         console.error("Error en la ruta insertTienda:", error);
         if (error.message === "La tienda ya existe") {
-            return res.status(400).json({ message: error.message });
+            return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
         }
-        res.status(500).json({ message: "Error al agregar tienda", error: error.message });
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al agregar tienda", error: error.message });
     }
 });
 
@@ -38,7 +40,7 @@ router.put('/update/:id', async (req, res) => {
 
         const result = await updateTienda(datosCompletos);
 
-        res.json({
+        res.status(StatusCodes.OK).json({
             message: "Tienda actualizada con éxito",
             data: result
         });
@@ -49,11 +51,11 @@ router.put('/update/:id', async (req, res) => {
             error.message.includes("La tienda no existe") ||
             error.message.includes("El nuevo nombre ya")
         ) {
-            return res.status(400).json({ message: error.message });
+            return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
         }
 
-        res.status(500).json({ message: "Error interno del servidor", error: error.message });
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error interno del servidor", error: error.message });
     }
-}
-)
+});
+
 export default router;

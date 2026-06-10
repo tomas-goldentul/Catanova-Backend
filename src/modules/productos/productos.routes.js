@@ -1,5 +1,7 @@
 import express from "express";
 import * as productosController from "./productos.controller.js";
+import { StatusCodes } from "http-status-codes";
+
 const router = express.Router();
 
 //trae productos activos
@@ -11,12 +13,12 @@ router.post('/insert', async (req, res) => {
     const datosProducto = req.body;
 
     if (!datosProducto.nombre) {
-      return res.status(400).json({ message: "El campo 'nombre' es obligatorio." });
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: "El campo 'nombre' es obligatorio." });
     }
 
     const result = await productosController.insertProducto(datosProducto);
 
-    res.status(201).json({
+    res.status(StatusCodes.CREATED).json({
       message: "Producto creado con éxito ",
       data: result
     });
@@ -25,10 +27,10 @@ router.post('/insert', async (req, res) => {
     console.error("Error en la ruta insertProducto:", error);
 
     if (error.message === "El producto ya existe") {
-      return res.status(400).json({ message: error.message });
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
     }
 
-    res.status(500).json({ message: "Error al agregar producto", error: error.message });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al agregar producto", error: error.message });
   }
 });
 
@@ -37,13 +39,13 @@ router.get('/all', async (req, res) => {
 
   try {
     const productos = await productosController.getProductos();
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       productos
     });
 
   }
   catch (error) {
-    return res.status(400).json({ message: error.message });
+    return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
 
   }
 })
@@ -58,7 +60,7 @@ router.put('/estado/:id', async (req, res) => {
       ? "Producto activado con éxito"
       : "Producto inactivado con éxito";
 
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       message: mensajeTexto,
       data: result
     });
@@ -67,9 +69,9 @@ router.put('/estado/:id', async (req, res) => {
     console.error("Error en ruta estado:", error.message);
 
     if (error.message.includes("no existe") || error.message.includes("true o false")) {
-      return res.status(400).json({ message: error.message });
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
     }
-    res.status(500).json({ message: "Error interno del servidor", error: error.message });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error interno del servidor", error: error.message });
   }
 
 })
@@ -84,7 +86,7 @@ router.put('/update/:id', async (req, res) => {
     };
     const result = await productosController.actualizarProducto(datosCompletos);
 
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       message: "Producto actualizado con éxito",
       data: result
     });
@@ -96,9 +98,9 @@ router.put('/update/:id', async (req, res) => {
       error.message.includes("no existe") ||
       error.message.includes("ya está en uso")
     ) {
-      return res.status(400).json({ message: error.message });
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
     }
-    res.status(500).json({ message: "Error interno del servidor", error: error.message });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error interno del servidor", error: error.message });
   }
 })
 
@@ -108,7 +110,7 @@ router.put('/delete/:id', async (req, res) => {
     const { id } = req.params; 
     const result = await productosController.eliminarProducto(Number(id)); 
     
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
       message: "Producto eliminado con éxito",
       data: result
     });
@@ -116,13 +118,11 @@ router.put('/delete/:id', async (req, res) => {
     console.error("Error en la ruta eliminarProducto:", error.message);
 
     if (error.message.includes("no existe")) {
-      return res.status(400).json({ message: error.message });
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
     }
     
-    res.status(500).json({ message: "Error interno del servidor", error: error.message });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error interno del servidor", error: error.message });
   }
 });
-
-
 
 export default router;

@@ -26,3 +26,4 @@ export const obtenerDetallesPorPedido = async (id_pedido) => {
   const result = await db.query(sql, [id_pedido]);
   return result.rows;
 };
+
