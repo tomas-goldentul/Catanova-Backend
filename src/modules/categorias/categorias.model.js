@@ -21,3 +21,11 @@ export const getAllCategorias = async () => {
     const result = await db.query(query);
     return result.rows;
 }
+
+
+export const getCategoriasByiD = async (id_categoria) => {
+    const query = `SELECT * FROM categorias where id_categoria = $1;`
+    const values = [id_categoria]
+    const result = await db.query(query, values);
+    return result.rows[0];
+}

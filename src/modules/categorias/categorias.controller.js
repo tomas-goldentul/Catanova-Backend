@@ -18,3 +18,8 @@ export const getAllCategorias = async ()=>{
     const categorias = await categoriasModel.getAllCategorias();
     return categorias;
 }
+
+export const getCategoriasByiD = async (id_categoria)=>{
+    const categoria = await categoriasModel.getCategoriasByiD(id_categoria);
+    return categoria;
+}
