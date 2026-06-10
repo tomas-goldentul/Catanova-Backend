@@ -20,6 +20,15 @@ router.post("/insert", async(req, res) =>{
    
 })
 
+router.get("/all", async (req, res)=>{
+    try{
+        const result = await categoriasController.getAllCategorias();
+        res.status(StatusCodes.OK).json(result);
+    }catch(error){
+ console.error("Error en la ruta get all categorias:", error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al ver categorias", error: error.message });
+    }
+})
 
 
 export default router;

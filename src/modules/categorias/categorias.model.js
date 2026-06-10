@@ -15,3 +15,9 @@ export const insertCategoria = async(nombre) =>{
     const result = await db.query(query, values);
     return result.rows[0];
 }
+
+export const getAllCategorias = async () => {
+    const query = `SELECT * FROM categorias;`
+    const result = await db.query(query);
+    return result.rows;
+}

@@ -13,3 +13,8 @@ export const insertCategoria = async (nombre)=>{
     return categoriaCreada;
 
 }
+
+export const getAllCategorias = async ()=>{
+    const categorias = await categoriasModel.getAllCategorias();
+    return categorias;
+}
