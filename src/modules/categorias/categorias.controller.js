@@ -1,12 +1,12 @@
 import * as categoriasModel from "./categorias.model.js";
 
-export const insertCategoria = async (nombre)=>{
+export const insertCategoria = async (nombre) => {
     const existeNombreCategoria = await categoriasModel.getCategoriaPorNombre(nombre);
-    if (nombre.trim() === ""){
-        throw new Error (`Ingresa un nombre`)
+    if (nombre.trim() === "") {
+        throw new Error(`Ingresa un nombre`)
     }
-    if (existeNombreCategoria){
-        throw new Error (`Ya existe el nombre de categoria: ${nombre}`)
+    if (existeNombreCategoria) {
+        throw new Error(`Ya existe el nombre de categoria: ${nombre}`)
     }
 
     const categoriaCreada = await categoriasModel.insertCategoria(nombre);
@@ -14,12 +14,17 @@ export const insertCategoria = async (nombre)=>{
 
 }
 
-export const getAllCategorias = async ()=>{
+export const getAllCategorias = async () => {
     const categorias = await categoriasModel.getAllCategorias();
     return categorias;
 }
 
-export const getCategoriasByiD = async (id_categoria)=>{
+export const getCategoriasByiD = async (id_categoria) => {
     const categoria = await categoriasModel.getCategoriasByiD(id_categoria);
+    if (!categoria) {
+        const error = new Error("Categoría no encontrada");
+        error.status = 404;
+        throw error;
+    }
     return categoria;
 }

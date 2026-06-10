@@ -33,12 +33,17 @@ router.get("/all", async (req, res) => {
 
 router.get("/:id_categoria", async (req, res) => {
     try {
-        const {id_categoria} = req.params
+        const { id_categoria } = req.params
         const result = await categoriasController.getCategoriasByiD(id_categoria);
         res.status(StatusCodes.OK).json(result);
     } catch (error) {
         console.error("Error en la ruta get categoria id:", error);
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al ver categorias", error: error.message });
+
+        const status = error.status || StatusCodes.INTERNAL_SERVER_ERROR;
+
+        return res.status(status).json({
+            message: error.message || "Error al ver categorias",
+        });
     }
 })
 
