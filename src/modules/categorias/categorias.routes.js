@@ -20,7 +20,7 @@ router.post("/insert", async (req, res) => {
 
 })
 
-router.get("/all", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const result = await categoriasController.getAllCategorias();
         res.status(StatusCodes.OK).json(result);

@@ -70,7 +70,7 @@ export const actualizarProducto = async (datosProducto) => {
         throw new Error("Faltan completar campos obligatorios");
     }
 
-   const productoActual = await verificarExistenciaProducto(id_producto);
+    const productoActual = await verificarExistenciaProducto(id_producto);
 
     if (productoActual.nombre !== nombre) {
         const nombreDuplicado = await productosModel.buscarProductoPorNombre(nombre);
@@ -93,18 +93,26 @@ export const actualizarProducto = async (datosProducto) => {
     return await productosModel.modificarProducto(productoFormateado);
 };
 
-export const eliminarProducto = async (id_producto) =>{
-    if (!id_producto){
-        throw new Error ("El id_producto es obligatorio")
+export const eliminarProducto = async (id_producto) => {
+    if (!id_producto) {
+        throw new Error("El id_producto es obligatorio")
     }
     await verificarExistenciaProducto(id_producto);
     return await productosModel.eliminarProducto(id_producto)
 }
 
-export const verDetalleProducto = async(id_producto) =>{
+export const verDetalleProducto = async (id_producto) => {
     const producto = await productosModel.getProductosId(id_producto);
-    if(!producto){
-        throw new Error (`El producto con id: ${id_producto} no existe`);
+    if (!producto) {
+        throw new Error(`El producto con id: ${id_producto} no existe`);
     }
     return producto;
+}
+
+export const getProductosPorCategoria = async (id_producto) => {
+    const result = await productosModel.getProductosPorCategoria(id_producto);
+    if (result.length === 0){
+        throw new Error(`Error: la categoria con id: ${id_producto} no existe o el producto no esta activo o el producto esta eliminado`);
+    }
+    return result;
 }
