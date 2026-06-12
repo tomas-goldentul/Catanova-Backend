@@ -51,7 +51,7 @@ router.put('/update/:id', async (req, res) => {
             error.message.includes("La tienda no existe") ||
             error.message.includes("El nuevo nombre ya")
         ) {
-            return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
+            return res.status(StatusCodes.NOT_FOUND).json({ message: error.message });
         }
 
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error interno del servidor", error: error.message });

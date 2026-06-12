@@ -35,7 +35,7 @@ router.post('/insert', async (req, res) => {
 });
 
 //trae todos los productos (activos e inactivos)
-router.get('/all', async (req, res) => {
+router.get('/get', async (req, res) => {
 
   try {
     const productos = await productosController.getProductos();
@@ -69,7 +69,7 @@ router.put('/estado/:id', async (req, res) => {
     console.error("Error en ruta estado:", error.message);
 
     if (error.message.includes("no existe") || error.message.includes("true o false")) {
-      return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
+      return res.status(StatusCodes.NOT_FOUND).json({ message: error.message });
     }
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error interno del servidor", error: error.message });
   }
@@ -98,7 +98,7 @@ router.put('/update/:id', async (req, res) => {
       error.message.includes("no existe") ||
       error.message.includes("ya está en uso")
     ) {
-      return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
+      return res.status(StatusCodes.NOT_FOUND ).json({ message: error.message });
     }
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error interno del servidor", error: error.message });
   }
@@ -107,22 +107,39 @@ router.put('/update/:id', async (req, res) => {
 //eliminar producto
 router.put('/delete/:id', async (req, res) => {
   try {
-    const { id } = req.params; 
-    const result = await productosController.eliminarProducto(Number(id)); 
-    
+    const { id } = req.params;
+    const result = await productosController.eliminarProducto(Number(id));
+
     res.status(StatusCodes.OK).json({
       message: "Producto eliminado con éxito",
       data: result
     });
-  } catch (error) { 
+  } catch (error) {
     console.error("Error en la ruta eliminarProducto:", error.message);
 
     if (error.message.includes("no existe")) {
-      return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
+      return res.status(StatusCodes.NOT_FOUND).json({ message: error.message });
     }
-    
+
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error interno del servidor", error: error.message });
   }
 });
 
+//ver detalle producto
+router.get('/get/detail/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await productosController.verDetalleProducto(id);
+    return res.status(StatusCodes.OK).json({
+      data: result
+    });
+  }
+
+
+  catch (error) {
+    return res.status(StatusCodes.NOT_FOUND).json({
+      message: error.message
+    });
+  }
+})
 export default router;
