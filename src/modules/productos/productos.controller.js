@@ -100,3 +100,11 @@ export const eliminarProducto = async (id_producto) =>{
     await verificarExistenciaProducto(id_producto);
     return await productosModel.eliminarProducto(id_producto)
 }
+
+export const verDetalleProducto = async(id_producto) =>{
+    const producto = await productosModel.getProductosId(id_producto);
+    if(!producto){
+        throw new Error (`El producto con id: ${id_producto} no existe`);
+    }
+    return producto;
+}
