@@ -98,7 +98,7 @@ router.put('/update/:id', async (req, res) => {
       error.message.includes("no existe") ||
       error.message.includes("ya está en uso")
     ) {
-      return res.status(StatusCodes.NOT_FOUND ).json({ message: error.message });
+      return res.status(StatusCodes.NOT_FOUND).json({ message: error.message });
     }
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error interno del servidor", error: error.message });
   }
@@ -140,6 +140,18 @@ router.get('/get/detail/:id', async (req, res) => {
     return res.status(StatusCodes.NOT_FOUND).json({
       message: error.message
     });
+  }
+})
+
+//get productos por categoria
+router.get('/get/categoria/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await productosController.getProductosPorCategoria(id);
+    return res.status(StatusCodes.OK).json(result);
+  }
+  catch (error) {
+    return res.status(StatusCodes.NOT_FOUND).json({ message: error.message })
   }
 })
 export default router;
