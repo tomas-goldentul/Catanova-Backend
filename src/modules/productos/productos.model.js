@@ -100,9 +100,9 @@ export const restarStockProducto = async (id_producto, cantidad) => {
   return result.rows[0];
 };
 
-export const getProductosPorCategoria = async (id_categoria)=>{
-  const query =`SELECT * FROM productos where id_categoria = $1 and activo = true and eliminado = false`
+export const getProductosPorCategoria = async (id_categoria) => {
+  const query = `SELECT p.* FROM productos p INNER JOIN productosxcategorias pc ON p.id_producto = pc.id_producto WHERE pc.id_categoria = $1 AND p.activo = true AND p.eliminado = false`;
   const values = [id_categoria];
-  const result = await db.query(query, values)
+  const result = await db.query(query, values);
   return result.rows;
 }
