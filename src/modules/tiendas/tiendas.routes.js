@@ -1,5 +1,5 @@
 import express from "express";
-import { insertTienda, updateTienda } from "./tiendas.controller.js";
+import { insertTienda, updateTienda, getNombreTienda, getSloganTienda } from "./tiendas.controller.js";
 import { StatusCodes } from "http-status-codes";
 
 const router = express.Router();
@@ -55,6 +55,44 @@ router.put('/update/:id', async (req, res) => {
         }
 
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error interno del servidor", error: error.message });
+    }
+});
+
+
+
+router.get('/get/nombre/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const nombre = await getNombreTienda(id);
+
+        if (!nombre) {
+            return res.status(StatusCodes.NOT_FOUND).json({ message: "Nombre de tienda no encontrado" });
+        }
+        res.status(StatusCodes.OK).json({
+            message: "Nombre de tienda encontrado",
+            data: { nombre }
+        });
+    } catch (error) {
+        console.error("Error en la ruta getNombreTienda:", error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al obtener nombre de tienda", error: error.message });
+    }
+});
+
+router.get('/get/slogan/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const slogan = await getSloganTienda(id);
+
+        if (!slogan) {
+            return res.status(StatusCodes.NOT_FOUND).json({ message: "Slogan de tienda no encontrado" });
+        }
+        res.status(StatusCodes.OK).json({
+            message: "Slogan de tienda encontrado",
+            data: { slogan }
+        });
+    } catch (error) {
+        console.error("Error en la ruta getSloganTienda:", error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al obtener slogan de tienda", error: error.message });
     }
 });
 

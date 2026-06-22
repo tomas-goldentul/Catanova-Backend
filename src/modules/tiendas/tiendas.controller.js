@@ -1,4 +1,4 @@
-import { crearTienda, buscarTiendaPorNombre, editarTienda, getTiendaById } from "./tiendas.model.js";
+import { crearTienda, buscarTiendaPorNombre, editarTienda, getTiendaById, getNombreTiendaById, getSloganTiendaById } from "./tiendas.model.js";
 import { getProvinciaId } from "../provincias/provincias.controller.js"
 async function verificarTiendaPorNombre(nombre) {
     const existe = await buscarTiendaPorNombre(nombre);
@@ -82,4 +82,11 @@ export const updateTienda = async (datosTienda) => {
 
 export const getTiendaId = async(idTienda) => {
     return await getTiendaById(idTienda);
+}
+
+export const getNombreTienda = async(idTienda) => {
+    return await getNombreTiendaById(idTienda);
+}
+export const getSloganTienda = async(idTienda) => {
+    return await getSloganTiendaById(idTienda);
 }

@@ -69,3 +69,14 @@ export const editarTienda = async (tienda) => {
   const result = await db.query(query, values);
   return result.rows[0];
 };
+
+export const getNombreTiendaById = async (id) => {
+  const query = `SELECT nombre FROM tiendas WHERE id_tienda = $1`;
+  const result = await db.query(query, [id]);
+  return result.rows[0] ? result.rows[0].nombre : null;
+}
+export const getSloganTiendaById = async (id) => {
+  const query = `SELECT slogan FROM tiendas WHERE id_tienda = $1`;
+  const result = await db.query(query, [id]);
+  return result.rows[0] ? result.rows[0].slogan : null;
+}
