@@ -7,16 +7,15 @@ async function verificarTiendaPorNombre(nombre) {
 
 export const insertTienda = async({
     nombre,
-    email,
     slogan,
     telefono,
     direccion,
-    fecha_creacion,
     id_duenio,
     id_provincia,
     color_primario,
     color_secundario,
-    color_terciario
+    color_terciario,
+    id_cuenta
 }) => {
 
     const existe = await buscarTiendaPorNombre(nombre);
@@ -29,19 +28,17 @@ export const insertTienda = async({
 
     }
 
-    const fechaFinal = fecha_creacion || new Date().toISOString().split('T')[0];
     const tienda = {
         nombre,
-        email,
         slogan: slogan,
         telefono: telefono,
         direccion,
-        fecha_creacion: fechaFinal,
         id_duenio: Number(id_duenio),
         id_provincia: Number(id_provincia),
         color_primario: color_primario || null,
         color_secundario: color_secundario || null,
-        color_terciario: color_terciario || null
+        color_terciario: color_terciario || null,
+        id_cuenta: Number(id_cuenta)
     };
 
     return await crearTienda(tienda);
@@ -49,12 +46,12 @@ export const insertTienda = async({
 
 
 export const updateTienda = async (datosTienda) => {
-  const { id_tienda, nombre, email, slogan, telefono, direccion } = datosTienda;
+  const { id_tienda, nombre, slogan, telefono, direccion } = datosTienda;
 
   if (!id_tienda) throw new Error("El ID de la tienda es obligatorio.");
   if (!Number.isFinite(Number(id_tienda))) throw new Error("id_tienda inválido");
 
-  if (!nombre || !email || !slogan || !telefono || !direccion) {
+  if (!nombre || !slogan || !telefono || !direccion) {
     throw new Error("Faltan completar campos");
   }
 

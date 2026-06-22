@@ -223,6 +223,182 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+				"name": "Login",
+				"request": {
+					"method": "POST",
+					"header": [],
+					"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"max@gmail.com\",\r\n  \"password\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+						"language": "json"
+						}
+					}
+					},
+					"url": {
+					"raw": "http://localhost:3000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+					}
+				},
+				"response": []
+				},
+				{
+				"name": "RegisterUsuario",
+				"request": {
+					"method": "POST",
+					"header": [],
+					"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"usuario@gmail.com\",\r\n  \"password\": \"1234\",\r\n  \"nombre\": \"Max\",\r\n  \"apellido\": \"Perez\",\r\n  \"telefono\": \"11223344\"\r\n}",
+					"options": {
+						"raw": {
+						"language": "json"
+						}
+					}
+					},
+					"url": {
+					"raw": "http://localhost:3000/auth/register/usuario",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"register",
+						"usuario"
+					]
+					}
+				},
+				"response": []
+				},
+				{
+				"name": "RegisterTienda",
+				"request": {
+					"method": "POST",
+					"header": [],
+					"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"tienda@gmail.com\",\r\n  \"password\": \"1234\",\r\n  \"nombre\": \"Mi Tienda\",\r\n  \"slogan\": \"La mejor tienda\",\r\n  \"telefono\": \"11445566\",\r\n  \"direccion\": \"Av Corrientes 123\",\r\n  \"id_duenio\": 1,\r\n  \"id_provincia\": 1,\r\n  \"color_primario\": \"#ff0000\",\r\n  \"color_secundario\": \"#00ff00\",\r\n  \"color_terciario\": \"#0000ff\"\r\n}",
+					"options": {
+						"raw": {
+						"language": "json"
+						}
+					}
+					},
+					"url": {
+					"raw": "http://localhost:3000/auth/register/tienda",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"register",
+						"tienda"
+					]
+					}
+				},
+				"response": []
+				}
+			]
+		},
+		{
+			"name": "Cuentas",
+			"item": [
+				{
+				"name": "CrearCuenta",
+				"request": {
+					"method": "POST",
+					"header": [],
+					"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"test@gmail.com\",\r\n  \"password\": \"1234\",\r\n  \"tipo\": \"usuario\"\r\n}",
+					"options": {
+						"raw": {
+						"language": "json"
+						}
+					}
+					},
+					"url": {
+					"raw": "http://localhost:3000/cuentas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cuentas"
+					]
+					}
+				},
+				"response": []
+				},
+				{
+				"name": "BuscarCuentaPorEmail",
+				"request": {
+					"method": "GET",
+					"header": [],
+					"url": {
+					"raw": "http://localhost:3000/cuentas/email/max@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cuentas",
+						"email",
+						"max@gmail.com"
+					]
+					}
+				},
+				"response": []
+				},
+				{
+				"name": "ActualizarCuenta",
+				"request": {
+					"method": "PUT",
+					"header": [],
+					"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id_cuenta\": 33,\r\n  \"email\": \"nuevo@gmail.com\",\r\n  \"password\": \"4321\",\r\n  \"tipo\": \"usuario\",\r\n  \"foto_perfil\": null\r\n}",
+					"options": {
+						"raw": {
+						"language": "json"
+						}
+					}
+					},
+					"url": {
+					"raw": "http://localhost:3000/cuentas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"cuentas"
+					]
+					}
+				},
+				"response": []
+				}
+			]
 		}
 	]
 }
