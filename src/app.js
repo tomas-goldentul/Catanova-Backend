@@ -1,7 +1,7 @@
 import express from "express"; 
 import cors from "cors";
 
-import dotenv from "dotenv"; //npm i dotnev
+import dotenv from "dotenv"; //npm i dotnev 
 dotenv.config();
 
 import tiendasRoutes from "./modules/tiendas/tiendas.routes.js";
