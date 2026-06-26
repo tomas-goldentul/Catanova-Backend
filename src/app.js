@@ -24,7 +24,7 @@ app.use("/productos", productoRoutes);
 app.use("/tiendas", tiendasRoutes);
 app.use("/pedidos", pedidosRouter);
 app.use("/categorias", categoriasRouter);
-app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/cuentas", cuentasRoutes);
 
 app.get("/", (req, res) => {

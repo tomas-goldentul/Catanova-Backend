@@ -1,9 +1,10 @@
 import { Router } from "express";
 import * as authController from "./auth.controller.js";
+import { hashPassword, verificarToken } from "./auth.middleware.js";
 
 const router = Router();
 
-router.post("/register/usuario", async (req, res) => {
+router.post("/register/usuario", hashPassword, async (req, res) => {
     try {
         const usuario = await authController.registrarUsuario(req.body);
 
@@ -15,7 +16,7 @@ router.post("/register/usuario", async (req, res) => {
     }
 });
 
-router.post("/register/tienda", async (req, res) => {
+router.post("/register/tienda", hashPassword, async (req, res) => {
     try {
         const tienda = await authController.registrarTienda(req.body);
 
@@ -37,6 +38,13 @@ router.post("/login", async (req, res) => {
             message: error.message
         });
     }
+});
+
+router.get("/perfil", verificarToken, (req, res) => {
+    res.status(200).json({
+        message: "Acceso concedido",
+        usuario: req.user 
+    });
 });
 
 export default router;
