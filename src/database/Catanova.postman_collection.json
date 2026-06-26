@@ -34,7 +34,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/productos/all",
+							"raw": "http://localhost:3000/productos/get",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -42,7 +42,7 @@
 							"port": "3000",
 							"path": [
 								"productos",
-								"all"
+								"get"
 							]
 						}
 					},
@@ -157,12 +157,86 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GetDetailProducto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/productos/get/detail/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"get",
+								"detail",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProductosPorCategoria",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/productos/get/categoria/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"get",
+								"categoria",
+								"2"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
 			"name": "Tienda",
 			"item": [
+				{
+					"name": "UpdateTienda",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Catanovaaa\",\r\n  \"email\": \"SDS@catanovahw.com\",\r\n  \"slogan\": \"Componentes con nuevo nombre identificador\",\r\n  \"telefono\": \"1133334444\",\r\n  \"direccion\": \"Av. Cabildo 2400\",\r\n  \"color_primario\": \"#111111\",\r\n  \"color_secundario\": null,\r\n  \"color_terciario\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/tiendas/update/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tiendas",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "InsertTienda",
 					"request": {
@@ -193,21 +267,12 @@
 					"response": []
 				},
 				{
-					"name": "UpdateTienda",
+					"name": "getNombre",
 					"request": {
-						"method": "PUT",
+						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"nombre\": \"Catanovaaa\",\r\n  \"email\": \"SDS@catanovahw.com\",\r\n  \"slogan\": \"Componentes con nuevo nombre identificador\",\r\n  \"telefono\": \"1133334444\",\r\n  \"direccion\": \"Av. Cabildo 2400\",\r\n  \"color_primario\": \"#111111\",\r\n  \"color_secundario\": null,\r\n  \"color_terciario\": null\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "http://localhost:3000/tiendas/update/1",
+							"raw": "http://localhost:3000/tiendas/get/nombre/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -215,8 +280,158 @@
 							"port": "3000",
 							"path": [
 								"tiendas",
-								"update",
+								"get",
+								"nombre",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSlogan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/tiendas/get/slogan/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tiendas",
+								"get",
+								"slogan",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedidos",
+			"item": [
+				{
+					"name": "CrearPedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id_usuario\": 2,\r\n  \"direccion\": \"Av. Siempreviva 742\",\r\n  \"metodo_pago\": \"Tarjeta de Crédito\",\r\n  \"productos\": [\r\n    {\r\n      \"id_producto\": 5,\r\n      \"cantidad\": 17\r\n    },\r\n    {\r\n      \"id_producto\": 5,\r\n      \"cantidad\": 3\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/pedidos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/pedidos/getAll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"pedidos",
+								"getAll"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categorias",
+			"item": [
+				{
+					"name": "insertCategoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreTienda\": \"zdfsdf\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/categorias/insert",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categorias",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllCategorias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/categorias/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categorias",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCategoriasId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/categorias/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categorias",
+								"6"
 							]
 						}
 					},
@@ -228,175 +443,127 @@
 			"name": "Auth",
 			"item": [
 				{
-				"name": "Login",
-				"request": {
-					"method": "POST",
-					"header": [],
-					"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"max@gmail.com\",\r\n  \"password\": \"1234\"\r\n}",
-					"options": {
-						"raw": {
-						"language": "json"
+					"name": "RegistrarUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"usuario@test.com\",\r\n  \"password\": \"MiPasswordSeguro123\",\r\n  \"nombre\": \"Juan\",\r\n  \"apellido\": \"Pérez\",\r\n  \"telefono\": \"123456789\",\r\n  \"foto_perfil\": \"https://url-de-tu-foto.com/foto.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/auth/register/usuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"register",
+								"usuario"
+							]
 						}
-					}
 					},
-					"url": {
-					"raw": "http://localhost:3000/auth/login",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"auth",
-						"login"
-					]
-					}
-				},
-				"response": []
+					"response": []
 				},
 				{
-				"name": "RegisterUsuario",
-				"request": {
-					"method": "POST",
-					"header": [],
-					"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"usuario@gmail.com\",\r\n  \"password\": \"1234\",\r\n  \"nombre\": \"Max\",\r\n  \"apellido\": \"Perez\",\r\n  \"telefono\": \"11223344\"\r\n}",
-					"options": {
-						"raw": {
-						"language": "json"
+					"name": "RegistrarTienda",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"tienda@test.com\",\r\n  \"password\": \"PasswordTienda456\",\r\n  \"nombre\": \"Mi Super Tienda\",\r\n  \"slogan\": \"Lo mejor del mercado\",\r\n  \"telefono\": \"987654321\",\r\n  \"direccion\": \"Av. Siempre Viva 742\",\r\n  \"id_duenio\": 1,\r\n  \"id_provincia\": 3,\r\n  \"color_primario\": \"#FF0000\",\r\n  \"color_secundario\": \"#00FF00\",\r\n  \"color_terciario\": \"#0000FF\",\r\n  \"foto_perfil\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/auth/register/tienda",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"register",
+								"tienda"
+							]
 						}
-					}
 					},
-					"url": {
-					"raw": "http://localhost:3000/auth/register/usuario",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"auth",
-						"register",
-						"usuario"
-					]
-					}
-				},
-				"response": []
+					"response": []
 				},
 				{
-				"name": "RegisterTienda",
-				"request": {
-					"method": "POST",
-					"header": [],
-					"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"tienda@gmail.com\",\r\n  \"password\": \"1234\",\r\n  \"nombre\": \"Mi Tienda\",\r\n  \"slogan\": \"La mejor tienda\",\r\n  \"telefono\": \"11445566\",\r\n  \"direccion\": \"Av Corrientes 123\",\r\n  \"id_duenio\": 1,\r\n  \"id_provincia\": 1,\r\n  \"color_primario\": \"#ff0000\",\r\n  \"color_secundario\": \"#00ff00\",\r\n  \"color_terciario\": \"#0000ff\"\r\n}",
-					"options": {
-						"raw": {
-						"language": "json"
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"tienda@test.com\",\r\n  \"password\": \"PasswordTienda456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
 						}
-					}
 					},
-					"url": {
-					"raw": "http://localhost:3000/auth/register/tienda",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"auth",
-						"register",
-						"tienda"
-					]
-					}
-				},
-				"response": []
-				}
-			]
-		},
-		{
-			"name": "Cuentas",
-			"item": [
-				{
-				"name": "CrearCuenta",
-				"request": {
-					"method": "POST",
-					"header": [],
-					"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"email\": \"test@gmail.com\",\r\n  \"password\": \"1234\",\r\n  \"tipo\": \"usuario\"\r\n}",
-					"options": {
-						"raw": {
-						"language": "json"
-						}
-					}
-					},
-					"url": {
-					"raw": "http://localhost:3000/cuentas",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"cuentas"
-					]
-					}
-				},
-				"response": []
+					"response": []
 				},
 				{
-				"name": "BuscarCuentaPorEmail",
-				"request": {
-					"method": "GET",
-					"header": [],
-					"url": {
-					"raw": "http://localhost:3000/cuentas/email/max@gmail.com",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"cuentas",
-						"email",
-						"max@gmail.com"
-					]
-					}
-				},
-				"response": []
-				},
-				{
-				"name": "ActualizarCuenta",
-				"request": {
-					"method": "PUT",
-					"header": [],
-					"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"id_cuenta\": 33,\r\n  \"email\": \"nuevo@gmail.com\",\r\n  \"password\": \"4321\",\r\n  \"tipo\": \"usuario\",\r\n  \"foto_perfil\": null\r\n}",
-					"options": {
-						"raw": {
-						"language": "json"
+					"name": "verificarToken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF9jdWVudGEiOjQ0LCJlbWFpbCI6InRpZW5kYUB0ZXN0LmNvbSIsInRpcG8iOiJ0aWVuZGEiLCJpYXQiOjE3ODI0NzM1MTAsImV4cCI6MTc4MjQ3NzExMH0.QzR5YM7AO0DyNqi6nlR0mx6JRlVCny6BfMesMJgTnOw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/auth/perfil",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"perfil"
+							]
 						}
-					}
 					},
-					"url": {
-					"raw": "http://localhost:3000/cuentas",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"cuentas"
-					]
-					}
-				},
-				"response": []
+					"response": []
 				}
 			]
 		}
