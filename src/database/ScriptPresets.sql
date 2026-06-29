@@ -574,6 +574,189 @@ VALUES
 
 (30,'2026-06-15 18:30:00',25,5,5,15,1,1299999,1299999);
 
+-- =====================================
+-- ETIQUETAS
+-- =====================================
+
+INSERT INTO public.etiquetas
+(id_etiqueta, nombre, id_producto)
+VALUES
+
+(1,'Nuevo',1),
+(2,'Apple',1),
+(3,'5G',1),
+
+(4,'Samsung',2),
+(5,'Android',2),
+
+(6,'Notebook',3),
+(7,'Profesional',3),
+
+(8,'Oferta',4),
+(9,'Lenovo',4),
+
+(10,'Bluetooth',5),
+(11,'Inalámbrico',5),
+
+(12,'Algodón',6),
+(13,'Oversize',6),
+
+(14,'Jean',7),
+(15,'Slim Fit',7),
+
+(16,'Invierno',8),
+
+(17,'Abrigo',9),
+
+(18,'Urbano',10),
+
+(19,'Madera',11),
+
+(20,'Escandinavo',12),
+
+(21,'LED',13),
+
+(22,'Moderno',14),
+
+(23,'Decoración',15),
+
+(24,'Gaming',16),
+(25,'RGB',17),
+(26,'165Hz',18),
+(27,'Ergonómica',19),
+(28,'Xbox',20),
+
+(29,'Fútbol',21),
+(30,'Fitness',22),
+(31,'Yoga',23),
+(32,'Tenis',24),
+(33,'MTB',25),
+
+(34,'Perfume',26),
+(35,'Maquillaje',27),
+(36,'Labial',28),
+(37,'Skincare',29),
+(38,'Cabello',30),
+
+(39,'Clásico',31),
+(40,'Novela',32),
+(41,'Escolar',33),
+(42,'Agenda',34),
+(43,'Premium',35),
+
+(44,'Minimalista',36),
+(45,'Nórdico',37),
+(46,'Espejo',38),
+(47,'Reloj',39),
+(48,'Cerámica',40),
+
+(49,'Perros',41),
+(50,'Gatos',42),
+(51,'Accesorio',43),
+(52,'Mascotas',44),
+(53,'Cucha',45),
+
+(54,'iPhone',46),
+(55,'Carga Rápida',47),
+(56,'USB-C',48),
+(57,'20000mAh',49),
+(58,'Smartwatch',50);
+
+-- =====================================
+-- PRODUCTOS X VENTAS
+-- =====================================
+
+INSERT INTO public.productosxventas
+(id_producto_venta, id_venta, id_producto, cantidad, precio_unitario, subtotal)
+VALUES
+
+(3,2,6,2,29999,59998),
+(4,2,10,1,129999,129999),
+
+(5,3,3,1,2499999,2499999),
+(6,3,5,1,499999,499999),
+
+(7,4,18,1,699999,699999),
+(8,4,20,1,189999,189999),
+
+(9,5,21,2,45999,91998),
+(10,5,22,1,84999,84999),
+
+(11,6,26,1,189999,189999),
+(12,6,28,2,19999,39998),
+
+(13,7,31,1,19999,19999),
+(14,7,33,3,8999,26997),
+
+(15,8,37,2,22999,45998),
+(16,8,38,1,69999,69999),
+
+(17,9,41,2,44999,89998),
+(18,9,43,1,19999,19999),
+
+(19,10,50,1,249999,249999),
+(20,10,48,2,9999,19998),
+
+(21,11,2,1,1399999,1399999),
+(22,11,47,1,34999,34999),
+
+(23,12,12,1,69999,69999),
+(24,12,13,2,39999,79998),
+
+(25,13,14,1,249999,249999),
+(26,13,15,1,89999,89999),
+
+(27,14,17,1,129999,129999),
+(28,14,19,1,599999,599999),
+
+(29,15,22,2,84999,169998),
+(30,15,25,1,1299999,1299999),
+
+(31,16,29,1,42999,42999),
+(32,16,30,2,27999,55998),
+
+(33,17,32,1,24999,24999),
+(34,17,35,2,35999,71998),
+
+(35,18,39,1,39999,39999),
+(36,18,40,1,28999,28999),
+
+(37,19,42,2,41999,83998),
+(38,19,45,1,89999,89999),
+
+(39,20,49,1,79999,79999),
+(40,20,48,2,9999,19998),
+
+(41,21,3,1,2499999,2499999),
+(42,21,1,1,1599999,1599999),
+
+(43,22,9,2,55999,111998),
+(44,22,8,1,159999,159999),
+
+(45,23,11,1,329999,329999),
+(46,23,12,2,69999,139998),
+
+(47,24,18,1,699999,699999),
+(48,24,16,1,89999,89999),
+
+(49,25,24,1,189999,189999),
+(50,25,23,1,39999,39999),
+
+(51,26,27,1,34999,34999),
+(52,26,30,1,27999,27999),
+
+(53,27,36,1,45999,45999),
+(54,27,37,2,22999,45998),
+
+(55,28,41,1,44999,44999),
+(56,28,44,2,14999,29998),
+
+(57,29,46,2,14999,29998),
+(58,29,47,1,34999,34999),
+
+(59,30,49,1,79999,79999),
+(60,30,50,1,249999,249999);
+
 SELECT setval('public.categorias_id_categoria_seq', (SELECT MAX(id_categoria) FROM categorias), true);
 SELECT setval('public.cuentas_id_cuenta_seq', (SELECT MAX(id_cuenta) FROM cuentas), true);
 SELECT setval('public.detallepedidos_id_detallepedido_seq', (SELECT MAX(id_detallepedido) FROM detallepedidos), true);
@@ -585,3 +768,5 @@ SELECT setval('public.provincias_id_provincia_seq', (SELECT MAX(id_provincia) FR
 SELECT setval('public.tiendas_id_tienda_seq', (SELECT MAX(id_tienda) FROM tiendas), true);
 SELECT setval('public.usuarios_id_usuario_seq', (SELECT MAX(id_usuario) FROM usuarios), true);
 SELECT setval('public.ventas_id_venta_seq', (SELECT MAX(id_venta) FROM ventas), true);
+SELECT setval('public.etiquetas_id_etiqueta_seq', (SELECT MAX(id_etiqueta) FROM public.etiquetas), true);
+SELECT setval('public.productosxventas_id_producto_venta_seq', (SELECT MAX(id_producto_venta) FROM public.productosxventas), true);
