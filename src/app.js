@@ -10,6 +10,7 @@ import pedidosRouter from "./modules/pedidos/pedidos.routes.js";
 import categoriasRouter from "./modules/categorias/categorias.routes.js";
 import authRoutes from "./modules/auth/auth.routes.js";
 import cuentasRoutes from "./modules/cuentas/cuentas.routes.js";
+import ventasRoutes from "./modules/ventas/ventas.routes.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;          
@@ -24,6 +25,7 @@ app.use("/productos", productoRoutes);
 app.use("/tiendas", tiendasRoutes);
 app.use("/pedidos", pedidosRouter);
 app.use("/categorias", categoriasRouter);
+app.use("/ventas", ventasRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/cuentas", cuentasRoutes);
 
