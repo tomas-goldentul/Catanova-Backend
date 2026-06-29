@@ -9,3 +9,4 @@ Select * From provincias;
 Select * From tiendas;
 Select * From usuarios;
 Select * From ventas;
+Select * From etiquetas;

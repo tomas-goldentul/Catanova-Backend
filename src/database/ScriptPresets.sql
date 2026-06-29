@@ -210,116 +210,116 @@ VALUES
 -- =====================================
 
 INSERT INTO public.productos
-(id_producto,nombre,precio,stock,imagen,activo,id_tienda,eliminado,id_categoria,ventas,vistas,favoritos,tipo)
+(id_producto,nombre,precio,stock,imagen,activo,id_tienda,eliminado,id_categoria,vistas,favoritos,tipo)
 VALUES
 
 -- =======================
 -- TECH STORE
 -- =======================
 
-(1,'iPhone 15',1599999,25,'iphone15.jpg',true,1,false,1,145,3250,420,'Celular'),
-(2,'Samsung Galaxy S25',1399999,30,'s25.jpg',true,1,false,1,110,2870,355,'Celular'),
-(3,'MacBook Air M3',2499999,12,'macbook.jpg',true,1,false,1,42,1300,190,'Notebook'),
-(4,'Notebook Lenovo IdeaPad',1199999,18,'lenovo.jpg',true,1,false,1,67,1850,220,'Notebook'),
-(5,'AirPods Pro',499999,45,'airpods.jpg',true,1,false,1,180,4520,580,'Auriculares'),
+(1,'iPhone 15',1599999,25,'iphone15.jpg',true,1,false,1,3250,420,'Celular'),
+(2,'Samsung Galaxy S25',1399999,30,'s25.jpg',true,1,false,1,2870,355,'Celular'),
+(3,'MacBook Air M3',2499999,12,'macbook.jpg',true,1,false,1,1300,190,'Notebook'),
+(4,'Notebook Lenovo IdeaPad',1199999,18,'lenovo.jpg',true,1,false,1,1850,220,'Notebook'),
+(5,'AirPods Pro',499999,45,'airpods.jpg',true,1,false,1,4520,580,'Auriculares'),
 
 -- =======================
 -- MODA EXPRESS
 -- =======================
 
-(6,'Remera Oversize Negra',29999,120,'remera_negra.jpg',true,2,false,2,92,950,60,'Remera'),
-(7,'Jean Slim Fit',69999,65,'jean.jpg',true,2,false,2,71,860,52,'Jean'),
-(8,'Campera Inflable',159999,28,'campera.jpg',true,2,false,2,33,640,40,'Campera'),
-(9,'Buzo Canguro',55999,55,'buzo.jpg',true,2,false,2,80,930,58,'Buzo'),
-(10,'Zapatillas Urban',129999,40,'urban.jpg',true,2,false,2,47,810,49,'Calzado'),
+(6,'Remera Oversize Negra',29999,120,'remera_negra.jpg',true,2,false,2,950,60,'Remera'),
+(7,'Jean Slim Fit',69999,65,'jean.jpg',true,2,false,2,860,52,'Jean'),
+(8,'Campera Inflable',159999,28,'campera.jpg',true,2,false,2,640,40,'Campera'),
+(9,'Buzo Canguro',55999,55,'buzo.jpg',true,2,false,2,930,58,'Buzo'),
+(10,'Zapatillas Urban',129999,40,'urban.jpg',true,2,false,2,810,49,'Calzado'),
 
 -- =======================
 -- CASA MODERNA
 -- =======================
 
-(11,'Mesa de Comedor',329999,12,'mesa.jpg',true,3,false,3,18,530,34,'Mueble'),
-(12,'Silla Escandinava',69999,50,'silla.jpg',true,3,false,3,44,910,62,'Mueble'),
-(13,'Lámpara LED',39999,80,'lampara.jpg',true,3,false,3,74,1250,88,'Iluminación'),
-(14,'Biblioteca Moderna',249999,10,'biblioteca.jpg',true,3,false,3,15,470,29,'Mueble'),
-(15,'Alfombra Decorativa',89999,35,'alfombra.jpg',true,3,false,3,31,690,42,'Decoración'),
+(11,'Mesa de Comedor',329999,12,'mesa.jpg',true,3,false,3,530,34,'Mueble'),
+(12,'Silla Escandinava',69999,50,'silla.jpg',true,3,false,3,910,62,'Mueble'),
+(13,'Lámpara LED',39999,80,'lampara.jpg',true,3,false,3,1250,88,'Iluminación'),
+(14,'Biblioteca Moderna',249999,10,'biblioteca.jpg',true,3,false,3,470,29,'Mueble'),
+(15,'Alfombra Decorativa',89999,35,'alfombra.jpg',true,3,false,3,690,42,'Decoración'),
 
 -- =======================
 -- GAMER ZONE
 -- =======================
 
-(16,'Mouse Logitech G502',89999,45,'g502.jpg',true,4,false,1,140,2980,310,'Gaming'),
-(17,'Teclado Mecánico Redragon',129999,35,'teclado.jpg',true,4,false,1,99,2260,260,'Gaming'),
-(18,'Monitor 27 165Hz',699999,14,'monitor.jpg',true,4,false,1,26,980,130,'Gaming'),
-(19,'Silla Gamer RGB',599999,9,'silla_gamer.jpg',true,4,false,1,21,850,118,'Gaming'),
-(20,'Joystick Xbox',189999,38,'joystick.jpg',true,4,false,1,88,2140,250,'Gaming'),
+(16,'Mouse Logitech G502',89999,45,'g502.jpg',true,4,false,1,2980,310,'Gaming'),
+(17,'Teclado Mecánico Redragon',129999,35,'teclado.jpg',true,4,false,1,2260,260,'Gaming'),
+(18,'Monitor 27 165Hz',699999,14,'monitor.jpg',true,4,false,1,980,130,'Gaming'),
+(19,'Silla Gamer RGB',599999,9,'silla_gamer.jpg',true,4,false,1,850,118,'Gaming'),
+(20,'Joystick Xbox',189999,38,'joystick.jpg',true,4,false,1,2140,250,'Gaming'),
 
 -- =======================
 -- SPORT LIFE
 -- =======================
 
-(21,'Pelota Adidas',45999,60,'pelota.jpg',true,5,false,4,82,1330,96,'Fútbol'),
-(22,'Mancuernas 10kg',84999,34,'mancuernas.jpg',true,5,false,4,51,970,73,'Fitness'),
-(23,'Colchoneta Yoga',39999,70,'yoga.jpg',true,5,false,4,63,1120,81,'Fitness'),
-(24,'Raqueta Tenis Wilson',189999,15,'raqueta.jpg',true,5,false,4,18,620,39,'Tenis'),
-(25,'Bicicleta MTB Rodado 29',1299999,8,'bicicleta.jpg',true,5,false,4,14,580,55,'Ciclismo');
+(21,'Pelota Adidas',45999,60,'pelota.jpg',true,5,false,4,1330,96,'Fútbol'),
+(22,'Mancuernas 10kg',84999,34,'mancuernas.jpg',true,5,false,4,970,73,'Fitness'),
+(23,'Colchoneta Yoga',39999,70,'yoga.jpg',true,5,false,4,1120,81,'Fitness'),
+(24,'Raqueta Tenis Wilson',189999,15,'raqueta.jpg',true,5,false,4,620,39,'Tenis'),
+(25,'Bicicleta MTB Rodado 29',1299999,8,'bicicleta.jpg',true,5,false,4,580,55,'Ciclismo');
 
 -- =====================================
 -- PRODUCTOS (26-50)
 -- =====================================
 
 INSERT INTO public.productos
-(id_producto,nombre,precio,stock,imagen,activo,id_tienda,eliminado,id_categoria,ventas,vistas,favoritos,tipo)
+(id_producto,nombre,precio,stock,imagen,activo,id_tienda,eliminado,id_categoria,vistas,favoritos,tipo)
 VALUES
 
 -- =======================
 -- BEAUTY MARKET
 -- =======================
 
-(26,'Perfume Importado',189999,28,'perfume.jpg',true,6,false,5,64,1450,102,'Perfume'),
-(27,'Base Líquida',34999,75,'base.jpg',true,6,false,5,118,2100,176,'Maquillaje'),
-(28,'Labial Mate',19999,120,'labial.jpg',true,6,false,5,155,2640,198,'Maquillaje'),
-(29,'Crema Facial',42999,62,'crema.jpg',true,6,false,5,91,1705,123,'Cuidado Facial'),
-(30,'Shampoo Profesional',27999,95,'shampoo.jpg',true,6,false,5,102,1830,134,'Cabello'),
+(26,'Perfume Importado',189999,28,'perfume.jpg',true,6,false,5,1450,102,'Perfume'),
+(27,'Base Líquida',34999,75,'base.jpg',true,6,false,5,2100,176,'Maquillaje'),
+(28,'Labial Mate',19999,120,'labial.jpg',true,6,false,5,2640,198,'Maquillaje'),
+(29,'Crema Facial',42999,62,'crema.jpg',true,6,false,5,1705,123,'Cuidado Facial'),
+(30,'Shampoo Profesional',27999,95,'shampoo.jpg',true,6,false,5,1830,134,'Cabello'),
 
 -- =======================
 -- LIBRERÍA CENTRAL
 -- =======================
 
-(31,'El Principito',19999,80,'principito.jpg',true,7,false,6,220,3820,310,'Libro'),
-(32,'1984',24999,60,'1984.jpg',true,7,false,6,174,2950,240,'Libro'),
-(33,'Cuaderno Universitario',8999,200,'cuaderno.jpg',true,7,false,6,310,4320,265,'Librería'),
-(34,'Agenda 2026',17999,95,'agenda.jpg',true,7,false,6,82,1180,74,'Papelería'),
-(35,'Lapicera Parker',35999,55,'parker.jpg',true,7,false,6,58,980,61,'Papelería'),
+(31,'El Principito',19999,80,'principito.jpg',true,7,false,6,3820,310,'Libro'),
+(32,'1984',24999,60,'1984.jpg',true,7,false,6,2950,240,'Libro'),
+(33,'Cuaderno Universitario',8999,200,'cuaderno.jpg',true,7,false,6,4320,265,'Librería'),
+(34,'Agenda 2026',17999,95,'agenda.jpg',true,7,false,6,1180,74,'Papelería'),
+(35,'Lapicera Parker',35999,55,'parker.jpg',true,7,false,6,980,61,'Papelería'),
 
 -- =======================
 -- DECO HOME
 -- =======================
 
-(36,'Cuadro Decorativo',45999,40,'cuadro.jpg',true,8,false,3,49,1050,83,'Decoración'),
-(37,'Almohadón Nórdico',22999,90,'almohadon.jpg',true,8,false,3,103,1690,141,'Decoración'),
-(38,'Espejo Redondo',69999,35,'espejo.jpg',true,8,false,3,57,1130,92,'Decoración'),
-(39,'Reloj de Pared',39999,48,'reloj.jpg',true,8,false,3,66,1290,96,'Decoración'),
-(40,'Florero Cerámica',28999,52,'florero.jpg',true,8,false,3,54,980,80,'Decoración'),
+(36,'Cuadro Decorativo',45999,40,'cuadro.jpg',true,8,false,3,1050,83,'Decoración'),
+(37,'Almohadón Nórdico',22999,90,'almohadon.jpg',true,8,false,3,1690,141,'Decoración'),
+(38,'Espejo Redondo',69999,35,'espejo.jpg',true,8,false,3,1130,92,'Decoración'),
+(39,'Reloj de Pared',39999,48,'reloj.jpg',true,8,false,3,1290,96,'Decoración'),
+(40,'Florero Cerámica',28999,52,'florero.jpg',true,8,false,3,980,80,'Decoración'),
 
 -- =======================
 -- PET SHOP PLUS
 -- =======================
 
-(41,'Alimento Balanceado Perro',44999,110,'dogfood.jpg',true,9,false,8,141,2350,188,'Mascotas'),
-(42,'Alimento Balanceado Gato',41999,95,'catfood.jpg',true,9,false,8,122,2100,170,'Mascotas'),
-(43,'Correa Premium',19999,80,'correa.jpg',true,9,false,8,73,1260,98,'Accesorio'),
-(44,'Juguete Mordillo',14999,140,'mordillo.jpg',true,9,false,7,105,1880,152,'Juguete'),
-(45,'Cucha Mediana',89999,18,'cucha.jpg',true,9,false,8,32,720,45,'Mascotas'),
+(41,'Alimento Balanceado Perro',44999,110,'dogfood.jpg',true,9,false,8,2350,188,'Mascotas'),
+(42,'Alimento Balanceado Gato',41999,95,'catfood.jpg',true,9,false,8,2100,170,'Mascotas'),
+(43,'Correa Premium',19999,80,'correa.jpg',true,9,false,8,1260,98,'Accesorio'),
+(44,'Juguete Mordillo',14999,140,'mordillo.jpg',true,9,false,7,1880,152,'Juguete'),
+(45,'Cucha Mediana',89999,18,'cucha.jpg',true,9,false,8,720,45,'Mascotas'),
 
 -- =======================
 -- MUNDO CELULAR
 -- =======================
 
-(46,'Funda iPhone 15',14999,150,'funda15.jpg',true,10,false,1,241,3980,286,'Accesorio'),
-(47,'Cargador USB-C 45W',34999,90,'cargador.jpg',true,10,false,1,176,2840,219,'Accesorio'),
-(48,'Cable USB-C',9999,180,'cable.jpg',true,10,false,1,291,4750,305,'Accesorio'),
-(49,'Power Bank 20000mAh',79999,42,'powerbank.jpg',true,10,false,1,68,1460,118,'Accesorio'),
-(50,'Smartwatch Fit Pro',249999,26,'smartwatch.jpg',true,10,false,1,83,1720,156,'Wearable');
+(46,'Funda iPhone 15',14999,150,'funda15.jpg',true,10,false,1,3980,286,'Accesorio'),
+(47,'Cargador USB-C 45W',34999,90,'cargador.jpg',true,10,false,1,2840,219,'Accesorio'),
+(48,'Cable USB-C',9999,180,'cable.jpg',true,10,false,1,4750,305,'Accesorio'),
+(49,'Power Bank 20000mAh',79999,42,'powerbank.jpg',true,10,false,1,1460,118,'Accesorio'),
+(50,'Smartwatch Fit Pro',249999,26,'smartwatch.jpg',true,10,false,1,1720,156,'Wearable');
 
 -- =====================================
 -- PRODUCTOS X CATEGORIAS
@@ -662,111 +662,16 @@ VALUES
 (57,'20000mAh',49),
 (58,'Smartwatch',50);
 
--- =====================================
--- PRODUCTOS X VENTAS
--- =====================================
 
-INSERT INTO public.productosxventas
-(id_producto_venta, id_venta, id_producto, cantidad, precio_unitario, subtotal)
-VALUES
-
-(3,2,6,2,29999,59998),
-(4,2,10,1,129999,129999),
-
-(5,3,3,1,2499999,2499999),
-(6,3,5,1,499999,499999),
-
-(7,4,18,1,699999,699999),
-(8,4,20,1,189999,189999),
-
-(9,5,21,2,45999,91998),
-(10,5,22,1,84999,84999),
-
-(11,6,26,1,189999,189999),
-(12,6,28,2,19999,39998),
-
-(13,7,31,1,19999,19999),
-(14,7,33,3,8999,26997),
-
-(15,8,37,2,22999,45998),
-(16,8,38,1,69999,69999),
-
-(17,9,41,2,44999,89998),
-(18,9,43,1,19999,19999),
-
-(19,10,50,1,249999,249999),
-(20,10,48,2,9999,19998),
-
-(21,11,2,1,1399999,1399999),
-(22,11,47,1,34999,34999),
-
-(23,12,12,1,69999,69999),
-(24,12,13,2,39999,79998),
-
-(25,13,14,1,249999,249999),
-(26,13,15,1,89999,89999),
-
-(27,14,17,1,129999,129999),
-(28,14,19,1,599999,599999),
-
-(29,15,22,2,84999,169998),
-(30,15,25,1,1299999,1299999),
-
-(31,16,29,1,42999,42999),
-(32,16,30,2,27999,55998),
-
-(33,17,32,1,24999,24999),
-(34,17,35,2,35999,71998),
-
-(35,18,39,1,39999,39999),
-(36,18,40,1,28999,28999),
-
-(37,19,42,2,41999,83998),
-(38,19,45,1,89999,89999),
-
-(39,20,49,1,79999,79999),
-(40,20,48,2,9999,19998),
-
-(41,21,3,1,2499999,2499999),
-(42,21,1,1,1599999,1599999),
-
-(43,22,9,2,55999,111998),
-(44,22,8,1,159999,159999),
-
-(45,23,11,1,329999,329999),
-(46,23,12,2,69999,139998),
-
-(47,24,18,1,699999,699999),
-(48,24,16,1,89999,89999),
-
-(49,25,24,1,189999,189999),
-(50,25,23,1,39999,39999),
-
-(51,26,27,1,34999,34999),
-(52,26,30,1,27999,27999),
-
-(53,27,36,1,45999,45999),
-(54,27,37,2,22999,45998),
-
-(55,28,41,1,44999,44999),
-(56,28,44,2,14999,29998),
-
-(57,29,46,2,14999,29998),
-(58,29,47,1,34999,34999),
-
-(59,30,49,1,79999,79999),
-(60,30,50,1,249999,249999);
-
-SELECT setval('public.categorias_id_categoria_seq', (SELECT MAX(id_categoria) FROM categorias), true);
-SELECT setval('public.cuentas_id_cuenta_seq', (SELECT MAX(id_cuenta) FROM cuentas), true);
-SELECT setval('public.detallepedidos_id_detallepedido_seq', (SELECT MAX(id_detallepedido) FROM detallepedidos), true);
-SELECT setval('public.duenios_id_duenio_seq', (SELECT MAX(id_duenio) FROM duenios), true);
-SELECT setval('public.pedidos_id_pedido_seq', (SELECT MAX(id_pedido) FROM pedidos), true);
-SELECT setval('public.productos_id_producto_seq', (SELECT MAX(id_producto) FROM productos), true);
-SELECT setval('public.productosxcategorias_id_seq', (SELECT MAX(id) FROM productosxcategorias), true);
-SELECT setval('public.provincias_id_provincia_seq', (SELECT MAX(id_provincia) FROM provincias), true);
-SELECT setval('public.tiendas_id_tienda_seq', (SELECT MAX(id_tienda) FROM tiendas), true);
-SELECT setval('public.usuarios_id_usuario_seq', (SELECT MAX(id_usuario) FROM usuarios), true);
-SELECT setval('public.ventas_id_venta_seq', (SELECT MAX(id_venta) FROM ventas), true);
-SELECT setval('public.etiquetas_id_etiqueta_seq', (SELECT MAX(id_etiqueta) FROM public.etiquetas), true);
-SELECT setval('public.productosxventas_id_producto_venta_seq', (SELECT MAX(id_producto_venta) FROM public.productosxventas), true);
+SELECT setval(pg_get_serial_sequence('public.categorias', 'id_categoria'), (SELECT MAX(id_categoria) FROM public.categorias), true);
+SELECT setval(pg_get_serial_sequence('public.cuentas', 'id_cuenta'), (SELECT MAX(id_cuenta) FROM public.cuentas), true);
+SELECT setval(pg_get_serial_sequence('public.detallepedidos', 'id_detallepedido'), (SELECT MAX(id_detallepedido) FROM public.detallepedidos), true);
+SELECT setval(pg_get_serial_sequence('public.duenios', 'id_duenio'), (SELECT MAX(id_duenio) FROM public.duenios), true);
+SELECT setval(pg_get_serial_sequence('public.pedidos', 'id_pedido'), (SELECT MAX(id_pedido) FROM public.pedidos), true);
+SELECT setval(pg_get_serial_sequence('public.productos', 'id_producto'), (SELECT MAX(id_producto) FROM public.productos), true);
+SELECT setval(pg_get_serial_sequence('public.productosxcategorias', 'id'), (SELECT MAX(id) FROM public.productosxcategorias), true);
+SELECT setval(pg_get_serial_sequence('public.provincias', 'id_provincia'), (SELECT MAX(id_provincia) FROM public.provincias), true);
+SELECT setval(pg_get_serial_sequence('public.tiendas', 'id_tienda'), (SELECT MAX(id_tienda) FROM public.tiendas), true);
+SELECT setval(pg_get_serial_sequence('public.usuarios', 'id_usuario'), (SELECT MAX(id_usuario) FROM public.usuarios), true);
+SELECT setval(pg_get_serial_sequence('public.ventas', 'id_venta'), (SELECT MAX(id_venta) FROM public.ventas), true);
+SELECT setval(pg_get_serial_sequence('public.etiquetas', 'id_etiqueta'), (SELECT MAX(id_etiqueta) FROM public.etiquetas), true);
