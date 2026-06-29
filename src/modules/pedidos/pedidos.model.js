@@ -23,3 +23,16 @@ export const getAllPedidosConDetalles = async () => {
   const result = await db.query(sql);
   return result.rows;
 }
+export const getAllPedidosConDetallesByIdUser = async (id_usuario) => {
+  const sql = `
+    SELECT
+      p.*,
+      dp.*
+    FROM pedidos p
+    INNER JOIN detallepedidos dp
+      ON p.id_Pedido = dp.id_Pedido
+    WHERE p.id_usuario = $1
+  `;
+const result = await db.query(sql, [id_usuario]);
+  return result.rows;
+}

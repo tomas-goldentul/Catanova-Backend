@@ -47,3 +47,38 @@ export const getAllPedidos = async () => {
   }
   return pedidos;
 }
+
+export const getAllPedidosByIdUser = async (id_usuario) => {
+  const filas = await pedidosModel.getAllPedidosConDetallesByIdUser(id_usuario);
+  
+  if (filas.length === 0) {
+    throw new Error("No hay pedidos cargados en el sistema para este usuario");
+  }
+
+  // OPCIONAL PERO RECOMENDADO: Agrupar los detalles por pedido
+  // Esto transforma las filas repetidas en un objeto limpio con un array de detalles.
+  const pedidosAgrupados = filas.reduce((acc, current) => {
+    const encontrado = acc.find(p => p.id_Pedido === current.id_Pedido);
+    const detalle = {
+      id_detalle: current.id_detalle,
+      id_producto: current.id_producto,
+      cantidad: current.cantidad,
+      precio_unitario: current.precio_unitario
+    };
+
+    if (encontrado) {
+      encontrado.detalles.push(detalle);
+    } else {
+      acc.push({
+        id_Pedido: current.id_Pedido,
+        id_usuario: current.id_usuario,
+        fecha: current.fecha,
+        total: current.total,
+        detalles: [detalle]
+      });
+    }
+    return acc;
+  }, []);
+
+  return pedidosAgrupados; // Ahora retorna la variable correcta cerrada.
+};
