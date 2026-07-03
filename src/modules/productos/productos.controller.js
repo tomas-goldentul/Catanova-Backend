@@ -116,3 +116,46 @@ export const getProductosPorCategoria = async (id_producto) => {
     }
     return result;
 }
+
+export const agregarStockProducto = async (id_producto, cantidad) => {
+    if (!id_producto) throw new Error("El id_producto es obligatorio");
+    if (!cantidad || cantidad <= 0) throw new Error("La cantidad debe ser mayor a 0");
+    
+    await verificarExistenciaProducto(id_producto);
+    return await productosModel.agregarStock(id_producto, Number(cantidad));
+};
+
+export const editarStockProducto = async (id_producto, cantidad) => {
+    if (!id_producto) throw new Error("El id_producto es obligatorio");
+    if (cantidad === undefined || cantidad < 0) throw new Error("La cantidad no puede ser negativa");
+    
+    await verificarExistenciaProducto(id_producto);
+    return await productosModel.editarStock(id_producto, Number(cantidad));
+};
+
+export const editarNombreProducto = async (id_producto, nombre) => {
+    if (!id_producto) throw new Error("El id_producto es obligatorio");
+    if (!nombre || !nombre.trim()) throw new Error("El nombre es obligatorio");
+    
+    const nombreExistente = await productosModel.buscarProductoPorNombre(nombre.trim());
+    if (nombreExistente) throw new Error("El nombre ya existe en otro producto");
+    
+    await verificarExistenciaProducto(id_producto);
+    return await productosModel.editarNombre(id_producto, nombre.trim());
+};
+
+export const editarTipoProducto = async (id_producto, tipo) => {
+    if (!id_producto) throw new Error("El id_producto es obligatorio");
+    if (!tipo || !tipo.trim()) throw new Error("El tipo es obligatorio");
+    
+    await verificarExistenciaProducto(id_producto);
+    return await productosModel.editarTipo(id_producto, tipo.trim());
+};
+
+export const cambiarImagenProducto = async (id_producto, imagen) => {
+    if (!id_producto) throw new Error("El id_producto es obligatorio");
+    if (!imagen || !imagen.trim()) throw new Error("La URL de imagen es obligatoria");
+    
+    await verificarExistenciaProducto(id_producto);
+    return await productosModel.cambiarImagen(id_producto, imagen.trim());
+};

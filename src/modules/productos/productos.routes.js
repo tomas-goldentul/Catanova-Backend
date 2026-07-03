@@ -154,4 +154,125 @@ router.get('/get/categoria/:id', async (req, res) => {
     return res.status(StatusCodes.NOT_FOUND).json({ message: error.message })
   }
 })
+
+//agregar stock
+router.post('/agregar-stock/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { cantidad } = req.body;
+
+    if (!cantidad) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: "El campo 'cantidad' es obligatorio" });
+    }
+
+    const result = await productosController.agregarStockProducto(id, cantidad);
+    res.status(StatusCodes.OK).json({
+      message: "Stock agregado exitosamente",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error en agregar stock:", error);
+    if (error.message.includes("no existe") || error.message.includes("debe ser")) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
+    }
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al agregar stock", error: error.message });
+  }
+});
+
+//editar stock
+router.put('/editar-stock/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { cantidad } = req.body;
+
+    if (cantidad === undefined) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: "El campo 'cantidad' es obligatorio" });
+    }
+
+    const result = await productosController.editarStockProducto(id, cantidad);
+    res.status(StatusCodes.OK).json({
+      message: "Stock actualizado exitosamente",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error en editar stock:", error);
+    if (error.message.includes("no existe") || error.message.includes("negativa")) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
+    }
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al editar stock", error: error.message });
+  }
+});
+
+//editar nombre
+router.put('/editar-nombre/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nombre } = req.body;
+
+    if (!nombre) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: "El campo 'nombre' es obligatorio" });
+    }
+
+    const result = await productosController.editarNombreProducto(id, nombre);
+    res.status(StatusCodes.OK).json({
+      message: "Nombre actualizado exitosamente",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error en editar nombre:", error);
+    if (error.message.includes("no existe") || error.message.includes("ya existe")) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
+    }
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al editar nombre", error: error.message });
+  }
+});
+
+//editar tipo
+router.put('/editar-tipo/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { tipo } = req.body;
+
+    if (!tipo) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: "El campo 'tipo' es obligatorio" });
+    }
+
+    const result = await productosController.editarTipoProducto(id, tipo);
+    res.status(StatusCodes.OK).json({
+      message: "Tipo actualizado exitosamente",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error en editar tipo:", error);
+    if (error.message.includes("no existe")) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
+    }
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al editar tipo", error: error.message });
+  }
+});
+
+//cambiar imagen
+router.put('/cambiar-imagen/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { imagen } = req.body;
+
+    if (!imagen) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: "El campo 'imagen' es obligatorio" });
+    }
+
+    const result = await productosController.cambiarImagenProducto(id, imagen);
+    res.status(StatusCodes.OK).json({
+      message: "Imagen actualizada exitosamente",
+      data: result
+    });
+  } catch (error) {
+    console.error("Error en cambiar imagen:", error);
+    if (error.message.includes("no existe")) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
+    }
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al cambiar imagen", error: error.message });
+  }
+});
+
 export default router;

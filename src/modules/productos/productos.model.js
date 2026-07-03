@@ -106,3 +106,58 @@ export const getProductosPorCategoria = async (id_categoria) => {
   const result = await db.query(query, values);
   return result.rows;
 }
+
+export const agregarStock = async (id_producto, cantidad) => {
+  const query = `
+    UPDATE productos 
+    SET stock = stock + $1 
+    WHERE id_producto = $2
+    RETURNING *;
+  `;
+  const result = await db.query(query, [cantidad, id_producto]);
+  return result.rows[0];
+};
+
+export const editarStock = async (id_producto, cantidad) => {
+  const query = `
+    UPDATE productos 
+    SET stock = $1 
+    WHERE id_producto = $2
+    RETURNING *;
+  `;
+  const result = await db.query(query, [cantidad, id_producto]);
+  return result.rows[0];
+};
+
+export const editarNombre = async (id_producto, nombre) => {
+  const query = `
+    UPDATE productos 
+    SET nombre = $1 
+    WHERE id_producto = $2
+    RETURNING *;
+  `;
+  const result = await db.query(query, [nombre, id_producto]);
+  return result.rows[0];
+};
+
+export const editarTipo = async (id_producto, tipo) => {
+  const query = `
+    UPDATE productos 
+    SET tipo = $1 
+    WHERE id_producto = $2
+    RETURNING *;
+  `;
+  const result = await db.query(query, [tipo, id_producto]);
+  return result.rows[0];
+};
+
+export const cambiarImagen = async (id_producto, imagen) => {
+  const query = `
+    UPDATE productos 
+    SET imagen = $1 
+    WHERE id_producto = $2
+    RETURNING *;
+  `;
+  const result = await db.query(query, [imagen, id_producto]);
+  return result.rows[0];
+};
