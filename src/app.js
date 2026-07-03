@@ -11,6 +11,7 @@ import categoriasRouter from "./modules/categorias/categorias.routes.js";
 import authRoutes from "./modules/auth/auth.routes.js";
 import cuentasRoutes from "./modules/cuentas/cuentas.routes.js";
 import ventasRoutes from "./modules/ventas/ventas.routes.js";
+import etiquetasRoutes from "./modules/etiquetas/etiquetas.routes.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;          
@@ -28,6 +29,7 @@ app.use("/categorias", categoriasRouter);
 app.use("/ventas", ventasRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/cuentas", cuentasRoutes);
+app.use("/etiquetas", etiquetasRoutes);
 
 app.get("/", (req, res) => {
     res.send("¡Servidor de Catanova funcionando!");
