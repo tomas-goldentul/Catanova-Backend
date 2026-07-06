@@ -15,29 +15,6 @@ INSERT INTO public.provincias (id_provincia, nombre) VALUES
 (10,'Chubut');
 
 -- ==========================
--- CATEGORIAS
--- ==========================
-
-INSERT INTO public.categorias (id_categoria,nombre,id_tienda) VALUES
-(1,'Electrónica',1),
-(2,'Indumentaria',2),
-(3,'Hogar',3),
-(4,'Deportes',4),
-(5,'Belleza',5),
-(6,'Libros',6),
-(7,'Juguetes',7),
-(8,'Alimentos',8);
-(9,'Laptops',1),
-(10,'Muebles',2),
-(11,'Ventanas',3),
-(12,'Atletismo',4),
-(13,'Cuidado',5),
-(14,'Peliculas',6),
-(15,'Balones',7),
-(16,'Bebidas',8);
-
-
--- ==========================
 -- DUEÑOS
 -- ==========================
 
@@ -214,6 +191,33 @@ VALUES
 4.9,
 2014);
 
+-- ==========================
+-- CATEGORIAS
+-- ==========================
+
+INSERT INTO public.categorias (id_categoria,nombre,id_tienda) 
+VALUES
+(1,'Electrónica',1),
+(2,'Indumentaria',2),
+(3,'Hogar',3),
+(4,'Deportes',4),
+(5,'Belleza',5),
+(6,'Libros',6),
+(7,'Juguetes',7),
+(8,'Alimentos',8);
+
+INSERT INTO public.categorias (id_categoria,nombre,id_tienda) 
+VALUES
+(9,'Laptops',1),
+(10,'Muebles',2),
+(11,'Ventanas',3),
+(12,'Atletismo',4),
+(13,'Cuidado',5),
+(14,'Peliculas',6),
+(15,'Balones',7),
+(16,'Bebidas',8),
+(17,'Cuevas',1);
+
 -- =====================================
 -- PRODUCTOS (1-25)
 -- =====================================
@@ -330,6 +334,17 @@ VALUES
 (49,'Power Bank 20000mAh',79999,42,'powerbank.jpg',true,10,false,1,'Accesorio'),
 (50,'Smartwatch Fit Pro',249999,26,'smartwatch.jpg',true,10,false,1,'Wearable');
 
+INSERT INTO public.productos
+(id_producto,nombre,precio,stock,imagen,activo,id_tienda,eliminado,id_categoria,tipo)
+VALUES
+-- Categoría 9
+(51,'Collar Premium',24999,75,'collar.jpg',true,9,false,9,'Accesorio'),
+(52,'Rascador para Gatos',79999,20,'rascador.jpg',true,9,false,9,'Mascotas'),
+
+-- Categoría 17
+(53,'Mouse Pad XL RGB',39999,45,'mousepad.jpg',true,4,false,17,'Gaming'),
+(54,'Auriculares Gamer Pro',159999,18,'auriculares_gamer.jpg',true,4,false,17,'Gaming');
+
 -- =====================================
 -- PRODUCTOS X CATEGORIAS
 -- =====================================
@@ -397,6 +412,13 @@ VALUES
 (48,48,1),
 (49,49,1),
 (50,50,1);
+
+INSERT INTO productosxcategorias (id, id_producto, id_categoria)
+VALUES
+(51,51,9),
+(52,52,9),
+(53,53,17),
+(54,54,17);
 
 -- =====================================
 -- PEDIDOS

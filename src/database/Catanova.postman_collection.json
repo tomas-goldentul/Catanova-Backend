@@ -203,6 +203,28 @@
 					"response": []
 				},
 				{
+					"name": "GetProductosPorTienda",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/productos/get/tienda/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"get",
+								"tienda",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "AgregarStock",
 					"request": {
 						"method": "POST",
@@ -582,6 +604,27 @@
 							"path": [
 								"categorias",
 								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCategoriasPorTienda",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/categorias/tienda/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categorias",
+								"tienda",
+								"1"
 							]
 						}
 					},

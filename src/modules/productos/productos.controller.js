@@ -109,12 +109,8 @@ export const verDetalleProducto = async (id_producto) => {
     return producto;
 }
 
-export const getProductosPorCategoria = async (id_producto) => {
-    const result = await productosModel.getProductosPorCategoria(id_producto);
-    if (result.length === 0){
-        throw new Error(`Error: la categoria con id: ${id_producto} no existe o el producto no esta activo o el producto esta eliminado`);
-    }
-    return result;
+export const getProductosPorCategoria = async (id_categoria) => {
+    return await productosModel.getProductosPorCategoria(id_categoria);
 }
 
 export const getProductosPorTienda = async (id_tienda) => {
