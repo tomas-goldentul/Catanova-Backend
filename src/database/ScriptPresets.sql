@@ -210,116 +210,116 @@ VALUES
 -- =====================================
 
 INSERT INTO public.productos
-(id_producto,nombre,precio,stock,imagen,activo,id_tienda,eliminado,id_categoria,vistas,favoritos,tipo)
+(id_producto,nombre,precio,stock,imagen,activo,id_tienda,eliminado,id_categoria,tipo)
 VALUES
 
 -- =======================
 -- TECH STORE
 -- =======================
 
-(1,'iPhone 15',1599999,25,'iphone15.jpg',true,1,false,1,3250,420,'Celular'),
-(2,'Samsung Galaxy S25',1399999,30,'s25.jpg',true,1,false,1,2870,355,'Celular'),
-(3,'MacBook Air M3',2499999,12,'macbook.jpg',true,1,false,1,1300,190,'Notebook'),
-(4,'Notebook Lenovo IdeaPad',1199999,18,'lenovo.jpg',true,1,false,1,1850,220,'Notebook'),
-(5,'AirPods Pro',499999,45,'airpods.jpg',true,1,false,1,4520,580,'Auriculares'),
+(1,'iPhone 15',1599999,25,'iphone15.jpg',true,1,false,1,'Celular'),
+(2,'Samsung Galaxy S25',1399999,30,'s25.jpg',true,1,false,1,'Celular'),
+(3,'MacBook Air M3',2499999,12,'macbook.jpg',true,1,false,1,'Notebook'),
+(4,'Notebook Lenovo IdeaPad',1199999,18,'lenovo.jpg',true,1,false,1,'Notebook'),
+(5,'AirPods Pro',499999,45,'airpods.jpg',true,1,false,1,'Auriculares'),
 
 -- =======================
 -- MODA EXPRESS
 -- =======================
 
-(6,'Remera Oversize Negra',29999,120,'remera_negra.jpg',true,2,false,2,950,60,'Remera'),
-(7,'Jean Slim Fit',69999,65,'jean.jpg',true,2,false,2,860,52,'Jean'),
-(8,'Campera Inflable',159999,28,'campera.jpg',true,2,false,2,640,40,'Campera'),
-(9,'Buzo Canguro',55999,55,'buzo.jpg',true,2,false,2,930,58,'Buzo'),
-(10,'Zapatillas Urban',129999,40,'urban.jpg',true,2,false,2,810,49,'Calzado'),
+(6,'Remera Oversize Negra',29999,120,'remera_negra.jpg',true,2,false,2,'Remera'),
+(7,'Jean Slim Fit',69999,65,'jean.jpg',true,2,false,2,'Jean'),
+(8,'Campera Inflable',159999,28,'campera.jpg',true,2,false,2,'Campera'),
+(9,'Buzo Canguro',55999,55,'buzo.jpg',true,2,false,2,'Buzo'),
+(10,'Zapatillas Urban',129999,40,'urban.jpg',true,2,false,2,'Calzado'),
 
 -- =======================
 -- CASA MODERNA
 -- =======================
 
-(11,'Mesa de Comedor',329999,12,'mesa.jpg',true,3,false,3,530,34,'Mueble'),
-(12,'Silla Escandinava',69999,50,'silla.jpg',true,3,false,3,910,62,'Mueble'),
-(13,'Lámpara LED',39999,80,'lampara.jpg',true,3,false,3,1250,88,'Iluminación'),
-(14,'Biblioteca Moderna',249999,10,'biblioteca.jpg',true,3,false,3,470,29,'Mueble'),
-(15,'Alfombra Decorativa',89999,35,'alfombra.jpg',true,3,false,3,690,42,'Decoración'),
+(11,'Mesa de Comedor',329999,12,'mesa.jpg',true,3,false,3,'Mueble'),
+(12,'Silla Escandinava',69999,50,'silla.jpg',true,3,false,3,'Mueble'),
+(13,'Lámpara LED',39999,80,'lampara.jpg',true,3,false,3,'Iluminación'),
+(14,'Biblioteca Moderna',249999,10,'biblioteca.jpg',true,3,false,3,'Mueble'),
+(15,'Alfombra Decorativa',89999,35,'alfombra.jpg',true,3,false,3,'Decoración'),
 
 -- =======================
 -- GAMER ZONE
 -- =======================
 
-(16,'Mouse Logitech G502',89999,45,'g502.jpg',true,4,false,1,2980,310,'Gaming'),
-(17,'Teclado Mecánico Redragon',129999,35,'teclado.jpg',true,4,false,1,2260,260,'Gaming'),
-(18,'Monitor 27 165Hz',699999,14,'monitor.jpg',true,4,false,1,980,130,'Gaming'),
-(19,'Silla Gamer RGB',599999,9,'silla_gamer.jpg',true,4,false,1,850,118,'Gaming'),
-(20,'Joystick Xbox',189999,38,'joystick.jpg',true,4,false,1,2140,250,'Gaming'),
+(16,'Mouse Logitech G502',89999,45,'g502.jpg',true,4,false,1,'Gaming'),
+(17,'Teclado Mecánico Redragon',129999,35,'teclado.jpg',true,4,false,1,'Gaming'),
+(18,'Monitor 27 165Hz',699999,14,'monitor.jpg',true,4,false,1,'Gaming'),
+(19,'Silla Gamer RGB',599999,9,'silla_gamer.jpg',true,4,false,1,'Gaming'),
+(20,'Joystick Xbox',189999,38,'joystick.jpg',true,4,false,1,'Gaming'),
 
 -- =======================
 -- SPORT LIFE
 -- =======================
 
-(21,'Pelota Adidas',45999,60,'pelota.jpg',true,5,false,4,1330,96,'Fútbol'),
-(22,'Mancuernas 10kg',84999,34,'mancuernas.jpg',true,5,false,4,970,73,'Fitness'),
-(23,'Colchoneta Yoga',39999,70,'yoga.jpg',true,5,false,4,1120,81,'Fitness'),
-(24,'Raqueta Tenis Wilson',189999,15,'raqueta.jpg',true,5,false,4,620,39,'Tenis'),
-(25,'Bicicleta MTB Rodado 29',1299999,8,'bicicleta.jpg',true,5,false,4,580,55,'Ciclismo');
+(21,'Pelota Adidas',45999,60,'pelota.jpg',true,5,false,4,'Fútbol'),
+(22,'Mancuernas 10kg',84999,34,'mancuernas.jpg',true,5,false,4,'Fitness'),
+(23,'Colchoneta Yoga',39999,70,'yoga.jpg',true,5,false,4,'Fitness'),
+(24,'Raqueta Tenis Wilson',189999,15,'raqueta.jpg',true,5,false,4,'Tenis'),
+(25,'Bicicleta MTB Rodado 29',1299999,8,'bicicleta.jpg',true,5,false,4,'Ciclismo');
 
 -- =====================================
 -- PRODUCTOS (26-50)
 -- =====================================
 
 INSERT INTO public.productos
-(id_producto,nombre,precio,stock,imagen,activo,id_tienda,eliminado,id_categoria,vistas,favoritos,tipo)
+(id_producto,nombre,precio,stock,imagen,activo,id_tienda,eliminado,id_categoria,tipo)
 VALUES
 
 -- =======================
 -- BEAUTY MARKET
 -- =======================
 
-(26,'Perfume Importado',189999,28,'perfume.jpg',true,6,false,5,1450,102,'Perfume'),
-(27,'Base Líquida',34999,75,'base.jpg',true,6,false,5,2100,176,'Maquillaje'),
-(28,'Labial Mate',19999,120,'labial.jpg',true,6,false,5,2640,198,'Maquillaje'),
-(29,'Crema Facial',42999,62,'crema.jpg',true,6,false,5,1705,123,'Cuidado Facial'),
-(30,'Shampoo Profesional',27999,95,'shampoo.jpg',true,6,false,5,1830,134,'Cabello'),
+(26,'Perfume Importado',189999,28,'perfume.jpg',true,6,false,5,'Perfume'),
+(27,'Base Líquida',34999,75,'base.jpg',true,6,false,5,'Maquillaje'),
+(28,'Labial Mate',19999,120,'labial.jpg',true,6,false,5,'Maquillaje'),
+(29,'Crema Facial',42999,62,'crema.jpg',true,6,false,5,'Cuidado Facial'),
+(30,'Shampoo Profesional',27999,95,'shampoo.jpg',true,6,false,5,'Cabello'),
 
 -- =======================
 -- LIBRERÍA CENTRAL
 -- =======================
 
-(31,'El Principito',19999,80,'principito.jpg',true,7,false,6,3820,310,'Libro'),
-(32,'1984',24999,60,'1984.jpg',true,7,false,6,2950,240,'Libro'),
-(33,'Cuaderno Universitario',8999,200,'cuaderno.jpg',true,7,false,6,4320,265,'Librería'),
-(34,'Agenda 2026',17999,95,'agenda.jpg',true,7,false,6,1180,74,'Papelería'),
-(35,'Lapicera Parker',35999,55,'parker.jpg',true,7,false,6,980,61,'Papelería'),
+(31,'El Principito',19999,80,'principito.jpg',true,7,false,6,'Libro'),
+(32,'1984',24999,60,'1984.jpg',true,7,false,6,'Libro'),
+(33,'Cuaderno Universitario',8999,200,'cuaderno.jpg',true,7,false,6,'Librería'),
+(34,'Agenda 2026',17999,95,'agenda.jpg',true,7,false,6,'Papelería'),
+(35,'Lapicera Parker',35999,55,'parker.jpg',true,7,false,6,'Papelería'),
 
 -- =======================
 -- DECO HOME
 -- =======================
 
-(36,'Cuadro Decorativo',45999,40,'cuadro.jpg',true,8,false,3,1050,83,'Decoración'),
-(37,'Almohadón Nórdico',22999,90,'almohadon.jpg',true,8,false,3,1690,141,'Decoración'),
-(38,'Espejo Redondo',69999,35,'espejo.jpg',true,8,false,3,1130,92,'Decoración'),
-(39,'Reloj de Pared',39999,48,'reloj.jpg',true,8,false,3,1290,96,'Decoración'),
-(40,'Florero Cerámica',28999,52,'florero.jpg',true,8,false,3,980,80,'Decoración'),
+(36,'Cuadro Decorativo',45999,40,'cuadro.jpg',true,8,false,3,'Decoración'),
+(37,'Almohadón Nórdico',22999,90,'almohadon.jpg',true,8,false,3,'Decoración'),
+(38,'Espejo Redondo',69999,35,'espejo.jpg',true,8,false,3,'Decoración'),
+(39,'Reloj de Pared',39999,48,'reloj.jpg',true,8,false,3,'Decoración'),
+(40,'Florero Cerámica',28999,52,'florero.jpg',true,8,false,3,'Decoración'),
 
 -- =======================
 -- PET SHOP PLUS
 -- =======================
 
-(41,'Alimento Balanceado Perro',44999,110,'dogfood.jpg',true,9,false,8,2350,188,'Mascotas'),
-(42,'Alimento Balanceado Gato',41999,95,'catfood.jpg',true,9,false,8,2100,170,'Mascotas'),
-(43,'Correa Premium',19999,80,'correa.jpg',true,9,false,8,1260,98,'Accesorio'),
-(44,'Juguete Mordillo',14999,140,'mordillo.jpg',true,9,false,7,1880,152,'Juguete'),
-(45,'Cucha Mediana',89999,18,'cucha.jpg',true,9,false,8,720,45,'Mascotas'),
+(41,'Alimento Balanceado Perro',44999,110,'dogfood.jpg',true,9,false,8,'Mascotas'),
+(42,'Alimento Balanceado Gato',41999,95,'catfood.jpg',true,9,false,8,'Mascotas'),
+(43,'Correa Premium',19999,80,'correa.jpg',true,9,false,8,'Accesorio'),
+(44,'Juguete Mordillo',14999,140,'mordillo.jpg',true,9,false,7,'Juguete'),
+(45,'Cucha Mediana',89999,18,'cucha.jpg',true,9,false,8,'Mascotas'),
 
 -- =======================
 -- MUNDO CELULAR
 -- =======================
 
-(46,'Funda iPhone 15',14999,150,'funda15.jpg',true,10,false,1,3980,286,'Accesorio'),
-(47,'Cargador USB-C 45W',34999,90,'cargador.jpg',true,10,false,1,2840,219,'Accesorio'),
-(48,'Cable USB-C',9999,180,'cable.jpg',true,10,false,1,4750,305,'Accesorio'),
-(49,'Power Bank 20000mAh',79999,42,'powerbank.jpg',true,10,false,1,1460,118,'Accesorio'),
-(50,'Smartwatch Fit Pro',249999,26,'smartwatch.jpg',true,10,false,1,1720,156,'Wearable');
+(46,'Funda iPhone 15',14999,150,'funda15.jpg',true,10,false,1,'Accesorio'),
+(47,'Cargador USB-C 45W',34999,90,'cargador.jpg',true,10,false,1,'Accesorio'),
+(48,'Cable USB-C',9999,180,'cable.jpg',true,10,false,1,'Accesorio'),
+(49,'Power Bank 20000mAh',79999,42,'powerbank.jpg',true,10,false,1,'Accesorio'),
+(50,'Smartwatch Fit Pro',249999,26,'smartwatch.jpg',true,10,false,1,'Wearable');
 
 -- =====================================
 -- PRODUCTOS X CATEGORIAS
@@ -662,6 +662,27 @@ VALUES
 (57,'20000mAh',49),
 (58,'Smartwatch',50);
 
+INSERT INTO vistas (fecha, id_producto, id_usuario)
+SELECT
+    TIMESTAMP '2024-01-01'
+    + random() * (TIMESTAMP '2026-07-01' - TIMESTAMP '2024-01-01'),
+    (floor(random()*50)+1)::int,
+    (floor(random()*10)+1)::int
+FROM generate_series(1,200);
+
+INSERT INTO favoritos (fecha, id_producto, id_usuario)
+SELECT
+    TIMESTAMP '2024-01-01'
+    + random() * (TIMESTAMP '2026-07-01' - TIMESTAMP '2024-01-01'),
+    id_producto,
+    id_usuario
+FROM (
+    SELECT p.id_producto, u.id_usuario
+    FROM productos p
+    CROSS JOIN usuarios u
+    ORDER BY random()
+    LIMIT 250
+) t;
 
 SELECT setval(pg_get_serial_sequence('public.categorias', 'id_categoria'), (SELECT MAX(id_categoria) FROM public.categorias), true);
 SELECT setval(pg_get_serial_sequence('public.cuentas', 'id_cuenta'), (SELECT MAX(id_cuenta) FROM public.cuentas), true);

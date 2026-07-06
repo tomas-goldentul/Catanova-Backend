@@ -11,6 +11,8 @@ import categoriasRouter from "./modules/categorias/categorias.routes.js";
 import authRoutes from "./modules/auth/auth.routes.js";
 import cuentasRoutes from "./modules/cuentas/cuentas.routes.js";
 import ventasRoutes from "./modules/ventas/ventas.routes.js";
+import favoritosRoutes from "./modules/favoritos/favoritos.routes.js";
+import vistasRoutes from "./modules/vistas/vistas.routes.js";
 import etiquetasRoutes from "./modules/etiquetas/etiquetas.routes.js";
 
 const app = express();
@@ -27,6 +29,8 @@ app.use("/tiendas", tiendasRoutes);
 app.use("/pedidos", pedidosRouter);
 app.use("/categorias", categoriasRouter);
 app.use("/ventas", ventasRoutes);
+app.use("/favoritos", favoritosRoutes);
+app.use("/vistas", vistasRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/cuentas", cuentasRoutes);
 app.use("/etiquetas", etiquetasRoutes);

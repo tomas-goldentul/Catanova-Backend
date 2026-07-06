@@ -797,6 +797,406 @@
 			]
 		},
 		{
+			"name": "Favoritos",
+			"item": [
+				{
+					"name": "GetFavoritos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFavoritoById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InsertFavorito",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id_producto\": 1,\r\n  \"id_usuario\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/favoritos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteFavorito",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCantidadFavoritosPorProducto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/producto/1/cantidad",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								"producto",
+								"1",
+								"cantidad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFavoritosUltimos7Dias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/ultimos/7dias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								"ultimos",
+								"7dias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFavoritosUltimoMes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/ultimos/mes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								"ultimos",
+								"mes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFavoritosUltimoAno",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/ultimos/ano",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								"ultimos",
+								"ano"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFavoritosUltimos2Anios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/ultimos/2anos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								"ultimos",
+								"2anos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vistas",
+			"item": [
+				{
+					"name": "GetVistas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetVistaById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InsertVista",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id_producto\": 1,\r\n  \"id_usuario\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/vistas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteVista",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCantidadVistasPorProducto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/producto/1/cantidad",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								"producto",
+								"1",
+								"cantidad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetVistasUltimos7Dias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/ultimos/7dias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								"ultimos",
+								"7dias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetVistasUltimoMes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/ultimos/mes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								"ultimos",
+								"mes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetVistasUltimoAno",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/ultimos/ano",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								"ultimos",
+								"ano"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetVistasUltimos2Anios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/ultimos/2anos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								"ultimos",
+								"2anos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Auth",
 			"item": [
 				{

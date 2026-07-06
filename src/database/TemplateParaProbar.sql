@@ -10,3 +10,5 @@ Select * From tiendas;
 Select * From usuarios;
 Select * From ventas;
 Select * From etiquetas;
+Select * From favoritos;
+Select * From vistas;
