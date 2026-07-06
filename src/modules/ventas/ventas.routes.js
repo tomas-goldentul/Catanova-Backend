@@ -84,5 +84,14 @@ router.delete("/:id", async (req, res) => {
 	}
 });
 
+router.get("/producto/:id/cantidad", async (req, res) => {
+    try {
+        const cantidad = await ventasController.getCantidadVentasProducto(req.params.id);
+        res.json(cantidad);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 export default router;
 

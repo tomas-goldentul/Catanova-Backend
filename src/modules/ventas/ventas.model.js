@@ -127,3 +127,13 @@ export const getVentasUltimos2Anios = async () => {
 	return await getVentasDesdeIntervalo('2 years');
 };
 
+export const getCantidadVentasProducto = async (id_producto) => {
+    const result = await db.query(
+        `SELECT COALESCE(SUM(cantidad), 0) AS cantidad
+         FROM ventas
+         WHERE id_producto = $1`,
+        [id_producto]
+    );
+
+    return result.rows[0];
+};

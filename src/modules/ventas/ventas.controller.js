@@ -76,3 +76,6 @@ export const getVentasUltimos2Anios = async () => {
 	return ventas;
 };
 
+export const getCantidadVentasProducto = async (id_producto) => {
+    return await ventasModel.getCantidadVentasProducto(id_producto);
+};
