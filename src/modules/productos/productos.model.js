@@ -107,6 +107,13 @@ export const getProductosPorCategoria = async (id_categoria) => {
   return result.rows;
 }
 
+export const getProductosPorTienda = async (id_tienda) => {
+  const query = `SELECT * FROM productos WHERE id_tienda = $1 AND activo = true AND eliminado = false`;
+  const values = [id_tienda];
+  const result = await db.query(query, values);
+  return result.rows;
+}
+
 export const agregarStock = async (id_producto, cantidad) => {
   const query = `
     UPDATE productos 

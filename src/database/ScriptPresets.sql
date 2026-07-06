@@ -18,15 +18,24 @@ INSERT INTO public.provincias (id_provincia, nombre) VALUES
 -- CATEGORIAS
 -- ==========================
 
-INSERT INTO public.categorias (id_categoria,nombre) VALUES
-(1,'Electrónica'),
-(2,'Indumentaria'),
-(3,'Hogar'),
-(4,'Deportes'),
-(5,'Belleza'),
-(6,'Libros'),
-(7,'Juguetes'),
-(8,'Alimentos');
+INSERT INTO public.categorias (id_categoria,nombre,id_tienda) VALUES
+(1,'Electrónica',1),
+(2,'Indumentaria',2),
+(3,'Hogar',3),
+(4,'Deportes',4),
+(5,'Belleza',5),
+(6,'Libros',6),
+(7,'Juguetes',7),
+(8,'Alimentos',8);
+(9,'Laptops',1),
+(10,'Muebles',2),
+(11,'Ventanas',3),
+(12,'Atletismo',4),
+(13,'Cuidado',5),
+(14,'Peliculas',6),
+(15,'Balones',7),
+(16,'Bebidas',8);
+
 
 -- ==========================
 -- DUEÑOS

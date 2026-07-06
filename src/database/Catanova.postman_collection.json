@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "34f0f610-aed6-463d-a9d5-7eb4cbb4977a",
+		"_postman_id": "1c37cae5-40fd-4367-bbf3-025096324bc4",
 		"name": "Catanova",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -711,6 +711,28 @@
 					"response": []
 				},
 				{
+					"name": "GetCantidad",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/ventas/producto/1/cantidad",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"ventas",
+								"producto",
+								"1",
+								"cantidad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GetUltimos7Dias",
 					"request": {
 						"method": "GET",
@@ -889,7 +911,7 @@
 					"response": []
 				},
 				{
-					"name": "GetCantidadFavoritosPorProducto",
+					"name": "GetCantidad",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1089,7 +1111,7 @@
 					"response": []
 				},
 				{
-					"name": "GetCantidadVistasPorProducto",
+					"name": "GetCantidad",
 					"request": {
 						"method": "GET",
 						"header": [],

@@ -28,3 +28,8 @@ export const getCategoriasByiD = async (id_categoria) => {
     }
     return categoria;
 }
+
+export const getCategoriasPorTienda = async (id_tienda) => {
+    const categorias = await categoriasModel.getCategoriasPorTienda(id_tienda);
+    return categorias;
+}

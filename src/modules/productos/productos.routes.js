@@ -155,6 +155,18 @@ router.get('/get/categoria/:id', async (req, res) => {
   }
 })
 
+//get productos por tienda
+router.get('/get/tienda/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await productosController.getProductosPorTienda(id);
+    return res.status(StatusCodes.OK).json(result);
+  }
+  catch (error) {
+    return res.status(StatusCodes.NOT_FOUND).json({ message: error.message })
+  }
+})
+
 //agregar stock
 router.post('/agregar-stock/:id', async (req, res) => {
   try {

@@ -29,3 +29,12 @@ export const getCategoriasByiD = async (id_categoria) => {
     const result = await db.query(query, values);
     return result.rows[0];
 }
+
+export const getCategoriasPorTienda = async (id_tienda) => {
+    const query = `SELECT c.* FROM categorias c
+                   JOIN tiendas t ON c.id_tienda = t.id_tienda
+                   WHERE t.id_tienda = $1;`;
+    const values = [id_tienda];
+    const result = await db.query(query, values);
+    return result.rows;
+};

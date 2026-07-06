@@ -47,4 +47,15 @@ router.get("/:id_categoria", async (req, res) => {
     }
 })
 
+router.get("/tienda/:id_tienda", async (req, res) => {
+    try {
+        const { id_tienda } = req.params;
+        const result = await categoriasController.getCategoriasPorTienda(id_tienda);
+        res.status(StatusCodes.OK).json(result);
+    } catch (error) {
+        console.error("Error en la ruta get categorias por tienda:", error);
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al ver categorias por tienda", error: error.message });
+    }
+});
+
 export default router;

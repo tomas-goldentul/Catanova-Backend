@@ -117,6 +117,14 @@ export const getProductosPorCategoria = async (id_producto) => {
     return result;
 }
 
+export const getProductosPorTienda = async (id_tienda) => {
+    const result = await productosModel.getProductosPorTienda(id_tienda);
+    if (result.length === 0){
+        throw new Error(`Error: la tienda con id: ${id_tienda} no existe o no tiene productos activos o todos los productos estan eliminados`);
+    }
+    return result;
+}
+
 export const agregarStockProducto = async (id_producto, cantidad) => {
     if (!id_producto) throw new Error("El id_producto es obligatorio");
     if (!cantidad || cantidad <= 0) throw new Error("La cantidad debe ser mayor a 0");
