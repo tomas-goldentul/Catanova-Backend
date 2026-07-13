@@ -413,7 +413,7 @@ VALUES
 (49,49,1),
 (50,50,1);
 
-INSERT INTO productosxcategorias (id, id_producto, id_categoria)
+INSERT INTO public.productosxcategorias (id, id_producto, id_categoria)
 VALUES
 (51,51,9),
 (52,52,9),
@@ -693,7 +693,7 @@ VALUES
 (57,'20000mAh',49),
 (58,'Smartwatch',50);
 
-INSERT INTO vistas (fecha, id_producto, id_usuario)
+INSERT INTO public.vistas (fecha, id_producto, id_usuario)
 SELECT
     TIMESTAMP '2024-01-01'
     + random() * (TIMESTAMP '2026-07-01' - TIMESTAMP '2024-01-01'),
@@ -701,7 +701,7 @@ SELECT
     (floor(random()*10)+1)::int
 FROM generate_series(1,200);
 
-INSERT INTO favoritos (fecha, id_producto, id_usuario)
+INSERT INTO public.favoritos (fecha, id_producto, id_usuario)
 SELECT
     TIMESTAMP '2024-01-01'
     + random() * (TIMESTAMP '2026-07-01' - TIMESTAMP '2024-01-01'),
@@ -709,8 +709,8 @@ SELECT
     id_usuario
 FROM (
     SELECT p.id_producto, u.id_usuario
-    FROM productos p
-    CROSS JOIN usuarios u
+    FROM public.productos p
+    CROSS JOIN public.usuarios u
     ORDER BY random()
     LIMIT 250
 ) t;
