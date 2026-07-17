@@ -39,4 +39,14 @@ router.get("/email/:email", async (req, res) => {
     }
 });
 
+router.get("/tipo/usuario", async (req, res) => {
+    try {
+        const usuarios = await cuentasController.obtenerUsuariosTipoUsuario();
+        res.status(200).json(usuarios);
+    } catch (error) {
+        res.status(400).json({
+            message: error.message
+        });
+    }
+});
 export default router;

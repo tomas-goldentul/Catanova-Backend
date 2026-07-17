@@ -168,3 +168,13 @@ export const cambiarImagen = async (id_producto, imagen) => {
   const result = await db.query(query, [imagen, id_producto]);
   return result.rows[0];
 };
+
+//funcionalidad para pedidos.model actualizar pedido
+export const sumarStockProducto = async (id_producto, cantidad) => {
+  const sql = `
+    UPDATE productos 
+    SET stock = stock + $1 
+    WHERE id_producto = $2;
+  `;
+  await db.query(sql, [cantidad, id_producto]);
+};

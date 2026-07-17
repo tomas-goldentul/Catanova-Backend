@@ -54,3 +54,13 @@ export const obtenerCuentaPorEmail = async (email) => {
 
     return cuenta;
 };
+
+export const obtenerUsuariosTipoUsuario = async () => {
+  const usuarios = await cuentasModel.getUsuariosDeTipoUsuario();
+
+  if (usuarios.length === 0) {
+    throw new Error("No se encontraron usuarios con cuentas de tipo 'usuario'");
+  }
+
+  return usuarios;
+};

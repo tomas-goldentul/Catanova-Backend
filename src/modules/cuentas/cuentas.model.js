@@ -31,3 +31,18 @@ export const getCuentaById = async (id_cuenta) => {
     const result = await db.query(query, [id_cuenta]);
     return result.rows[0];
 };
+
+export const getUsuariosDeTipoUsuario = async () => {
+  const query = `
+    SELECT 
+      u.nombre, 
+      u.apellido
+    FROM cuentas c
+    INNER JOIN usuarios u 
+      ON c.id_cuenta = u.id_cuenta
+    WHERE c.tipo = 'usuario';
+  `;
+
+  const result = await db.query(query);
+  return result.rows;
+};
