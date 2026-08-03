@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { crearCuenta, obtenerCuentaPorEmail } from "../cuentas/cuentas.controller.js";
 import { insertUsuario } from "../usuarios/usuarios.controller.js";
-import { insertTienda } from "../tiendas/tiendas.controller.js";
+import { insertTienda, getTiendaPorCuenta } from "../tiendas/tiendas.controller.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "catanova_secret";
 
@@ -35,22 +35,30 @@ export const login = async ({ email, password }) => {
         throw new Error("Email o contraseña incorrectos");
     }
 
-    const token = jwt.sign(
-        {
-            id_cuenta: cuenta.id_cuenta,
-            email: cuenta.email,
-            tipo: cuenta.tipo
-        },
-        JWT_SECRET,
-        {
-            expiresIn: "1h"
+    let id_tienda = null;
+    if (cuenta.tipo === "tienda") {
+        const tienda = await getTiendaPorCuenta(cuenta.id_cuenta);
+        if (tienda?.id_tienda) {
+            id_tienda = tienda.id_tienda;
         }
-    );
+    }
+
+    const tokenPayload = {
+        id_cuenta: cuenta.id_cuenta,
+        email: cuenta.email,
+        tipo: cuenta.tipo,
+        id_tienda
+    };
+
+    const token = jwt.sign(tokenPayload, JWT_SECRET, {
+        expiresIn: "1h"
+    });
 
     return {
         id_cuenta: cuenta.id_cuenta,
         email: cuenta.email,
         tipo: cuenta.tipo,
+        id_tienda,
         token
     };
 };

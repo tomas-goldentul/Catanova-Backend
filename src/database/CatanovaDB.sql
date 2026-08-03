@@ -449,6 +449,7 @@ CREATE TABLE public.tiendas (
     id_cuenta integer,
     rating numeric(2,1) DEFAULT 0.0,
     establecimiento integer,
+    abierta boolean DEFAULT false NOT NULL,
     CONSTRAINT tiendas_rating_check CHECK (((rating >= (0)::numeric) AND (rating <= (5)::numeric)))
 );
 

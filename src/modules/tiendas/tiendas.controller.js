@@ -1,4 +1,4 @@
-import { crearTienda, buscarTiendaPorNombre, editarTienda, getTiendaById, getNombreTiendaById, getSloganTiendaById } from "./tiendas.model.js";
+import { crearTienda, buscarTiendaPorNombre, editarTienda, getTiendaById, getNombreTiendaById, getSloganTiendaById, getTiendaPorCuentaId } from "./tiendas.model.js";
 import { getProvinciaId } from "../provincias/provincias.controller.js"
 async function verificarTiendaPorNombre(nombre) {
     const existe = await buscarTiendaPorNombre(nombre);
@@ -15,7 +15,8 @@ export const insertTienda = async({
     color_primario,
     color_secundario,
     color_terciario,
-    id_cuenta
+    id_cuenta,
+    abierta
 }) => {
 
     const existe = await buscarTiendaPorNombre(nombre);
@@ -38,7 +39,8 @@ export const insertTienda = async({
         color_primario: color_primario || null,
         color_secundario: color_secundario || null,
         color_terciario: color_terciario || null,
-        id_cuenta: Number(id_cuenta)
+        id_cuenta: Number(id_cuenta),
+        abierta: Boolean(abierta)
     };
 
     return await crearTienda(tienda);
@@ -72,6 +74,7 @@ export const updateTienda = async (datosTienda) => {
     color_primario: datosTienda.color_primario || null,
     color_secundario: datosTienda.color_secundario || null,
     color_terciario: datosTienda.color_terciario || null,
+    abierta: datosTienda.abierta === undefined ? tiendaActual.abierta : Boolean(datosTienda.abierta)
   };
 
   return await editarTienda(datosLimpios);
@@ -79,6 +82,10 @@ export const updateTienda = async (datosTienda) => {
 
 export const getTiendaId = async(idTienda) => {
     return await getTiendaById(idTienda);
+}
+
+export const getTiendaPorCuenta = async(idCuenta) => {
+    return await getTiendaPorCuentaId(idCuenta);
 }
 
 export const getNombreTienda = async(idTienda) => {

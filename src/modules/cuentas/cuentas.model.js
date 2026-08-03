@@ -32,6 +32,12 @@ export const getCuentaById = async (id_cuenta) => {
     return result.rows[0];
 };
 
+export const eliminarCuenta = async (id_cuenta) => {
+    const query = `DELETE FROM cuentas WHERE id_cuenta = $1 RETURNING *`;
+    const result = await db.query(query, [id_cuenta]);
+    return result.rows[0];
+};
+
 export const getUsuariosDeTipoUsuario = async () => {
   const query = `
     SELECT 
