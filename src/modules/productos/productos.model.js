@@ -1,7 +1,15 @@
 import db from "../../config/db-config.js";
 
 export const getProductosActivos = async () => {
-  const result = await db.query("SELECT * FROM productos WHERE activo = true");
+  const query = `
+    SELECT p.*
+    FROM productos p
+    JOIN tiendas t ON p.id_tienda = t.id_tienda
+    WHERE p.activo = true
+      AND p.eliminado = false
+      AND t.abierta = true
+  `;
+  const result = await db.query(query);
   return result.rows;
 };
 
@@ -100,9 +108,15 @@ export const restarStockProducto = async (id_producto, cantidad) => {
   return result.rows[0];
 };
 
-export const getProductosPorCategoria = async (id_categoria) => {
-  const query = `SELECT p.* FROM productos p INNER JOIN productosxcategorias pc ON p.id_producto = pc.id_producto WHERE pc.id_categoria = $1 AND p.activo = true AND p.eliminado = false`;
+export const getProductosPorCategoria = async (id_categoria, id_tienda = null) => {
+  let query = `SELECT p.* FROM productos p INNER JOIN productosxcategorias pc ON p.id_producto = pc.id_producto WHERE pc.id_categoria = $1 AND p.activo = true AND p.eliminado = false`;
   const values = [id_categoria];
+
+  if (id_tienda !== null && Number.isFinite(Number(id_tienda))) {
+    query += ` AND p.id_tienda = $2`;
+    values.push(Number(id_tienda));
+  }
+
   const result = await db.query(query, values);
   return result.rows;
 }
@@ -113,6 +127,19 @@ export const getProductosPorTienda = async (id_tienda) => {
   const result = await db.query(query, values);
   return result.rows;
 }
+
+export const getTodosProductosPorTienda = async (id_tienda) => {
+  const query = `SELECT * FROM productos WHERE id_tienda = $1`;
+  const values = [id_tienda];
+  const result = await db.query(query, values);
+  return result.rows;
+}
+
+export const eliminarProductosPorTienda = async (id_tienda) => {
+  const query = `UPDATE productos SET eliminado = true WHERE id_tienda = $1 RETURNING *`;
+  const result = await db.query(query, [id_tienda]);
+  return result.rows;
+};
 
 export const agregarStock = async (id_producto, cantidad) => {
   const query = `

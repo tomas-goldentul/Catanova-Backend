@@ -1,4 +1,7 @@
 import * as cuentasModel from "./cuentas.model.js";
+import * as productosModel from "../productos/productos.model.js";
+import { getTiendaPorCuenta } from "../tiendas/tiendas.controller.js";
+import { eliminarTiendaPorCuentaId } from "../tiendas/tiendas.model.js";
 
 export const verificarExistenciaCuenta = async (id_cuenta) => {
     const cuenta = await cuentasModel.getCuentaById(id_cuenta);
@@ -53,6 +56,24 @@ export const obtenerCuentaPorEmail = async (email) => {
     }
 
     return cuenta;
+};
+
+export const eliminarCuenta = async (id_cuenta) => {
+    if (!id_cuenta) {
+        throw new Error("El id_cuenta es obligatorio");
+    }
+
+    const cuentaActual = await verificarExistenciaCuenta(id_cuenta);
+
+    if (cuentaActual.tipo === 'tienda') {
+        const tienda = await getTiendaPorCuenta(cuentaActual.id_cuenta);
+        if (tienda?.id_tienda) {
+            await productosModel.eliminarProductosPorTienda(tienda.id_tienda);
+        }
+        await eliminarTiendaPorCuentaId(cuentaActual.id_cuenta);
+    }
+
+    return await cuentasModel.eliminarCuenta(id_cuenta);
 };
 
 export const obtenerUsuariosTipoUsuario = async () => {

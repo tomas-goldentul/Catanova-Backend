@@ -147,7 +147,8 @@ router.get('/get/detail/:id', async (req, res) => {
 router.get('/get/categoria/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await productosController.getProductosPorCategoria(id);
+    const { tienda } = req.query;
+    const result = await productosController.getProductosPorCategoria(id, tienda || null);
     return res.status(StatusCodes.OK).json(result);
   }
   catch (error) {
@@ -160,6 +161,17 @@ router.get('/get/tienda/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const result = await productosController.getProductosPorTienda(id);
+    return res.status(StatusCodes.OK).json(result);
+  }
+  catch (error) {
+    return res.status(StatusCodes.NOT_FOUND).json({ message: error.message })
+  }
+})
+
+router.get('/get/tienda/:id/todos', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await productosController.getTodosProductosPorTienda(id);
     return res.status(StatusCodes.OK).json(result);
   }
   catch (error) {
