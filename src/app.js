@@ -1,6 +1,7 @@
 import express from "express"; 
 import cors from "cors";
 import path from "path"; 
+import fs from "fs";
 import { fileURLToPath } from "url"; 
 
 import dotenv from "dotenv";
@@ -27,7 +28,11 @@ const __dirname = path.dirname(__filename);
 app.use(cors());                 
 app.use(express.json()); 
 
-app.use('/imagenes', express.static(path.join(process.cwd(), 'public/imagenes')));
+app.use('/imagenes', express.static(path.join(__dirname, '../public/imagenes')));
+// También servir 'public/imagenes' bajo '/uploads' por compatibilidad
+app.use('/uploads', express.static(path.join(__dirname, '../public/imagenes')));
+// Servir toda la carpeta 'public' en la raíz para rutas como '/imagen.jpg'
+app.use(express.static(path.join(__dirname, '../public')));
 // --- RUTAS ---
 
 app.use("/productos", productoRoutes);

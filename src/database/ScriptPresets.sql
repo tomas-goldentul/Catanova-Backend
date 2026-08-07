@@ -691,3 +691,6 @@ SELECT setval(pg_get_serial_sequence('public.tiendas', 'id_tienda'), (SELECT MAX
 SELECT setval(pg_get_serial_sequence('public.usuarios', 'id_usuario'), (SELECT MAX(id_usuario) FROM public.usuarios), true);
 SELECT setval(pg_get_serial_sequence('public.ventas', 'id_venta'), (SELECT MAX(id_venta) FROM public.ventas), true);
 SELECT setval(pg_get_serial_sequence('public.etiquetas', 'id_etiqueta'), (SELECT MAX(id_etiqueta) FROM public.etiquetas), true);
+
+
+
