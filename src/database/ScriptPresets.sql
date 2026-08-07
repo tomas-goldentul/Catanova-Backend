@@ -36,30 +36,32 @@ VALUES
 -- CUENTAS USUARIOS
 -- ==========================
 
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 INSERT INTO public.cuentas
 (id_cuenta,email,password,tipo,foto_perfil)
 VALUES
-(1,'lucas@email.com','usuario1','usuario','imagenes/avatar1.jpg'),
-(2,'flor@email.com','usuario2','usuario','imagenes/avatar2.jpg'),
-(3,'martin@email.com','usuario3','usuario','imagenes/avatar3.jpg'),
-(4,'julieta@email.com','usuario4','usuario','imagenes/avatar4.jpg'),
-(5,'franco@email.com','usuario5','usuario','imagenes/avatar5.jpg'),
-(6,'camila@email.com','usuario6','usuario','imagenes/avatar6.jpg'),
-(7,'nahuel@email.com','usuario7','usuario','imagenes/avatar7.jpg'),
-(8,'agustina@email.com','usuario8','usuario','imagenes/avatar8.jpg'),
-(9,'tomas@email.com','usuario9','usuario','imagenes/avatar9.jpg'),
-(10,'mora@email.com','usuario10','usuario','imagenes/avatar10.jpg'),
+(1,'lucas@email.com',crypt('usuario1', gen_salt('bf')),'usuario','imagenes/avatar1.jpg'),
+(2,'flor@email.com',crypt('usuario2', gen_salt('bf')),'usuario','imagenes/avatar2.jpg'),
+(3,'martin@email.com',crypt('usuario3', gen_salt('bf')),'usuario','imagenes/avatar3.jpg'),
+(4,'julieta@email.com',crypt('usuario4', gen_salt('bf')),'usuario','imagenes/avatar4.jpg'),
+(5,'franco@email.com',crypt('usuario5', gen_salt('bf')),'usuario','imagenes/avatar5.jpg'),
+(6,'camila@email.com',crypt('usuario6', gen_salt('bf')),'usuario','imagenes/avatar6.jpg'),
+(7,'nahuel@email.com',crypt('usuario7', gen_salt('bf')),'usuario','imagenes/avatar7.jpg'),
+(8,'agustina@email.com',crypt('usuario8', gen_salt('bf')),'usuario','imagenes/avatar8.jpg'),
+(9,'tomas@email.com',crypt('usuario9', gen_salt('bf')),'usuario','imagenes/avatar9.jpg'),
+(10,'mora@email.com',crypt('usuario10', gen_salt('bf')),'usuario','imagenes/avatar10.jpg'),
 
-(11,'techstore@email.com','tienda1','tienda','imagenes/tech.jpg'),
-(12,'modaexpress@email.com','tienda2','tienda','imagenes/moda.jpg'),
-(13,'casamoderna@email.com','tienda3','tienda','imagenes/casa.jpg'),
-(14,'gamerzone@email.com','tienda4','tienda','imagenes/gamer.jpg'),
-(15,'sportlife@email.com','tienda5','tienda','imagenes/sport.jpg'),
-(16,'beautymarket@email.com','tienda6','tienda','imagenes/beauty.jpg'),
-(17,'libreriacentral@email.com','tienda7','tienda','imagenes/libros.jpg'),
-(18,'decohome@email.com','tienda8','tienda','imagenes/deco.jpg'),
-(19,'petshopplus@email.com','tienda9','tienda','imagenes/pet.jpg'),
-(20,'mundocelular@email.com','tienda10','tienda','imagenes/celular.jpg');
+(11,'techstore@email.com',crypt('tienda1', gen_salt('bf')),'tienda','imagenes/tech.jpg'),
+(12,'modaexpress@email.com',crypt('tienda2', gen_salt('bf')),'tienda','imagenes/moda.jpg'),
+(13,'casamoderna@email.com',crypt('tienda3', gen_salt('bf')),'tienda','imagenes/casa.jpg'),
+(14,'gamerzone@email.com',crypt('tienda4', gen_salt('bf')),'tienda','imagenes/gamer.jpg'),
+(15,'sportlife@email.com',crypt('tienda5', gen_salt('bf')),'tienda','imagenes/sport.jpg'),
+(16,'beautymarket@email.com',crypt('tienda6', gen_salt('bf')),'tienda','imagenes/beauty.jpg'),
+(17,'libreriacentral@email.com',crypt('tienda7', gen_salt('bf')),'tienda','imagenes/libros.jpg'),
+(18,'decohome@email.com',crypt('tienda8', gen_salt('bf')),'tienda','imagenes/deco.jpg'),
+(19,'petshopplus@email.com',crypt('tienda9', gen_salt('bf')),'tienda','imagenes/pet.jpg'),
+(20,'mundocelular@email.com',crypt('tienda10', gen_salt('bf')),'tienda','imagenes/celular.jpg');
 
 -- ==========================
 -- USUARIOS

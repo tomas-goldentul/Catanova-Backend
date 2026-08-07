@@ -1,1581 +1,1599 @@
 {
-  "info": {
-    "_postman_id": "6ec933d9-ba5a-42a7-b5f8-c4f2fe90b888",
-    "name": "Catanova Copy 2",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "53983378",
-    "_collection_link": "https://go.postman.co/collection/53983378-6ec933d9-ba5a-42a7-b5f8-c4f2fe90b888?source=collection_link"
-  },
-  "item": [
-    {
-      "name": "Productos",
-      "item": [
-        {
-          "name": "GetProductosActivos",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/productos/",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "productos",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetAllProductos",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/productos/get",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "productos",
-                "get"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "InsertProducto",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"nombre\": \"Campera \",\r\n  \"precio\": 45000,\r\n  \"stock\": 15,\r\n  \"imagen\": \"mouse.jpg\",\r\n  \"activo\": true,\r\n  \"id_tienda\": 2\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/productos/insert",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "productos",
-                "insert"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "UpdateEstado",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"estado\": false\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/productos/estado/99",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "productos",
-                "estado",
-                "99"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "UpdateProducto",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"nombre\": \"Remera\",\r\n  \"precio\": 1850.50,\r\n  \"stock\": 45,\r\n  \"imagen\": \"url-de-la-imagen.jpg\",\r\n  \"activo\": false,\r\n  \"id_tienda\": 1\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/productos/update/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "productos",
-                "update",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DeleteProducto",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/productos/delete/5",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "productos",
-                "delete",
-                "5"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetDetailProducto",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/productos/get/detail/5",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "productos",
-                "get",
-                "detail",
-                "5"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetProductosPorCategoria",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/productos/get/categoria/2",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "productos",
-                "get",
-                "categoria",
-                "2"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetProductosPorTienda",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/productos/get/tienda/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "productos",
-                "get",
-                "tienda",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "AgregarStock",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"cantidad\": 10\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/productos/agregar-stock/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "productos",
-                "agregar-stock",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "EditarStock",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"cantidad\": 50\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/productos/editar-stock/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "productos",
-                "editar-stock",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "EditarNombre",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"nombre\": \"Nuevo Nombre Producto\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/productos/editar-nombre/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "productos",
-                "editar-nombre",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "EditarTipo",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"tipo\": \"Tipo de producto\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/productos/editar-tipo/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "productos",
-                "editar-tipo",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "CambiarImagen",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"imagen\": \"https://nuevo-url-imagen.com/imagen.jpg\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/productos/cambiar-imagen/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "productos",
-                "cambiar-imagen",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Tienda",
-      "item": [
-        {
-          "name": "UpdateTienda",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"nombre\": \"Catanovaaa\",\r\n  \"email\": \"SDS@catanovahw.com\",\r\n  \"slogan\": \"Componentes con nuevo nombre identificador\",\r\n  \"telefono\": \"1133334444\",\r\n  \"direccion\": \"Av. Cabildo 2400\",\r\n  \"color_primario\": \"#111111\",\r\n  \"color_secundario\": null,\r\n  \"color_terciario\": null\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/tiendas/update/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "tiendas",
-                "update",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "InsertTienda",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"nombre\": \"Catanova ropaa\",\r\n  \"email\": \"minimal@catanova.com\",\r\n  \"slogan\": \"Tienda sin colores configurados\",\r\n  \"telefono\": \"44445555\",\r\n  \"direccion\": \"Av. Corrientes 1234\",\r\n  \"id_duenio\": 1,\r\n  \"id_provincia\": 1\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/tiendas/insert",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "tiendas",
-                "insert"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "getNombre",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/tiendas/get/nombre/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "tiendas",
-                "get",
-                "nombre",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "getSlogan",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/tiendas/get/slogan/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "tiendas",
-                "get",
-                "slogan",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Pedidos",
-      "item": [
-        {
-          "name": "CrearPedido",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"id_usuario\": 2,\r\n  \"direccion\": \"Av. Siempreviva 742\",\r\n  \"metodo_pago\": \"Tarjeta de Crédito\",\r\n  \"productos\": [\r\n    {\r\n      \"id_producto\": 5,\r\n      \"cantidad\": 17\r\n    },\r\n    {\r\n      \"id_producto\": 5,\r\n      \"cantidad\": 3\r\n    }\r\n  ]\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/pedidos",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "pedidos"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetAll",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/pedidos/getAll",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "pedidos",
-                "getAll"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "ActualizarPedido",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"direccion\": \"Belgrano 999, Rosario Centro\",\r\n  \"metodo_pago\": \"Efectivo\",\r\n  \"entregado\": false,\r\n  \"productos\": [\r\n    {\r\n      \"id_producto\": 1,\r\n      \"cantidad\": 2\r\n    },\r\n    {\r\n      \"id_producto\": 2,\r\n      \"cantidad\": 1\r\n    }\r\n  ]\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/pedidos/3",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "pedidos",
-                "3"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "PedidoDetail",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/pedidos/3",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "pedidos",
-                "3"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "ActualizarEstado",
-          "request": {
-            "method": "PATCH",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"entregado\": true\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/pedidos/3/estado",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "pedidos",
-                "3",
-                "estado"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Categorias",
-      "item": [
-        {
-          "name": "insertCategoria",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"nombreTienda\": \"zdfsdf\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/categorias/insert",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "categorias",
-                "insert"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "getAllCategorias",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/categorias/",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "categorias",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "getCategoriasId",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/categorias/6",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "categorias",
-                "6"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "getCategoriasPorTienda",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/categorias/tienda/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "categorias",
-                "tienda",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Ventas",
-      "item": [
-        {
-          "name": "GetVentas",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/ventas/",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "ventas",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetVentaById",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/ventas/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "ventas",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "InsertVenta",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"fecha\": \"2026-06-29\",\r\n  \"id_producto\": 1,\r\n  \"id_tienda\": 1,\r\n  \"id_usuario\": 1,\r\n  \"id_pedido\": null,\r\n  \"cantidad\": 2,\r\n  \"precio_unitario\": 100.5\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/ventas/",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "ventas",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "UpdateVenta",
-          "request": {
-            "method": "PUT",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"id_venta\": 1,\r\n  \"fecha\": \"2026-06-29\",\r\n  \"id_producto\": 1,\r\n  \"id_tienda\": 1,\r\n  \"id_usuario\": 1,\r\n  \"id_pedido\": null,\r\n  \"cantidad\": 3,\r\n  \"precio_unitario\": 95.0\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/ventas/",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "ventas",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DeleteVenta",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/ventas/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "ventas",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetCantidad",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/ventas/producto/1/cantidad",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "ventas",
-                "producto",
-                "1",
-                "cantidad"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetUltimos7Dias",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/ventas/ultimos/7dias",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "ventas",
-                "ultimos",
-                "7dias"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetUltimoMes",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/ventas/ultimos/mes",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "ventas",
-                "ultimos",
-                "mes"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetUltimoAno",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/ventas/ultimos/ano",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "ventas",
-                "ultimos",
-                "ano"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetUltimos2Anios",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/ventas/ultimos/2anos",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "ventas",
-                "ultimos",
-                "2anos"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Favoritos",
-      "item": [
-        {
-          "name": "GetFavoritos",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/favoritos/",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "favoritos",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetFavoritoById",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/favoritos/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "favoritos",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "InsertFavorito",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"id_producto\": 1,\r\n  \"id_usuario\": 1\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/favoritos/",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "favoritos",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DeleteFavorito",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/favoritos/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "favoritos",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetCantidad",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/favoritos/producto/1/cantidad",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "favoritos",
-                "producto",
-                "1",
-                "cantidad"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetFavoritosUltimos7Dias",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/favoritos/ultimos/7dias",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "favoritos",
-                "ultimos",
-                "7dias"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetFavoritosUltimoMes",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/favoritos/ultimos/mes",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "favoritos",
-                "ultimos",
-                "mes"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetFavoritosUltimoAno",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/favoritos/ultimos/ano",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "favoritos",
-                "ultimos",
-                "ano"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetFavoritosUltimos2Anios",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/favoritos/ultimos/2anos",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "favoritos",
-                "ultimos",
-                "2anos"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Vistas",
-      "item": [
-        {
-          "name": "GetVistas",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/vistas/",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "vistas",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetVistaById",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/vistas/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "vistas",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "InsertVista",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"id_producto\": 1,\r\n  \"id_usuario\": 1\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/vistas/",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "vistas",
-                ""
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "DeleteVista",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/vistas/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "vistas",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetCantidad",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/vistas/producto/1/cantidad",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "vistas",
-                "producto",
-                "1",
-                "cantidad"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetVistasUltimos7Dias",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/vistas/ultimos/7dias",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "vistas",
-                "ultimos",
-                "7dias"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetVistasUltimoMes",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/vistas/ultimos/mes",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "vistas",
-                "ultimos",
-                "mes"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetVistasUltimoAno",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/vistas/ultimos/ano",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "vistas",
-                "ultimos",
-                "ano"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "GetVistasUltimos2Anios",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/vistas/ultimos/2anos",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "vistas",
-                "ultimos",
-                "2anos"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Auth",
-      "item": [
-        {
-          "name": "RegistrarUser",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"email\": \"usuario@test.com\",\r\n  \"password\": \"MiPasswordSeguro123\",\r\n  \"nombre\": \"Juan\",\r\n  \"apellido\": \"Pérez\",\r\n  \"telefono\": \"123456789\",\r\n  \"foto_perfil\": \"https://url-de-tu-foto.com/foto.jpg\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/api/auth/register/usuario",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "api",
-                "auth",
-                "register",
-                "usuario"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "RegistrarTienda",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"email\": \"tienda@test.com\",\r\n  \"password\": \"PasswordTienda456\",\r\n  \"nombre\": \"Mi Super Tienda\",\r\n  \"slogan\": \"Lo mejor del mercado\",\r\n  \"telefono\": \"987654321\",\r\n  \"direccion\": \"Av. Siempre Viva 742\",\r\n  \"id_duenio\": 1,\r\n  \"id_provincia\": 3,\r\n  \"color_primario\": \"#FF0000\",\r\n  \"color_secundario\": \"#00FF00\",\r\n  \"color_terciario\": \"#0000FF\",\r\n  \"foto_perfil\": null\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/api/auth/register/tienda",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "api",
-                "auth",
-                "register",
-                "tienda"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "login",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"email\": \"tienda@test.com\",\r\n  \"password\": \"PasswordTienda456\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/api/auth/login",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "api",
-                "auth",
-                "login"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "verificarToken",
-          "request": {
-            "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "{{supabase_service_role_api_key_0s01}}",
-                  "type": "string"
-                }
-              ]
-            },
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/api/auth/perfil",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "api",
-                "auth",
-                "perfil"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Etiquetas",
-      "item": [
-        {
-          "name": "AgregarEtiqueta",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n  \"nombre\": \"Oferta\",\r\n  \"id_producto\": 1\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "http://localhost:3000/etiquetas/agregar",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "etiquetas",
-                "agregar"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "EliminarEtiqueta",
-          "request": {
-            "method": "DELETE",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/etiquetas/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "etiquetas",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "ObtenerEtiquetasProducto",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/etiquetas/producto/1",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "etiquetas",
-                "producto",
-                "1"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Cuentas",
-      "item": [
-        {
-          "name": "traerCuentasTipoUsuario",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "http://localhost:3000/cuentas/tipo/usuario",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "3000",
-              "path": [
-                "cuentas",
-                "tipo",
-                "usuario"
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    }
-  ],
-  "variable": [
-    {
-      "key": "supabase_service_role_api_key_0s01",
-      "secret": true
-    }
-  ]
+	"info": {
+		"_postman_id": "24fbc8ff-8a4d-4505-9add-941872cac361",
+		"name": "Catanova",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Productos",
+			"item": [
+				{
+					"name": "GetProductosActivos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/productos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllProductos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/productos/get",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InsertProducto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Campera \",\r\n  \"precio\": 45000,\r\n  \"stock\": 15,\r\n  \"imagen\": \"mouse.jpg\",\r\n  \"activo\": true,\r\n  \"id_tienda\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/productos/insert",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateEstado",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"estado\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/productos/estado/99",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"estado",
+								"99"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateProducto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Remera\",\r\n  \"precio\": 1850.50,\r\n  \"stock\": 45,\r\n  \"imagen\": \"url-de-la-imagen.jpg\",\r\n  \"activo\": false,\r\n  \"id_tienda\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/productos/update/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteProducto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/productos/delete/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"delete",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetDetailProducto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/productos/get/detail/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"get",
+								"detail",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProductosPorCategoria",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/productos/get/categoria/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"get",
+								"categoria",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProductosPorTienda",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/productos/get/tienda/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"get",
+								"tienda",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AgregarStock",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cantidad\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/productos/agregar-stock/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"agregar-stock",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarStock",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cantidad\": 50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/productos/editar-stock/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"editar-stock",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarNombre",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Nuevo Nombre Producto\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/productos/editar-nombre/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"editar-nombre",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditarTipo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tipo\": \"Tipo de producto\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/productos/editar-tipo/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"editar-tipo",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CambiarImagen",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"imagen\": \"https://nuevo-url-imagen.com/imagen.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/productos/cambiar-imagen/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"productos",
+								"cambiar-imagen",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tienda",
+			"item": [
+				{
+					"name": "UpdateTienda",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Catanovaaa\",\r\n  \"email\": \"SDS@catanovahw.com\",\r\n  \"slogan\": \"Componentes con nuevo nombre identificador\",\r\n  \"telefono\": \"1133334444\",\r\n  \"direccion\": \"Av. Cabildo 2400\",\r\n  \"color_primario\": \"#111111\",\r\n  \"color_secundario\": null,\r\n  \"color_terciario\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/tiendas/update/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tiendas",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InsertTienda",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Catanova ropaa\",\r\n  \"email\": \"minimal@catanova.com\",\r\n  \"slogan\": \"Tienda sin colores configurados\",\r\n  \"telefono\": \"44445555\",\r\n  \"direccion\": \"Av. Corrientes 1234\",\r\n  \"id_duenio\": 1,\r\n  \"id_provincia\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/tiendas/insert",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tiendas",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/tiendas/get/nombre/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tiendas",
+								"get",
+								"nombre",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSlogan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/tiendas/get/slogan/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tiendas",
+								"get",
+								"slogan",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllTiendas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/tiendas/get/all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"tiendas",
+								"get",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedidos",
+			"item": [
+				{
+					"name": "CrearPedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id_usuario\": 2,\r\n  \"direccion\": \"Av. Siempreviva 742\",\r\n  \"metodo_pago\": \"Tarjeta de Crédito\",\r\n  \"productos\": [\r\n    {\r\n      \"id_producto\": 5,\r\n      \"cantidad\": 17\r\n    },\r\n    {\r\n      \"id_producto\": 5,\r\n      \"cantidad\": 3\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/pedidos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/pedidos/getAll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"pedidos",
+								"getAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarPedido",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"direccion\": \"Belgrano 999, Rosario Centro\",\r\n  \"metodo_pago\": \"Efectivo\",\r\n  \"entregado\": false,\r\n  \"productos\": [\r\n    {\r\n      \"id_producto\": 1,\r\n      \"cantidad\": 2\r\n    },\r\n    {\r\n      \"id_producto\": 2,\r\n      \"cantidad\": 1\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/pedidos/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"pedidos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PedidoDetail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/pedidos/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"pedidos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarEstado",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"entregado\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/pedidos/3/estado",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"pedidos",
+								"3",
+								"estado"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categorias",
+			"item": [
+				{
+					"name": "insertCategoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreTienda\": \"zdfsdf\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/categorias/insert",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categorias",
+								"insert"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllCategorias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/categorias/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categorias",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCategoriasId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/categorias/6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categorias",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCategoriasPorTienda",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/categorias/tienda/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categorias",
+								"tienda",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ventas",
+			"item": [
+				{
+					"name": "GetVentas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/ventas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"ventas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetVentaById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/ventas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"ventas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InsertVenta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fecha\": \"2026-06-29\",\r\n  \"id_producto\": 1,\r\n  \"id_tienda\": 1,\r\n  \"id_usuario\": 1,\r\n  \"id_pedido\": null,\r\n  \"cantidad\": 2,\r\n  \"precio_unitario\": 100.5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/ventas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"ventas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateVenta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id_venta\": 1,\r\n  \"fecha\": \"2026-06-29\",\r\n  \"id_producto\": 1,\r\n  \"id_tienda\": 1,\r\n  \"id_usuario\": 1,\r\n  \"id_pedido\": null,\r\n  \"cantidad\": 3,\r\n  \"precio_unitario\": 95.0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/ventas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"ventas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteVenta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/ventas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"ventas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCantidad",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/ventas/producto/1/cantidad",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"ventas",
+								"producto",
+								"1",
+								"cantidad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUltimos7Dias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/ventas/ultimos/7dias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"ventas",
+								"ultimos",
+								"7dias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUltimoMes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/ventas/ultimos/mes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"ventas",
+								"ultimos",
+								"mes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUltimoAno",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/ventas/ultimos/ano",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"ventas",
+								"ultimos",
+								"ano"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetUltimos2Anios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/ventas/ultimos/2anos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"ventas",
+								"ultimos",
+								"2anos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favoritos",
+			"item": [
+				{
+					"name": "GetFavoritos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFavoritoById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InsertFavorito",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id_producto\": 1,\r\n  \"id_usuario\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/favoritos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteFavorito",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCantidad",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/producto/1/cantidad",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								"producto",
+								"1",
+								"cantidad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFavoritosUltimos7Dias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/ultimos/7dias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								"ultimos",
+								"7dias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFavoritosUltimoMes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/ultimos/mes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								"ultimos",
+								"mes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFavoritosUltimoAno",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/ultimos/ano",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								"ultimos",
+								"ano"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFavoritosUltimos2Anios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/favoritos/ultimos/2anos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"favoritos",
+								"ultimos",
+								"2anos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vistas",
+			"item": [
+				{
+					"name": "GetVistas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetVistaById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InsertVista",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id_producto\": 1,\r\n  \"id_usuario\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/vistas/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteVista",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCantidad",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/producto/1/cantidad",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								"producto",
+								"1",
+								"cantidad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetVistasUltimos7Dias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/ultimos/7dias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								"ultimos",
+								"7dias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetVistasUltimoMes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/ultimos/mes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								"ultimos",
+								"mes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetVistasUltimoAno",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/ultimos/ano",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								"ultimos",
+								"ano"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetVistasUltimos2Anios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/vistas/ultimos/2anos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"vistas",
+								"ultimos",
+								"2anos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "RegistrarUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"usuario@test.com\",\r\n  \"password\": \"MiPasswordSeguro123\",\r\n  \"nombre\": \"Juan\",\r\n  \"apellido\": \"Pérez\",\r\n  \"telefono\": \"123456789\",\r\n  \"foto_perfil\": \"https://url-de-tu-foto.com/foto.jpg\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/auth/register/usuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"register",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegistrarTienda",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"tienda@test.com\",\r\n  \"password\": \"PasswordTienda456\",\r\n  \"nombre\": \"Mi Super Tienda\",\r\n  \"slogan\": \"Lo mejor del mercado\",\r\n  \"telefono\": \"987654321\",\r\n  \"direccion\": \"Av. Siempre Viva 742\",\r\n  \"id_duenio\": 1,\r\n  \"id_provincia\": 3,\r\n  \"color_primario\": \"#FF0000\",\r\n  \"color_secundario\": \"#00FF00\",\r\n  \"color_terciario\": \"#0000FF\",\r\n  \"foto_perfil\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/auth/register/tienda",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"register",
+								"tienda"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"tienda@test.com\",\r\n  \"password\": \"PasswordTienda456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verificarToken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{supabase_service_role_api_key_0s01}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/auth/perfil",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"perfil"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Etiquetas",
+			"item": [
+				{
+					"name": "AgregarEtiqueta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Oferta\",\r\n  \"id_producto\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/etiquetas/agregar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"etiquetas",
+								"agregar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EliminarEtiqueta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/etiquetas/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"etiquetas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerEtiquetasProducto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/etiquetas/producto/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"etiquetas",
+								"producto",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Cuentas",
+			"item": [
+				{
+					"name": "traerCuentasTipoUsuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/cuentas/tipo/usuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"cuentas",
+								"tipo",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "supabase_service_role_api_key_0s01"
+		}
+	]
 }
