@@ -92,3 +92,9 @@ export const getSloganTiendaById = async (id) => {
   const result = await db.query(query, [id]);
   return result.rows[0] ? result.rows[0].slogan : null;
 }
+
+export const getTodasLasTiendas = async () => {
+  const query = `SELECT * FROM tiendas ORDER BY id_tienda ASC;`;
+  const result = await db.query(query);
+  return result.rows;
+};

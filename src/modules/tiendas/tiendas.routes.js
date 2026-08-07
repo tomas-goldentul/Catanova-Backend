@@ -1,5 +1,5 @@
 import express from "express";
-import { insertTienda, updateTienda, getNombreTienda, getSloganTienda } from "./tiendas.controller.js";
+import { insertTienda, updateTienda, getNombreTienda, getSloganTienda, getTiendas } from "./tiendas.controller.js";
 import { StatusCodes } from "http-status-codes";
 
 const router = express.Router();
@@ -93,6 +93,34 @@ router.get('/get/slogan/:id', async (req, res) => {
     } catch (error) {
         console.error("Error en la ruta getSloganTienda:", error);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al obtener slogan de tienda", error: error.message });
+    }
+});
+
+// Obtener todas las tiendas
+router.get('/get/all', async (req, res) => {
+    try {
+
+        const tiendas = await getTiendas();
+
+        if (!tiendas || tiendas.length === 0) {
+            return res.status(StatusCodes.NOT_FOUND).json({
+                message: "No hay tiendas registradas"
+            });
+        }
+
+        res.status(StatusCodes.OK).json({
+            message: "Tiendas encontradas",
+            data: tiendas
+        });
+
+    } catch (error) {
+
+        console.error("Error en getTodasLasTiendas:", error);
+
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            message: "Error al obtener tiendas",
+            error: error.message
+        });
     }
 });
 
