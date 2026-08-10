@@ -29,7 +29,7 @@ export const GetProductosActivos = async (req, res) => {
     }
 };
 
-export const insertProducto = async ({ nombre, precio, stock, imagen, activo, id_tienda }) => {
+export const insertProducto = async ({ nombre, precio, stock, imagen, activo, id_tienda, id_categoria, tipo, descripcion }) => {
 
     const existe = await productosModel.buscarProductoPorNombre(nombre);
     if (existe) {
@@ -43,6 +43,9 @@ export const insertProducto = async ({ nombre, precio, stock, imagen, activo, id
         imagen,
         activo: Boolean(activo),
         id_tienda: Number(id_tienda),
+        id_categoria: Number(id_categoria),
+        tipo: tipo?.trim() || "",
+        descripcion: descripcion?.trim() || "",
     };
 
     return await productosModel.agregarProducto(producto);
@@ -64,7 +67,7 @@ export const updateEstadoProducto = async (id, estado) => {
 }
 
 export const actualizarProducto = async (datosProducto) => {
-    const { id_producto, nombre, precio, stock, imagen, activo, id_tienda } = datosProducto;
+    const { id_producto, nombre, precio, stock, imagen, activo, id_tienda, id_categoria, tipo, descripcion } = datosProducto;
     if (!id_producto) throw new Error("El ID del producto es obligatorio.");
     if (!nombre || precio === undefined || stock === undefined || id_tienda === undefined) {
         throw new Error("Faltan completar campos obligatorios");
@@ -88,6 +91,9 @@ export const actualizarProducto = async (datosProducto) => {
         imagen: imagen || "",
         activo: Boolean(activo),
         id_tienda: Number(id_tienda),
+        id_categoria: Number(id_categoria),
+        tipo: tipo?.trim() || "",
+        descripcion: descripcion?.trim() || "",
     };
 
     return await productosModel.modificarProducto(productoFormateado);

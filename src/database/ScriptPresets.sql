@@ -219,92 +219,191 @@ VALUES
 -- =====================================
 
 INSERT INTO public.productos
-(id_producto,nombre,precio,stock,imagen,activo,id_tienda,eliminado,id_categoria,tipo)
+(id_producto, nombre, precio, stock, imagen, activo, id_tienda, eliminado, id_categoria, tipo, descripcion)
 VALUES
 
 -- TECH STORE
-(1,'iPhone 15',1599999,25,'imagenes/iphone15.jpg',true,1,false,1,'Celular'),
-(2,'Samsung Galaxy S25',1399999,30,'imagenes/s25.jpg',true,1,false,1,'Celular'),
-(3,'MacBook Air M3',2499999,12,'imagenes/macbook.jpg',true,1,false,1,'Notebook'),
-(4,'Notebook Lenovo IdeaPad',1199999,18,'imagenes/lenovo.jpg',true,1,false,1,'Notebook'),
-(5,'AirPods Pro',499999,45,'imagenes/airpods.jpg',true,1,false,1,'Auriculares'),
+(1, 'iPhone 15', 1599999, 25, 'imagenes/iphone15.jpg', true, 1, false, 1, 'Celular',
+ 'Smartphone con pantalla de alta resolución, cámara avanzada y excelente rendimiento para uso diario.'),
+
+(2, 'Samsung Galaxy S25', 1399999, 30, 'imagenes/s25.jpg', true, 1, false, 1, 'Celular',
+ 'Celular de última generación con pantalla AMOLED, gran rendimiento y cámara de alta calidad.'),
+
+(3, 'MacBook Air M3', 2499999, 12, 'imagenes/macbook.jpg', true, 1, false, 1, 'Notebook',
+ 'Notebook liviana y potente con chip M3, ideal para estudio, trabajo y uso profesional.'),
+
+(4, 'Notebook Lenovo IdeaPad', 1199999, 18, 'imagenes/lenovo.jpg', true, 1, false, 1, 'Notebook',
+ 'Notebook versátil para tareas diarias, estudio, navegación y trabajo de oficina.'),
+
+(5, 'AirPods Pro', 499999, 45, 'imagenes/airpods.jpg', true, 1, false, 1, 'Auriculares',
+ 'Auriculares inalámbricos con cancelación de ruido, estuche de carga y diseño compacto.'),
+
 
 -- MODA EXPRESS
-(6,'Remera Oversize Negra',29999,120,'imagenes/remera_negra.jpg',true,2,false,2,'Remera'),
-(7,'Jean Slim Fit',69999,65,'imagenes/jean.jpg',true,2,false,2,'Jean'),
-(8,'Campera Inflable',159999,28,'imagenes/campera.jpg',true,2,false,2,'Campera'),
-(9,'Buzo Canguro',55999,55,'imagenes/buzo.jpg',true,2,false,2,'Buzo'),
-(10,'Zapatillas Urban',129999,40,'imagenes/urban.jpg',true,2,false,2,'Calzado'),
+(6, 'Remera Oversize Negra', 29999, 120, 'imagenes/remera_negra.jpg', true, 2, false, 2, 'Remera',
+ 'Remera oversize de algodón, calce amplio y cómodo. Disponible en distintos talles y confeccionada para uso urbano.'),
+
+(7, 'Jean Slim Fit', 69999, 65, 'imagenes/jean.jpg', true, 2, false, 2, 'Jean',
+ 'Jean de corte slim fit confeccionado en denim resistente. Calce moderno y cómodo para uso diario.'),
+
+(8, 'Campera Inflable', 159999, 28, 'imagenes/campera.jpg', true, 2, false, 2, 'Campera',
+ 'Campera inflable liviana y abrigada, ideal para días fríos. Diseño urbano con cierre frontal y bolsillos laterales.'),
+
+(9, 'Buzo Canguro', 55999, 55, 'imagenes/buzo.jpg', true, 2, false, 2, 'Buzo',
+ 'Buzo canguro de algodón con capucha y bolsillo frontal. Calce cómodo para uso casual.'),
+
+(10, 'Zapatillas Urban', 129999, 40, 'imagenes/urban.jpg', true, 2, false, 2, 'Calzado',
+ 'Zapatillas urbanas de diseño moderno, cómodas para uso diario y actividades informales.'),
+
 
 -- CASA MODERNA
-(11,'Mesa de Comedor',329999,12,'imagenes/mesa.jpg',true,3,false,3,'Mueble'),
-(12,'Silla Escandinava',69999,50,'imagenes/silla.jpg',true,3,false,3,'Mueble'),
-(13,'Lámpara LED',39999,80,'imagenes/lampara.jpg',true,3,false,3,'Iluminación'),
-(14,'Biblioteca Moderna',249999,10,'imagenes/biblioteca.jpg',true,3,false,3,'Mueble'),
-(15,'Alfombra Decorativa',89999,35,'imagenes/alfombra.jpg',true,3,false,3,'Decoración'),
+(11, 'Mesa de Comedor', 329999, 12, 'imagenes/mesa.jpg', true, 3, false, 3, 'Mueble',
+ 'Mesa de comedor de diseño moderno, amplia y resistente, ideal para reuniones familiares y comidas diarias.'),
+
+(12, 'Silla Escandinava', 69999, 50, 'imagenes/silla.jpg', true, 3, false, 3, 'Mueble',
+ 'Silla de estilo escandinavo con diseño minimalista y estructura pensada para brindar comodidad.'),
+
+(13, 'Lámpara LED', 39999, 80, 'imagenes/lampara.jpg', true, 3, false, 3, 'Iluminación',
+ 'Lámpara LED de bajo consumo con diseño moderno, ideal para escritorios, dormitorios y espacios de trabajo.'),
+
+(14, 'Biblioteca Moderna', 249999, 10, 'imagenes/biblioteca.jpg', true, 3, false, 3, 'Mueble',
+ 'Biblioteca de diseño moderno con múltiples espacios de almacenamiento para libros y objetos decorativos.'),
+
+(15, 'Alfombra Decorativa', 89999, 35, 'imagenes/alfombra.jpg', true, 3, false, 3, 'Decoración',
+ 'Alfombra decorativa de textura suave y diseño moderno, ideal para complementar distintos ambientes.'),
+
 
 -- GAMER ZONE
-(16,'Mouse Logitech G502',89999,45,'imagenes/g502.jpg',true,4,false,1,'Gaming'),
-(17,'Teclado Mecánico Redragon',129999,35,'imagenes/teclado.jpg',true,4,false,1,'Gaming'),
-(18,'Monitor 27 165Hz',699999,14,'imagenes/monitor.jpg',true,4,false,1,'Gaming'),
-(19,'Silla Gamer RGB',599999,9,'imagenes/silla_gamer.jpg',true,4,false,1,'Gaming'),
-(20,'Joystick Xbox',189999,38,'imagenes/joystick.jpg',true,4,false,1,'Gaming'),
+(16, 'Mouse Logitech G502', 89999, 45, 'imagenes/g502.jpg', true, 4, false, 1, 'Gaming',
+ 'Mouse gamer de alta precisión con múltiples botones configurables y diseño ergonómico.'),
+
+(17, 'Teclado Mecánico Redragon', 129999, 35, 'imagenes/teclado.jpg', true, 4, false, 1, 'Gaming',
+ 'Teclado mecánico gamer con retroiluminación, teclas de respuesta rápida y estructura resistente.'),
+
+(18, 'Monitor 27 165Hz', 699999, 14, 'imagenes/monitor.jpg', true, 4, false, 1, 'Gaming',
+ 'Monitor de 27 pulgadas con frecuencia de actualización de 165 Hz, ideal para gaming y entretenimiento.'),
+
+(19, 'Silla Gamer RGB', 599999, 9, 'imagenes/silla_gamer.jpg', true, 4, false, 1, 'Gaming',
+ 'Silla gamer ergonómica con iluminación RGB, respaldo alto y apoyabrazos para sesiones prolongadas.'),
+
+(20, 'Joystick Xbox', 189999, 38, 'imagenes/joystick.jpg', true, 4, false, 1, 'Gaming',
+ 'Control inalámbrico compatible con Xbox y PC, con diseño ergonómico y botones de respuesta precisa.'),
+
 
 -- SPORT LIFE
-(21,'Pelota Adidas',45999,60,'imagenes/pelota.jpg',true,5,false,4,'Fútbol'),
-(22,'Mancuernas 10kg',84999,34,'imagenes/mancuernas.jpg',true,5,false,4,'Fitness'),
-(23,'Colchoneta Yoga',39999,70,'imagenes/yoga.jpg',true,5,false,4,'Fitness'),
-(24,'Raqueta Tenis Wilson',189999,15,'imagenes/raqueta.jpg',true,5,false,4,'Tenis'),
-(25,'Bicicleta MTB Rodado 29',1299999,8,'imagenes/bicicleta.jpg',true,5,false,4,'Ciclismo');
+(21, 'Pelota Adidas', 45999, 60, 'imagenes/pelota.jpg', true, 5, false, 4, 'Fútbol',
+ 'Pelota de fútbol de diseño deportivo, resistente y adecuada para entrenamientos y partidos recreativos.'),
 
--- =====================================
--- PRODUCTOS (26-54)
--- =====================================
+(22, 'Mancuernas 10kg', 84999, 34, 'imagenes/mancuernas.jpg', true, 5, false, 4, 'Fitness',
+ 'Mancuernas de 10 kg ideales para ejercicios de fuerza, entrenamiento funcional y rutinas en casa.'),
 
-INSERT INTO public.productos
-(id_producto,nombre,precio,stock,imagen,activo,id_tienda,eliminado,id_categoria,tipo)
-VALUES
+(23, 'Colchoneta Yoga', 39999, 70, 'imagenes/yoga.jpg', true, 5, false, 4, 'Fitness',
+ 'Colchoneta antideslizante y acolchada para yoga, elongación, pilates y ejercicios de piso.'),
+
+(24, 'Raqueta Tenis Wilson', 189999, 15, 'imagenes/raqueta.jpg', true, 5, false, 4, 'Tenis',
+ 'Raqueta de tenis liviana y equilibrada, pensada para jugadores principiantes y de nivel intermedio.'),
+
+(25, 'Bicicleta MTB Rodado 29', 1299999, 8, 'imagenes/bicicleta.jpg', true, 5, false, 4, 'Ciclismo',
+ 'Bicicleta MTB rodado 29 con estructura resistente, ideal para recorridos urbanos y caminos de tierra.'),
+
 
 -- BEAUTY MARKET
-(26,'Perfume Importado',189999,28,'imagenes/perfume.jpg',true,6,false,5,'Perfume'),
-(27,'Base Líquida',34999,75,'imagenes/base.jpg',true,6,false,5,'Maquillaje'),
-(28,'Labial Mate',19999,120,'imagenes/labial.jpg',true,6,false,5,'Maquillaje'),
-(29,'Crema Facial',42999,62,'imagenes/crema.jpg',true,6,false,5,'Cuidado Facial'),
-(30,'Shampoo Profesional',27999,95,'imagenes/shampoo.jpg',true,6,false,5,'Cabello'),
+(26, 'Perfume Importado', 189999, 28, 'imagenes/perfume.jpg', true, 6, false, 5, 'Perfume',
+ 'Perfume importado de fragancia intensa y duradera, pensado para uso diario y ocasiones especiales.'),
+
+(27, 'Base Líquida', 34999, 75, 'imagenes/base.jpg', true, 6, false, 5, 'Maquillaje',
+ 'Base líquida de cobertura uniforme y acabado natural, disponible en diferentes tonos.'),
+
+(28, 'Labial Mate', 19999, 120, 'imagenes/labial.jpg', true, 6, false, 5, 'Maquillaje',
+ 'Labial de acabado mate y buena duración, con textura cómoda para uso durante todo el día.'),
+
+(29, 'Crema Facial', 42999, 62, 'imagenes/crema.jpg', true, 6, false, 5, 'Cuidado Facial',
+ 'Crema facial hidratante para el cuidado diario de la piel, con textura ligera y fácil absorción.'),
+
+(30, 'Shampoo Profesional', 27999, 95, 'imagenes/shampoo.jpg', true, 6, false, 5, 'Cabello',
+ 'Shampoo de uso profesional para limpieza y cuidado del cabello, pensado para una rutina de uso frecuente.'),
+
 
 -- LIBRERÍA CENTRAL
-(31,'El Principito',19999,80,'imagenes/principito.jpg',true,7,false,6,'Libro'),
-(32,'1984',24999,60,'imagenes/1984.jpg',true,7,false,6,'Libro'),
-(33,'Cuaderno Universitario',8999,200,'imagenes/cuaderno.jpg',true,7,false,6,'Librería'),
-(34,'Agenda 2026',17999,95,'imagenes/agenda.jpg',true,7,false,6,'Papelería'),
-(35,'Lapicera Parker',35999,55,'imagenes/parker.jpg',true,7,false,6,'Papelería'),
+(31, 'El Principito', 19999, 80, 'imagenes/principito.jpg', true, 7, false, 6, 'Libro',
+ 'Edición de El Principito, obra clásica de Antoine de Saint-Exupéry, ideal para lectura y colección.'),
+
+(32, '1984', 24999, 60, 'imagenes/1984.jpg', true, 7, false, 6, 'Libro',
+ 'Edición de 1984, novela distópica de George Orwell sobre sociedad, poder y control.'),
+
+(33, 'Cuaderno Universitario', 8999, 200, 'imagenes/cuaderno.jpg', true, 7, false, 6, 'Librería',
+ 'Cuaderno universitario de varias hojas, ideal para apuntes, materias escolares y organización personal.'),
+
+(34, 'Agenda 2026', 17999, 95, 'imagenes/agenda.jpg', true, 7, false, 6, 'Papelería',
+ 'Agenda anual 2026 para organizar actividades, tareas, reuniones y compromisos personales.'),
+
+(35, 'Lapicera Parker', 35999, 55, 'imagenes/parker.jpg', true, 7, false, 6, 'Papelería',
+ 'Lapicera Parker de diseño elegante, ideal para escritura cotidiana, oficina o regalo.'),
+
 
 -- DECO HOME
-(36,'Cuadro Decorativo',45999,40,'imagenes/cuadro.jpg',true,8,false,3,'Decoración'),
-(37,'Almohadón Nórdico',22999,90,'imagenes/almohadon.jpg',true,8,false,3,'Decoración'),
-(38,'Espejo Redondo',69999,35,'imagenes/espejo.jpg',true,8,false,3,'Decoración'),
-(39,'Reloj de Pared',39999,48,'imagenes/reloj.jpg',true,8,false,3,'Decoración'),
-(40,'Florero Cerámica',28999,52,'imagenes/florero.jpg',true,8,false,3,'Decoración'),
+(36, 'Cuadro Decorativo', 45999, 40, 'imagenes/cuadro.jpg', true, 8, false, 3, 'Decoración',
+ 'Cuadro decorativo de estilo moderno para complementar paredes de livings, dormitorios y otros ambientes.'),
+
+(37, 'Almohadón Nórdico', 22999, 90, 'imagenes/almohadon.jpg', true, 8, false, 3, 'Decoración',
+ 'Almohadón de estilo nórdico con diseño minimalista, ideal para sofás, sillones y dormitorios.'),
+
+(38, 'Espejo Redondo', 69999, 35, 'imagenes/espejo.jpg', true, 8, false, 3, 'Decoración',
+ 'Espejo redondo de diseño moderno, ideal para ampliar visualmente y decorar distintos espacios.'),
+
+(39, 'Reloj de Pared', 39999, 48, 'imagenes/reloj.jpg', true, 8, false, 3, 'Decoración',
+ 'Reloj de pared de diseño moderno, funcional y decorativo para distintos ambientes del hogar.'),
+
+(40, 'Florero Cerámica', 28999, 52, 'imagenes/florero.jpg', true, 8, false, 3, 'Decoración',
+ 'Florero de cerámica con diseño decorativo, ideal para flores naturales, artificiales o como pieza ornamental.'),
+
 
 -- PET SHOP PLUS
-(41,'Alimento Balanceado Perro',44999,110,'imagenes/dogfood.jpg',true,9,false,8,'Mascotas'),
-(42,'Alimento Balanceado Gato',41999,95,'imagenes/catfood.jpg',true,9,false,8,'Mascotas'),
-(43,'Correa Premium',19999,80,'imagenes/correa.jpg',true,9,false,8,'Accesorio'),
-(44,'Juguete Mordillo',14999,140,'imagenes/mordillo.jpg',true,9,false,7,'Juguete'),
-(45,'Cucha Mediana',89999,18,'imagenes/cucha.jpg',true,9,false,8,'Mascotas'),
+(41, 'Alimento Balanceado Perro', 44999, 110, 'imagenes/dogfood.jpg', true, 9, false, 8, 'Mascotas',
+ 'Alimento balanceado para perros, pensado para complementar una alimentación diaria equilibrada.'),
+
+(42, 'Alimento Balanceado Gato', 41999, 95, 'imagenes/catfood.jpg', true, 9, false, 8, 'Mascotas',
+ 'Alimento balanceado para gatos, formulado para acompañar una alimentación completa durante su vida diaria.'),
+
+(43, 'Correa Premium', 19999, 80, 'imagenes/correa.jpg', true, 9, false, 8, 'Accesorio',
+ 'Correa resistente para mascotas con diseño cómodo y práctico para paseos diarios.'),
+
+(44, 'Juguete Mordillo', 14999, 140, 'imagenes/mordillo.jpg', true, 9, false, 7, 'Juguete',
+ 'Juguete mordillo resistente para mascotas, pensado para entretenimiento y juego cotidiano.'),
+
+(45, 'Cucha Mediana', 89999, 18, 'imagenes/cucha.jpg', true, 9, false, 8, 'Mascotas',
+ 'Cucha de tamaño mediano con superficie acolchada, pensada para brindar un espacio cómodo de descanso.'),
+
 
 -- MUNDO CELULAR
-(46,'Funda iPhone 15',14999,150,'imagenes/funda15.jpg',true,10,false,1,'Accesorio'),
-(47,'Cargador USB-C 45W',34999,90,'imagenes/cargador.jpg',true,10,false,1,'Accesorio'),
-(48,'Cable USB-C',9999,180,'imagenes/cable.jpg',true,10,false,1,'Accesorio'),
-(49,'Power Bank 20000mAh',79999,42,'imagenes/powerbank.jpg',true,10,false,1,'Accesorio'),
-(50,'Smartwatch Fit Pro',249999,26,'imagenes/smartwatch.jpg',true,10,false,1,'Wearable'),
+(46, 'Funda iPhone 15', 14999, 150, 'imagenes/funda15.jpg', true, 10, false, 1, 'Accesorio',
+ 'Funda protectora para iPhone 15 con diseño liviano y acceso a todos los botones y conexiones.'),
+
+(47, 'Cargador USB-C 45W', 34999, 90, 'imagenes/cargador.jpg', true, 10, false, 1, 'Accesorio',
+ 'Cargador USB-C de 45 W para carga rápida y eficiente de dispositivos compatibles.'),
+
+(48, 'Cable USB-C', 9999, 180, 'imagenes/cable.jpg', true, 10, false, 1, 'Accesorio',
+ 'Cable USB-C para carga y transferencia de datos, pensado para dispositivos compatibles.'),
+
+(49, 'Power Bank 20000mAh', 79999, 42, 'imagenes/powerbank.jpg', true, 10, false, 1, 'Accesorio',
+ 'Batería portátil de 20000 mAh para cargar dispositivos móviles durante viajes o jornadas prolongadas.'),
+
+(50, 'Smartwatch Fit Pro', 249999, 26, 'imagenes/smartwatch.jpg', true, 10, false, 1, 'Wearable',
+ 'Smartwatch deportivo con funciones de seguimiento de actividad, notificaciones y monitoreo cotidiano.'),
+
 
 -- OTROS
-(51,'Collar Premium',24999,75,'imagenes/collar.jpg',true,9,false,9,'Accesorio'),
-(52,'Rascador para Gatos',79999,20,'imagenes/rascador.jpg',true,9,false,9,'Mascotas'),
-(53,'Mouse Pad XL RGB',39999,45,'imagenes/mousepad.jpg',true,4,false,17,'Gaming'),
-(54,'Auriculares Gamer Pro',159999,18,'imagenes/auriculares_gamer.jpg',true,4,false,17,'Gaming');
+(51, 'Collar Premium', 24999, 75, 'imagenes/collar.jpg', true, 9, false, 9, 'Accesorio',
+ 'Collar para mascotas de diseño premium, resistente y ajustable para un uso cómodo.'),
+
+(52, 'Rascador para Gatos', 79999, 20, 'imagenes/rascador.jpg', true, 9, false, 9, 'Mascotas',
+ 'Rascador para gatos diseñado para entretenimiento, descanso y cuidado de sus uñas.'),
+
+(53, 'Mouse Pad XL RGB', 39999, 45, 'imagenes/mousepad.jpg', true, 4, false, 17, 'Gaming',
+ 'Mouse pad gamer de tamaño XL con iluminación RGB y superficie amplia para teclado y mouse.'),
+
+(54, 'Auriculares Gamer Pro', 159999, 18, 'imagenes/auriculares_gamer.jpg', true, 4, false, 17, 'Gaming',
+ 'Auriculares gamer con micrófono integrado, sonido envolvente y diseño cómodo para sesiones prolongadas.');
 
 -- =====================================
 -- PRODUCTOS X CATEGORIAS

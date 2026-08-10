@@ -25,16 +25,25 @@ export const getProductosId = async (id) => {
 }
 
 export const agregarProducto = async (producto) => {
-  const { nombre, precio, stock, imagen, activo, id_tienda } = producto;
+    const {
+        nombre,
+        precio,
+        stock,
+        imagen,
+        activo,
+        id_tienda,
+        id_categoria,
+        tipo,
+        descripcion
+    } = producto;
 
-  const query = `
-    INSERT INTO productos (nombre, precio, stock, imagen, activo, id_tienda)
-    VALUES ($1, $2, $3, $4, $5, $6)
-    RETURNING *;
-  `;
-  const values = [nombre, precio, stock, imagen, activo, id_tienda];
-  const result = await db.query(query, values);
-  return result.rows[0];
+    const query = `
+        INSERT INTO productos (nombre, precio, stock, imagen, activo, id_tienda, id_categoria, tipo, descripcion) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *;`;
+
+    const values = [ nombre, precio, stock, imagen, activo, id_tienda, id_categoria, tipo, descripcion ];
+
+    const result = await db.query(query, values);
+    return result.rows[0];
 };
 
 export const buscarProductoPorNombre = async (nombreBuscar) => {
@@ -60,18 +69,24 @@ export const modificarProducto = async (producto) => {
     stock,
     imagen,
     activo,
-    id_tienda
+    id_tienda,
+    id_categoria,
+    tipo,
+    descripcion
   } = producto;
 
   const query = `
-    UPDATE productos 
-    SET nombre = $1, 
-        precio = $2, 
-        stock = $3, 
-        imagen = $4, 
-        activo = $5, 
-        id_tienda = $6
-    WHERE id_producto = $7
+    UPDATE productos
+      SET nombre = $1,
+        precio = $2,
+        stock = $3,
+        imagen = $4,
+        activo = $5,
+        id_tienda = $6,
+        id_categoria = $7,
+        tipo = $8,
+        descripcion = $9
+      WHERE id_producto = $10
     RETURNING *;
   `;
 
@@ -82,6 +97,9 @@ export const modificarProducto = async (producto) => {
     imagen,
     activo,
     id_tienda,
+    id_categoria,
+    tipo,
+    descripcion,
     id_producto
   ];
 
@@ -109,17 +127,24 @@ export const restarStockProducto = async (id_producto, cantidad) => {
 };
 
 export const getProductosPorCategoria = async (id_categoria, id_tienda = null) => {
-  let query = `SELECT p.* FROM productos p INNER JOIN productosxcategorias pc ON p.id_producto = pc.id_producto WHERE pc.id_categoria = $1 AND p.activo = true AND p.eliminado = false`;
-  const values = [id_categoria];
+    let query = `
+        SELECT p.*
+        FROM productos p
+        WHERE p.id_categoria = $1
+          AND p.activo = true
+          AND p.eliminado = false
+    `;
 
-  if (id_tienda !== null && Number.isFinite(Number(id_tienda))) {
-    query += ` AND p.id_tienda = $2`;
-    values.push(Number(id_tienda));
-  }
+    const values = [id_categoria];
 
-  const result = await db.query(query, values);
-  return result.rows;
-}
+    if (id_tienda !== null && Number.isFinite(Number(id_tienda))) {
+        query += ` AND p.id_tienda = $2`;
+        values.push(Number(id_tienda));
+    }
+
+    const result = await db.query(query, values);
+    return result.rows;
+};
 
 export const getProductosPorTienda = async (id_tienda) => {
   const query = `SELECT * FROM productos WHERE id_tienda = $1 AND activo = true AND eliminado = false`;
@@ -129,7 +154,7 @@ export const getProductosPorTienda = async (id_tienda) => {
 }
 
 export const getTodosProductosPorTienda = async (id_tienda) => {
-  const query = `SELECT * FROM productos WHERE id_tienda = $1`;
+  const query = `SELECT * FROM productos WHERE id_tienda = $1 AND eliminado = false`;
   const values = [id_tienda];
   const result = await db.query(query, values);
   return result.rows;
