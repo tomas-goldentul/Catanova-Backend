@@ -16,7 +16,7 @@ export const getAllPedidosConDetalles = async () => {
       p.*,
       dp.*
     FROM pedidos p
-    INNER JOIN detallepedidos dp
+    LEFT JOIN detallepedidos dp
       ON p.id_Pedido = dp.id_Pedido
   `;
 
@@ -29,7 +29,7 @@ export const getAllPedidosConDetallesByIdUser = async (id_usuario) => {
       p.*,
       dp.*
     FROM pedidos p
-    INNER JOIN detallepedidos dp
+    LEFT JOIN detallepedidos dp
       ON p.id_Pedido = dp.id_Pedido
     WHERE p.id_usuario = $1
   `;
@@ -88,7 +88,7 @@ export const getPedidoConDetallesById = async (id_pedido) => {
       dp.cantidad,
       dp.precio_total
     FROM pedidos p
-    INNER JOIN detallepedidos dp
+    LEFT JOIN detallepedidos dp
       ON p.id_pedido = dp.id_pedido
     WHERE p.id_pedido = $1;
   `;
