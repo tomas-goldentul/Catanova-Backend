@@ -40,13 +40,44 @@ export const procesarNuevoPedido = async (datosPedido) => {
   };
 };
 
+const agruparPedidos = (filas) => {
+  return filas.reduce((acc, current) => {
+    const pedidoExistente = acc.find(p => p.id_pedido === current.id_pedido);
+    const detalle = current.id_detallepedido ? {
+      id_detallepedido: current.id_detallepedido,
+      id_producto: current.id_producto,
+      cantidad: current.cantidad,
+      precio_total: current.precio_total
+    } : null;
+
+    if (pedidoExistente) {
+      if (detalle) {
+        pedidoExistente.detalles.push(detalle);
+      }
+    } else {
+      acc.push({
+        id_pedido: current.id_pedido,
+        id_usuario: current.id_usuario,
+        fecha: current.fecha,
+        direccion: current.direccion,
+        entregado: current.entregado,
+        metodo_pago: current.metodo_pago,
+        detalles: detalle ? [detalle] : []
+      });
+    }
+
+    return acc;
+  }, []);
+};
+
 export const getAllPedidos = async () => {
-  const pedidos = await pedidosModel.getAllPedidosConDetalles();
-  if (pedidos.length === 0) {
-    throw new Error("No hay pedidos cargados en el sitema")
+  const filas = await pedidosModel.getAllPedidosConDetalles();
+  if (filas.length === 0) {
+    throw new Error("No hay pedidos cargados en el sitema");
   }
-  return pedidos;
-}
+
+  return agruparPedidos(filas);
+};
 
 export const getAllPedidosByIdUser = async (id_usuario) => {
   const filas = await pedidosModel.getAllPedidosConDetallesByIdUser(id_usuario);
@@ -55,32 +86,7 @@ export const getAllPedidosByIdUser = async (id_usuario) => {
     throw new Error("No hay pedidos cargados en el sistema para este usuario");
   }
 
-  // OPCIONAL PERO RECOMENDADO: Agrupar los detalles por pedido
-  // Esto transforma las filas repetidas en un objeto limpio con un array de detalles.
-  const pedidosAgrupados = filas.reduce((acc, current) => {
-    const encontrado = acc.find(p => p.id_Pedido === current.id_Pedido);
-    const detalle = {
-      id_detalle: current.id_detalle,
-      id_producto: current.id_producto,
-      cantidad: current.cantidad,
-      precio_unitario: current.precio_unitario
-    };
-
-    if (encontrado) {
-      encontrado.detalles.push(detalle);
-    } else {
-      acc.push({
-        id_Pedido: current.id_Pedido,
-        id_usuario: current.id_usuario,
-        fecha: current.fecha,
-        total: current.total,
-        detalles: [detalle]
-      });
-    }
-    return acc;
-  }, []);
-
-  return pedidosAgrupados; // Ahora retorna la variable correcta cerrada.
+  return agruparPedidos(filas);
 };
 
 
@@ -100,9 +106,11 @@ export const actualizarPedido = async (id_pedido, datosActualizados) => {
   const nuevoEntregado = entregado !== undefined ? entregado : pedidoDB.entregado;
   const nuevoMetodoPago = metodo_pago !== undefined ? metodo_pago : pedidoDB.metodo_pago;
 
-  if (productos && Array.isArray(productos)) {
+  // Actualizar productos SOLO si se envía el parámetro productos
+  if (productos !== undefined && Array.isArray(productos)) {
     const detallesActuales = await pedidosModel.getDetallesByPedidoId(id_pedido);
 
+    // Validar cada producto enviado
     for (const item of productos) {
       const productoDB = await getProductosId(item.id_producto);
       if (!productoDB) {
@@ -129,6 +137,7 @@ export const actualizarPedido = async (id_pedido, datosActualizados) => {
 
     await pedidosModel.eliminarDetallesPedido(id_pedido);
 
+    // Agregar nuevos productos (solo si el array no está vacío)
     for (const item of productos) {
       const precioTotalItem = Number(item.precioReal) * item.cantidad;
 
@@ -163,16 +172,18 @@ export const getPedidoDetallado = async (id_pedido) => {
     direccion: primerFila.direccion,
     entregado: primerFila.entregado,
     metodo_pago: primerFila.metodo_pago,
-    detalles: filas.map(fila => {
-      const precioTotalItem = Number(fila.precio_total);
-      return {
-        id_detallepedido: fila.id_detallepedido,
-        id_producto: fila.id_producto,
-        cantidad: fila.cantidad,
-        precio_total: precioTotalItem,
-        precio_unitario: fila.cantidad > 0 ? (precioTotalItem / fila.cantidad) : 0 // Calcular precio unitario
-      };
-    })
+    detalles: filas
+      .filter(fila => fila.id_detallepedido !== null)
+      .map(fila => {
+        const precioTotalItem = Number(fila.precio_total);
+        return {
+          id_detallepedido: fila.id_detallepedido,
+          id_producto: fila.id_producto,
+          cantidad: fila.cantidad,
+          precio_total: precioTotalItem,
+          precio_unitario: fila.cantidad > 0 ? (precioTotalItem / fila.cantidad) : 0 // Calcular precio unitario
+        };
+      })
   };
 
   return pedidoEstructurado;
