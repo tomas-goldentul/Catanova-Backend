@@ -1141,3 +1141,5 @@ ALTER TABLE ONLY public.tiendas
 -- PostgreSQL database dump complete
 --
 
+ALTER TABLE public.productos
+ADD COLUMN descripcion TEXT DEFAULT '';
