@@ -17,6 +17,7 @@ import ventasRoutes from "./modules/ventas/ventas.routes.js";
 import favoritosRoutes from "./modules/favoritos/favoritos.routes.js";
 import vistasRoutes from "./modules/vistas/vistas.routes.js";
 import etiquetasRoutes from "./modules/etiquetas/etiquetas.routes.js";
+import usuariosRoutes from "./modules/usuarios/usuarios.routes.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;          
@@ -45,7 +46,7 @@ app.use("/vistas", vistasRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/cuentas", cuentasRoutes);
 app.use("/etiquetas", etiquetasRoutes);
-
+app.use("/usuarios", usuariosRoutes);
 app.get("/", (req, res) => {
     res.send("¡Servidor de Catanova funcionando!");
 });
