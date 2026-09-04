@@ -108,11 +108,10 @@ export const modificarProducto = async (producto) => {
 }
 
 export const eliminarProducto = async (id_producto) => {
-  const query = `Update productos set eliminado = true WHERE id_producto = $1;`
+  const query = `Update productos set eliminado = true WHERE id_producto = $1 RETURNING *;`
   const values = [id_producto]
   const result = await db.query(query, values);
   return result.rows[0];
-
 }
 
 export const restarStockProducto = async (id_producto, cantidad) => {
