@@ -1,5 +1,5 @@
 import express from "express";
-import { insertTienda, updateTienda, getNombreTienda, getSloganTienda, getTiendas } from "./tiendas.controller.js";
+import { insertTienda, updateTienda, getNombreTienda, getSloganTienda, getTiendas, abrirTienda, cerrarTienda } from "./tiendas.controller.js";
 import { StatusCodes } from "http-status-codes";
 
 const router = express.Router();
@@ -119,6 +119,63 @@ router.get('/get/all', async (req, res) => {
 
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
             message: "Error al obtener tiendas",
+            error: error.message
+        });
+    }
+});
+
+// Abrir tienda
+router.put('/abrir/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await abrirTienda(Number(id));
+
+        res.status(StatusCodes.OK).json({
+            message: "Tienda abierta con éxito",
+            data: result
+        });
+
+    } catch (error) {
+        console.error("Error al abrir tienda:", error);
+
+        if (error.message === "La tienda no existe") {
+            return res.status(StatusCodes.NOT_FOUND).json({
+                message: error.message
+            });
+        }
+
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            message: "Error al abrir la tienda",
+            error: error.message
+        });
+    }
+});
+
+
+// Cerrar tienda
+router.put('/cerrar/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await cerrarTienda(Number(id));
+
+        res.status(StatusCodes.OK).json({
+            message: "Tienda cerrada con éxito",
+            data: result
+        });
+
+    } catch (error) {
+        console.error("Error al cerrar tienda:", error);
+
+        if (error.message === "La tienda no existe") {
+            return res.status(StatusCodes.NOT_FOUND).json({
+                message: error.message
+            });
+        }
+
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            message: "Error al cerrar la tienda",
             error: error.message
         });
     }
