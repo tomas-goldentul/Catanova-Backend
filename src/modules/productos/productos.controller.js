@@ -67,7 +67,7 @@ export const updateEstadoProducto = async (id, estado) => {
 }
 
 export const actualizarProducto = async (datosProducto) => {
-    const { id_producto, nombre, precio, stock, imagen, activo, id_tienda, id_categoria, tipo, descripcion } = datosProducto;
+    const { id_producto, nombre, precio, stock, imagen, activo, id_tienda, tipo, descripcion } = datosProducto;
     if (!id_producto) throw new Error("El ID del producto es obligatorio.");
     if (!nombre || precio === undefined || stock === undefined || id_tienda === undefined) {
         throw new Error("Faltan completar campos obligatorios");
@@ -83,6 +83,11 @@ export const actualizarProducto = async (datosProducto) => {
     }
     await verificarExistenciaTienda(id_tienda);
 
+    console.log("id_producto:", id_producto);
+    console.log("id_tienda:", id_tienda);
+    console.log("precio:", precio);
+    console.log("stock:", stock);
+
     const productoFormateado = {
         id_producto: Number(id_producto),
         nombre,
@@ -91,7 +96,6 @@ export const actualizarProducto = async (datosProducto) => {
         imagen: imagen || "",
         activo: Boolean(activo),
         id_tienda: Number(id_tienda),
-        id_categoria: Number(id_categoria),
         tipo: tipo?.trim() || "",
         descripcion: descripcion?.trim() || "",
     };

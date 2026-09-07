@@ -98,3 +98,27 @@ export const getTodasLasTiendas = async () => {
   const result = await db.query(query);
   return result.rows;
 };
+
+export const abrirTienda = async (id_tienda) => {
+  const query = `
+    UPDATE tiendas
+    SET abierta = true
+    WHERE id_tienda = $1
+    RETURNING *;
+  `;
+
+  const result = await db.query(query, [id_tienda]);
+  return result.rows[0];
+};
+
+export const cerrarTienda = async (id_tienda) => {
+  const query = `
+    UPDATE tiendas
+    SET abierta = false
+    WHERE id_tienda = $1
+    RETURNING *;
+  `;
+
+  const result = await db.query(query, [id_tienda]);
+  return result.rows[0];
+};

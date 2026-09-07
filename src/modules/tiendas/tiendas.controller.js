@@ -1,4 +1,4 @@
-import { crearTienda, buscarTiendaPorNombre, editarTienda, getTiendaById, getNombreTiendaById, getSloganTiendaById, getTiendaPorCuentaId, getTodasLasTiendas } from "./tiendas.model.js";
+import { crearTienda, buscarTiendaPorNombre, editarTienda, getTiendaById, getNombreTiendaById, getSloganTiendaById, getTiendaPorCuentaId, getTodasLasTiendas, abrirTienda as abrirTiendaModel, cerrarTienda as cerrarTiendaModel } from "./tiendas.model.js";
 import { getProvinciaId } from "../provincias/provincias.controller.js"
 async function verificarTiendaPorNombre(nombre) {
     const existe = await buscarTiendaPorNombre(nombre);
@@ -97,4 +97,24 @@ export const getSloganTienda = async(idTienda) => {
 
 export const getTiendas = async () => {
     return await getTodasLasTiendas();
+};
+
+export const abrirTienda = async (idTienda) => {
+    const tienda = await getTiendaById(idTienda);
+
+    if (!tienda) {
+        throw new Error("La tienda no existe");
+    }
+
+    return await abrirTiendaModel(idTienda);
+};
+
+export const cerrarTienda = async (idTienda) => {
+    const tienda = await getTiendaById(idTienda);
+
+    if (!tienda) {
+        throw new Error("La tienda no existe");
+    }
+
+    return await cerrarTiendaModel(idTienda);
 };
