@@ -48,6 +48,18 @@ export const getUsuarioId = async (id_usuario) => {
     return result.rows[0];
 };
 
+export const getUsuarioPorCuenta = async (id_cuenta) => {
+    const query = `
+        SELECT *
+        FROM usuarios
+        WHERE id_cuenta = $1
+        LIMIT 1
+    `;
+
+    const result = await db.query(query, [id_cuenta]);
+    return result.rows[0];
+};
+
 export const getAllUsuarios = async () => {
     const query = `
         SELECT *

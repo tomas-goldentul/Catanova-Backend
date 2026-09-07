@@ -13,29 +13,72 @@ export const insertarPedidoBase = async (direccion, id_usuario, metodo_pago) => 
 export const getAllPedidosConDetalles = async () => {
   const sql = `
     SELECT
-      p.*,
-      dp.*
+      p.id_pedido,
+      p.fecha,
+      p.direccion,
+      p.id_usuario,
+      p.entregado,
+      p.metodo_pago,
+      u.nombre AS nombre_usuario,
+      u.apellido AS apellido_usuario,
+      dp.id_detallepedido,
+      dp.id_producto,
+      dp.cantidad,
+      dp.precio_total,
+      prod.nombre AS nombre_producto,
+      prod.precio AS precio_unitario,
+      prod.id_tienda AS id_tienda_producto,
+      t.nombre AS nombre_tienda
     FROM pedidos p
+    LEFT JOIN usuarios u
+      ON p.id_usuario = u.id_usuario
     LEFT JOIN detallepedidos dp
-      ON p.id_Pedido = dp.id_Pedido
+      ON p.id_pedido = dp.id_pedido
+    LEFT JOIN productos prod
+      ON dp.id_producto = prod.id_producto
+    LEFT JOIN tiendas t
+      ON prod.id_tienda = t.id_tienda
+    ORDER BY p.id_pedido ASC, dp.id_detallepedido ASC;
   `;
 
   const result = await db.query(sql);
   return result.rows;
-}
+};
+
 export const getAllPedidosConDetallesByIdUser = async (id_usuario) => {
   const sql = `
     SELECT
-      p.*,
-      dp.*
+      p.id_pedido,
+      p.fecha,
+      p.direccion,
+      p.id_usuario,
+      p.entregado,
+      p.metodo_pago,
+      u.nombre AS nombre_usuario,
+      u.apellido AS apellido_usuario,
+      dp.id_detallepedido,
+      dp.id_producto,
+      dp.cantidad,
+      dp.precio_total,
+      prod.nombre AS nombre_producto,
+      prod.precio AS precio_unitario,
+      prod.id_tienda AS id_tienda_producto,
+      t.nombre AS nombre_tienda
     FROM pedidos p
+    LEFT JOIN usuarios u
+      ON p.id_usuario = u.id_usuario
     LEFT JOIN detallepedidos dp
-      ON p.id_Pedido = dp.id_Pedido
+      ON p.id_pedido = dp.id_pedido
+    LEFT JOIN productos prod
+      ON dp.id_producto = prod.id_producto
+    LEFT JOIN tiendas t
+      ON prod.id_tienda = t.id_tienda
     WHERE p.id_usuario = $1
+    ORDER BY p.id_pedido ASC, dp.id_detallepedido ASC;
   `;
-const result = await db.query(sql, [id_usuario]);
+  const result = await db.query(sql, [id_usuario]);
   return result.rows;
-}
+};
 
 export const getPedidoById = async (id_pedido) => {
   const sql = `
@@ -83,14 +126,27 @@ export const getPedidoConDetallesById = async (id_pedido) => {
       p.id_usuario,
       p.entregado,
       p.metodo_pago,
+      u.nombre AS nombre_usuario,
+      u.apellido AS apellido_usuario,
       dp.id_detallepedido,
       dp.id_producto,
       dp.cantidad,
-      dp.precio_total
+      dp.precio_total,
+      prod.nombre AS nombre_producto,
+      prod.precio AS precio_unitario,
+      prod.id_tienda AS id_tienda_producto,
+      t.nombre AS nombre_tienda
     FROM pedidos p
+    LEFT JOIN usuarios u
+      ON p.id_usuario = u.id_usuario
     LEFT JOIN detallepedidos dp
       ON p.id_pedido = dp.id_pedido
-    WHERE p.id_pedido = $1;
+    LEFT JOIN productos prod
+      ON dp.id_producto = prod.id_producto
+    LEFT JOIN tiendas t
+      ON prod.id_tienda = t.id_tienda
+    WHERE p.id_pedido = $1
+    ORDER BY dp.id_detallepedido ASC;
   `;
   const result = await db.query(sql, [id_pedido]);
   return result.rows;

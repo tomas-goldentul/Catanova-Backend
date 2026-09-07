@@ -14,6 +14,20 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/by-cuenta/:id_cuenta", async (req, res) => {
+    try {
+        const usuario = await usuariosController.getUsuarioPorCuenta(
+            req.params.id_cuenta
+        );
+
+        res.json(usuario);
+    } catch (error) {
+        res.status(404).json({
+            message: error.message
+        });
+    }
+});
+
 router.get("/:id", async (req, res) => {
     try {
         const usuario = await usuariosController.getUsuario(

@@ -2,6 +2,72 @@ import * as pedidosModel from "./pedidos.model.js";
 import { getProductosId, restarStockProducto, sumarStockProducto } from "../productos/productos.model.js";
 import { insertarDetallePedido } from "../detallepedidos/detallepedidos.model.js";
 
+const normalizarPedido = (filas) => {
+  if (!filas || filas.length === 0) return [];
+
+  const primerFila = filas[0];
+  const pedido = {
+    id_pedido: primerFila.id_pedido,
+    id_usuario: primerFila.id_usuario,
+    fecha: primerFila.fecha,
+    direccion: primerFila.direccion,
+    entregado: primerFila.entregado,
+    metodo_pago: primerFila.metodo_pago,
+    nombre_usuario: primerFila.nombre_usuario || null,
+    apellido_usuario: primerFila.apellido_usuario || null,
+    detalles: filas
+      .filter(fila => fila.id_detallepedido !== null)
+      .map(fila => ({
+        id_detallepedido: fila.id_detallepedido,
+        id_producto: fila.id_producto,
+        cantidad: fila.cantidad,
+        precio_total: Number(fila.precio_total),
+        nombre_producto: fila.nombre_producto || null,
+        precio_unitario: fila.precio_unitario !== null ? Number(fila.precio_unitario) : null,
+        id_tienda: fila.id_tienda_producto !== null ? Number(fila.id_tienda_producto) : null,
+        nombre_tienda: fila.nombre_tienda || null
+      }))
+  };
+
+  return [pedido];
+};
+
+const agruparPedidos = (filas) => {
+  return filas.reduce((acc, current) => {
+    const pedidoExistente = acc.find(p => p.id_pedido === current.id_pedido);
+    const detalle = current.id_detallepedido ? {
+      id_detallepedido: current.id_detallepedido,
+      id_producto: current.id_producto,
+      cantidad: current.cantidad,
+      precio_total: Number(current.precio_total),
+      nombre_producto: current.nombre_producto || null,
+      precio_unitario: current.precio_unitario !== null ? Number(current.precio_unitario) : null,
+      id_tienda: current.id_tienda_producto !== null ? Number(current.id_tienda_producto) : null,
+      nombre_tienda: current.nombre_tienda || null
+    } : null;
+
+    if (pedidoExistente) {
+      if (detalle) {
+        pedidoExistente.detalles.push(detalle);
+      }
+    } else {
+      acc.push({
+        id_pedido: current.id_pedido,
+        id_usuario: current.id_usuario,
+        fecha: current.fecha,
+        direccion: current.direccion,
+        entregado: current.entregado,
+        metodo_pago: current.metodo_pago,
+        nombre_usuario: current.nombre_usuario || null,
+        apellido_usuario: current.apellido_usuario || null,
+        detalles: detalle ? [detalle] : []
+      });
+    }
+
+    return acc;
+  }, []);
+};
+
 export const procesarNuevoPedido = async (datosPedido) => {
   const { id_usuario, direccion, metodo_pago, productos } = datosPedido;
 
@@ -40,36 +106,6 @@ export const procesarNuevoPedido = async (datosPedido) => {
   };
 };
 
-const agruparPedidos = (filas) => {
-  return filas.reduce((acc, current) => {
-    const pedidoExistente = acc.find(p => p.id_pedido === current.id_pedido);
-    const detalle = current.id_detallepedido ? {
-      id_detallepedido: current.id_detallepedido,
-      id_producto: current.id_producto,
-      cantidad: current.cantidad,
-      precio_total: current.precio_total
-    } : null;
-
-    if (pedidoExistente) {
-      if (detalle) {
-        pedidoExistente.detalles.push(detalle);
-      }
-    } else {
-      acc.push({
-        id_pedido: current.id_pedido,
-        id_usuario: current.id_usuario,
-        fecha: current.fecha,
-        direccion: current.direccion,
-        entregado: current.entregado,
-        metodo_pago: current.metodo_pago,
-        detalles: detalle ? [detalle] : []
-      });
-    }
-
-    return acc;
-  }, []);
-};
-
 export const getAllPedidos = async () => {
   const filas = await pedidosModel.getAllPedidosConDetalles();
   if (filas.length === 0) {
@@ -89,7 +125,6 @@ export const getAllPedidosByIdUser = async (id_usuario) => {
   return agruparPedidos(filas);
 };
 
-
 export const actualizarPedido = async (id_pedido, datosActualizados) => {
   const { direccion, entregado, metodo_pago, productos } = datosActualizados;
 
@@ -106,21 +141,17 @@ export const actualizarPedido = async (id_pedido, datosActualizados) => {
   const nuevoEntregado = entregado !== undefined ? entregado : pedidoDB.entregado;
   const nuevoMetodoPago = metodo_pago !== undefined ? metodo_pago : pedidoDB.metodo_pago;
 
-  // Actualizar productos SOLO si se envía el parámetro productos
   if (productos !== undefined && Array.isArray(productos)) {
     const detallesActuales = await pedidosModel.getDetallesByPedidoId(id_pedido);
 
-    // Validar cada producto enviado
     for (const item of productos) {
       const productoDB = await getProductosId(item.id_producto);
       if (!productoDB) {
         throw new Error(`El producto con ID ${item.id_producto} no existe.`);
       }
 
-      // Encontrar si este producto ya formaba parte del pedido original
       const detalleOriginal = detallesActuales.find(d => d.id_producto === item.id_producto);
       const cantidadOriginal = detalleOriginal ? detalleOriginal.cantidad : 0;
-
       const stockDisponibleVirtual = productoDB.stock + cantidadOriginal;
 
       if (stockDisponibleVirtual < item.cantidad) {
@@ -130,14 +161,12 @@ export const actualizarPedido = async (id_pedido, datosActualizados) => {
       item.precioReal = productoDB.precio;
     }
 
-    // FASE B: Reversión del stock antiguo
     for (const detalle of detallesActuales) {
       await sumarStockProducto(detalle.id_producto, detalle.cantidad);
     }
 
     await pedidosModel.eliminarDetallesPedido(id_pedido);
 
-    // Agregar nuevos productos (solo si el array no está vacío)
     for (const item of productos) {
       const precioTotalItem = Number(item.precioReal) * item.cantidad;
 
@@ -163,30 +192,7 @@ export const getPedidoDetallado = async (id_pedido) => {
     throw new Error(`El pedido con ID ${id_pedido} no existe.`);
   }
 
-  const primerFila = filas[0];
-  
-  const pedidoEstructurado = {
-    id_pedido: primerFila.id_pedido,
-    id_usuario: primerFila.id_usuario,
-    fecha: primerFila.fecha,
-    direccion: primerFila.direccion,
-    entregado: primerFila.entregado,
-    metodo_pago: primerFila.metodo_pago,
-    detalles: filas
-      .filter(fila => fila.id_detallepedido !== null)
-      .map(fila => {
-        const precioTotalItem = Number(fila.precio_total);
-        return {
-          id_detallepedido: fila.id_detallepedido,
-          id_producto: fila.id_producto,
-          cantidad: fila.cantidad,
-          precio_total: precioTotalItem,
-          precio_unitario: fila.cantidad > 0 ? (precioTotalItem / fila.cantidad) : 0 // Calcular precio unitario
-        };
-      })
-  };
-
-  return pedidoEstructurado;
+  return normalizarPedido(filas)[0];
 };
 
 export const actualizarEstadoPedido = async (id_pedido, entregado) => {
@@ -200,7 +206,6 @@ export const actualizarEstadoPedido = async (id_pedido, entregado) => {
   }
 
   await pedidosModel.cambiarEstadoEntregado(id_pedido, entregado);
-
 
   return {
     success: true,

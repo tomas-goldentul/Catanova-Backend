@@ -73,3 +73,13 @@ export const getUsuario = async (id_usuario) => {
 
     return await verificarExistenciaUsuario(id_usuario);
 };
+
+export const getUsuarioPorCuenta = async (id_cuenta) => {
+    const usuario = await usuariosModel.getUsuarioPorCuenta(id_cuenta);
+
+    if (!usuario) {
+        throw new Error("No se encontró un usuario asociado a esa cuenta");
+    }
+
+    return usuario;
+};
