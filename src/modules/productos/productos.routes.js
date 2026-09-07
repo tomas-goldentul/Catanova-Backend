@@ -1,8 +1,28 @@
 import express from "express";
 import * as productosController from "./productos.controller.js";
+import { uploadImagen } from "./upload.middleware.js";
 import { StatusCodes } from "http-status-codes";
 
 const router = express.Router();
+
+//subir imagen de producto
+router.post("/upload", uploadImagen.single("imagen"), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: "Seleccioná una imagen válida." });
+    }
+
+    const pathImagen = `/uploads/${req.file.filename}`;
+
+    res.status(StatusCodes.OK).json({
+      message: "Imagen subida con éxito",
+      data: { path: pathImagen },
+    });
+  } catch (error) {
+    console.error("Error en la ruta upload:", error);
+    res.status(StatusCodes.BAD_REQUEST).json({ message: error.message });
+  }
+});
 
 //trae productos activos
 router.get("/", productosController.GetProductosActivos);
