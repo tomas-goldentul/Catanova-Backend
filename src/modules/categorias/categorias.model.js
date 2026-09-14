@@ -1,17 +1,18 @@
 import db from "../../config/db-config.js";
 
-export const getCategoriaPorNombre = async (nombre) => {
-    const query = `SELECT * FROM CATEGORIAS WHERE nombre = $1;`
-    const values = [nombre];
+export const getCategoriaPorNombre = async (nombre, id_tienda) => {
+    const query = `SELECT * FROM categorias
+                   WHERE LOWER(nombre) = LOWER($1) AND id_tienda = $2;`
+    const values = [nombre, id_tienda];
     const result = await db.query(query, values);
     return result.rows[0];
 }
 
-export const insertCategoria = async(nombre) =>{
-    const query =`INSERT INTO CATEGORIAS (nombre) 
-                    VALUES ($1)     RETURNING *;   `
+export const insertCategoria = async (nombre, id_tienda) => {
+    const query = `INSERT INTO categorias (nombre, id_tienda)
+                   VALUES ($1, $2) RETURNING *;`
 
-    const values = [nombre];
+    const values = [nombre, id_tienda];
     const result = await db.query(query, values);
     return result.rows[0];
 }

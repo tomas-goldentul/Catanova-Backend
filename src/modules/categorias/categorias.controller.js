@@ -1,15 +1,36 @@
 import * as categoriasModel from "./categorias.model.js";
+import * as tiendasModel from "../tiendas/tiendas.model.js";
 
-export const insertCategoria = async (nombre) => {
-    const existeNombreCategoria = await categoriasModel.getCategoriaPorNombre(nombre);
-    if (nombre.trim() === "") {
-        throw new Error(`Ingresa un nombre`)
+export const insertCategoria = async (nombre, id_tienda) => {
+    const nombreLimpio = typeof nombre === "string" ? nombre.trim() : "";
+    if (nombreLimpio === "") {
+        const error = new Error("Ingresa un nombre");
+        error.status = 400;
+        throw error;
     }
+
+    const idTienda = Number(id_tienda);
+    if (!Number.isInteger(idTienda) || idTienda <= 0) {
+        const error = new Error("Ingresa un id_tienda valido");
+        error.status = 400;
+        throw error;
+    }
+
+    const tienda = await tiendasModel.getTiendaById(idTienda);
+    if (!tienda) {
+        const error = new Error(`No existe la tienda con id: ${idTienda}`);
+        error.status = 404;
+        throw error;
+    }
+
+    const existeNombreCategoria = await categoriasModel.getCategoriaPorNombre(nombreLimpio, idTienda);
     if (existeNombreCategoria) {
-        throw new Error(`Ya existe el nombre de categoria: ${nombre}`)
+        const error = new Error(`Ya existe el nombre de categoria: ${nombreLimpio}`);
+        error.status = 400;
+        throw error;
     }
 
-    const categoriaCreada = await categoriasModel.insertCategoria(nombre);
+    const categoriaCreada = await categoriasModel.insertCategoria(nombreLimpio, idTienda);
     return categoriaCreada;
 
 }
