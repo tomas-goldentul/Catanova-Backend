@@ -5,6 +5,7 @@ export const agregarUsuario = async (usuario) => {
         nombre,
         apellido,
         telefono,
+        direccion,
         id_cuenta
     } = usuario;
 
@@ -14,6 +15,7 @@ export const agregarUsuario = async (usuario) => {
             nombre,
             apellido,
             telefono,
+            direccion,
             id_cuenta
         )
         VALUES
@@ -21,7 +23,8 @@ export const agregarUsuario = async (usuario) => {
             $1,
             $2,
             $3,
-            $4
+            $4,
+            $5
         )
         RETURNING *;
     `;
@@ -30,6 +33,7 @@ export const agregarUsuario = async (usuario) => {
         nombre,
         apellido,
         telefono,
+        direccion || null,
         id_cuenta
     ];
 
@@ -76,7 +80,8 @@ export const editarUsuario = async (usuario) => {
         id_usuario,
         nombre,
         apellido,
-        telefono
+        telefono,
+        direccion
     } = usuario;
 
     const query = `
@@ -84,8 +89,9 @@ export const editarUsuario = async (usuario) => {
         SET
             nombre = $1,
             apellido = $2,
-            telefono = $3
-        WHERE id_usuario = $4
+            telefono = $3,
+            direccion = $4
+        WHERE id_usuario = $5
         RETURNING *;
     `;
 
@@ -93,6 +99,7 @@ export const editarUsuario = async (usuario) => {
         nombre,
         apellido,
         telefono,
+        direccion,
         id_usuario
     ];
 

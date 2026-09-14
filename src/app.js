@@ -22,6 +22,7 @@ import favoritosRoutes from "./modules/favoritos/favoritos.routes.js";
 import vistasRoutes from "./modules/vistas/vistas.routes.js";
 import etiquetasRoutes from "./modules/etiquetas/etiquetas.routes.js";
 import usuariosRoutes from "./modules/usuarios/usuarios.routes.js";
+import usuariosxtiendasRoutes from "./modules/usuariosxtiendas/usuariosxtiendas.routes.js";
 import asistenteRoutes from "./modules/asistente/asistente.routes.js";
 
 const app = express();
@@ -52,6 +53,7 @@ app.use("/api/auth", authRoutes);
 app.use("/cuentas", cuentasRoutes);
 app.use("/etiquetas", etiquetasRoutes);
 app.use("/usuarios", usuariosRoutes);
+app.use("/usuariosxtiendas", usuariosxtiendasRoutes);
 app.use("/asistente", asistenteRoutes);
 app.get("/", (req, res) => {
     res.send("¡Servidor de Catanova funcionando!");
@@ -61,9 +63,25 @@ app.get("/", (req, res) => {
 const aplicarMigraciones = async () => {
     try {
         await db.query(`ALTER TABLE IF EXISTS productos ADD COLUMN IF NOT EXISTS descripcion TEXT DEFAULT '';`);
-        console.log("Migración aplicada: columna 'descripcion' en productos.");
+        await db.query(`ALTER TABLE IF EXISTS usuarios ADD COLUMN IF NOT EXISTS direccion VARCHAR(100);`);
+        await db.query(`
+            CREATE TABLE IF NOT EXISTS usuariosxtiendas (
+                id_usuariotienda SERIAL NOT NULL,
+                id_usuario INTEGER NOT NULL,
+                id_tienda INTEGER NOT NULL,
+                CONSTRAINT usuariosxtiendas_pkey PRIMARY KEY (id_usuariotienda),
+                CONSTRAINT fk_uxt_usuario FOREIGN KEY (id_usuario)
+                    REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
+                CONSTRAINT fk_uxt_tienda FOREIGN KEY (id_tienda)
+                    REFERENCES tiendas(id_tienda) ON DELETE CASCADE,
+                CONSTRAINT uq_usuario_tienda UNIQUE (id_usuario, id_tienda)
+            );
+        `);
+        await db.query(`CREATE INDEX IF NOT EXISTS idx_uxt_usuario ON usuariosxtiendas USING btree (id_usuario);`);
+        await db.query(`CREATE INDEX IF NOT EXISTS idx_uxt_tienda ON usuariosxtiendas USING btree (id_tienda);`);
+        console.log("Migración aplicada: columna 'direccion' en usuarios y tabla 'usuariosxtiendas'.");
     } catch (error) {
-        console.error("No se pudo aplicar la migración de 'descripcion':", error.message);
+        console.error("No se pudo aplicar la migración de usuarios/tiendas:", error.message);
     }
 };
 

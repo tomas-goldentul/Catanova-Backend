@@ -1,4 +1,5 @@
 import * as usuariosModel from "./usuarios.model.js";
+import { asociarUsuarioTienda } from "../usuariosxtiendas/usuariosxtiendas.model.js";
 
 export const verificarExistenciaUsuario = async (id_usuario) => {
 
@@ -15,6 +16,7 @@ export const insertUsuario = async ({
     nombre,
     apellido,
     telefono,
+    direccion,
     id_cuenta
 }) => {
 
@@ -26,10 +28,38 @@ export const insertUsuario = async ({
         nombre,
         apellido,
         telefono,
+        direccion,
         id_cuenta
     };
 
     return await usuariosModel.agregarUsuario(usuario);
+};
+
+export const insertUsuarioParaTienda = async ({
+    nombre,
+    apellido,
+    telefono,
+    direccion,
+    id_tienda
+}) => {
+
+    if (!nombre || !apellido || !id_tienda) {
+        throw new Error("Faltan completar campos obligatorios (nombre, apellido e id_tienda)");
+    }
+
+    const usuario = {
+        nombre,
+        apellido: apellido || '',
+        telefono: telefono || '',
+        direccion,
+        id_cuenta: null
+    };
+
+    const usuarioCreado = await usuariosModel.agregarUsuario(usuario);
+
+    await asociarUsuarioTienda(usuarioCreado.id_usuario, id_tienda);
+
+    return usuarioCreado;
 };
 
 export const getUsuarios = async () => {
@@ -47,7 +77,8 @@ export const updateUsuario = async ({
     id_usuario,
     nombre,
     apellido,
-    telefono
+    telefono,
+    direccion
 }) => {
 
     await verificarExistenciaUsuario(id_usuario);
@@ -56,7 +87,8 @@ export const updateUsuario = async ({
         id_usuario,
         nombre,
         apellido,
-        telefono
+        telefono,
+        direccion
     };
 
     return await usuariosModel.editarUsuario(usuario);

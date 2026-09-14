@@ -42,6 +42,20 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+router.post("/para-tienda", async (req, res) => {
+    try {
+        const usuario = await usuariosController.insertUsuarioParaTienda(
+            req.body
+        );
+
+        res.status(201).json(usuario);
+    } catch (error) {
+        res.status(400).json({
+            message: error.message
+        });
+    }
+});
+
 router.post("/", async (req, res) => {
     try {
         const usuario = await usuariosController.insertUsuario(
