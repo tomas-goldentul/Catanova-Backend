@@ -152,6 +152,68 @@ export const getPedidoConDetallesById = async (id_pedido) => {
   return result.rows;
 };
 
+export const getPedidosPendientesPorTienda = async (id_tienda) => {
+  const sql = `
+    SELECT
+      p.id_pedido,
+      p.fecha,
+      p.direccion,
+      p.id_usuario,
+      p.entregado,
+      p.metodo_pago,
+      u.nombre AS nombre_usuario,
+      u.apellido AS apellido_usuario,
+      dp.id_detallepedido,
+      dp.id_producto,
+      dp.cantidad,
+      dp.precio_total,
+      prod.nombre AS nombre_producto,
+      prod.precio AS precio_unitario
+    FROM pedidos p
+    LEFT JOIN usuarios u
+      ON p.id_usuario = u.id_usuario
+    LEFT JOIN detallepedidos dp
+      ON p.id_pedido = dp.id_pedido
+    LEFT JOIN productos prod
+      ON dp.id_producto = prod.id_producto
+    WHERE prod.id_tienda = $1 AND p.entregado = false
+    ORDER BY p.id_pedido ASC, dp.id_detallepedido ASC;
+  `;
+  const result = await db.query(sql, [id_tienda]);
+  return result.rows;
+};
+
+export const getPedidosPorTienda = async (id_tienda) => {
+  const sql = `
+    SELECT
+      p.id_pedido,
+      p.fecha,
+      p.direccion,
+      p.id_usuario,
+      p.entregado,
+      p.metodo_pago,
+      u.nombre AS nombre_usuario,
+      u.apellido AS apellido_usuario,
+      dp.id_detallepedido,
+      dp.id_producto,
+      dp.cantidad,
+      dp.precio_total,
+      prod.nombre AS nombre_producto,
+      prod.precio AS precio_unitario
+    FROM pedidos p
+    LEFT JOIN usuarios u
+      ON p.id_usuario = u.id_usuario
+    LEFT JOIN detallepedidos dp
+      ON p.id_pedido = dp.id_pedido
+    LEFT JOIN productos prod
+      ON dp.id_producto = prod.id_producto
+    WHERE prod.id_tienda = $1
+    ORDER BY p.id_pedido ASC, dp.id_detallepedido ASC;
+  `;
+  const result = await db.query(sql, [id_tienda]);
+  return result.rows;
+};
+
 export const cambiarEstadoEntregado = async (id_pedido, entregado) => {
   const sql = `
     UPDATE pedidos 

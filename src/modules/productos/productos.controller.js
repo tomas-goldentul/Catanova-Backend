@@ -40,10 +40,10 @@ export const insertProducto = async ({ nombre, precio, stock, imagen, activo, id
         nombre,
         precio: Number(precio),
         stock: Number(stock),
-        imagen,
+        imagen: imagen || "",
         activo: Boolean(activo),
         id_tienda: Number(id_tienda),
-        id_categoria: Number(id_categoria),
+        id_categoria: id_categoria != null ? Number(id_categoria) : null,
         tipo: tipo?.trim() || "",
         descripcion: descripcion?.trim() || "",
     };
