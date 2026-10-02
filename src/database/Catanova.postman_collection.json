@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "24fbc8ff-8a4d-4505-9add-941872cac361",
+		"_postman_id": "01874774-a807-4268-b01f-4726ad16dc76",
 		"name": "Catanova",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -641,13 +641,18 @@
 			"name": "Categorias",
 			"item": [
 				{
-					"name": "insertCategoria",
+					"name": "CrearCategoria",
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nombreTienda\": \"zdfsdf\"\r\n}",
+							"raw": "{\r\n  \"nombre\": \"Gatos\",\r\n  \"id_tienda\": 1,\r\n  \"productos\": [\r\n    { \"id_producto\": 1 },\r\n    { \"id_producto\": 2 },\r\n    { \"id_producto\": 3 }\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -670,7 +675,7 @@
 					"response": []
 				},
 				{
-					"name": "getAllCategorias",
+					"name": "GetAll",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -690,12 +695,12 @@
 					"response": []
 				},
 				{
-					"name": "getCategoriasId",
+					"name": "GetCategoriaPorID",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/categorias/6",
+							"raw": "http://localhost:3000/categorias/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -703,14 +708,14 @@
 							"port": "3000",
 							"path": [
 								"categorias",
-								"6"
+								"1"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "getCategoriasPorTienda",
+					"name": "GetCategoriaPorTienda",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -725,6 +730,177 @@
 								"categorias",
 								"tienda",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarCategoria",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Gatos Premium\",\r\n  \"productos\": [\r\n    { \"id_producto\": 1 },\r\n    { \"id_producto\": 3 }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/categorias/update/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categorias",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BorrarCategoría",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/categorias/delete/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categorias",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProductosDeCategoria",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/categorias/1/productos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categorias",
+								"1",
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AsociarProductoACategoria",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id_producto\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/categorias/1/productos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categorias",
+								"1",
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DesasociarProductoDeCategoria",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/categorias/1/productos/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categorias",
+								"1",
+								"productos",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpsertProductoEnCategoria",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/categorias/1/productos/5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"categorias",
+								"1",
+								"productos",
+								"5"
 							]
 						}
 					},

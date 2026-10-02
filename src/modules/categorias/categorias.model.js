@@ -39,3 +39,65 @@ export const getCategoriasPorTienda = async (id_tienda) => {
     const result = await db.query(query, values);
     return result.rows;
 };
+
+export const updateCategoria = async (id_categoria, nombre) => {
+    const query = `UPDATE categorias
+                   SET nombre = $1
+                   WHERE id_categoria = $2
+                   RETURNING *;`;
+    const values = [nombre, id_categoria];
+    const result = await db.query(query, values);
+    return result.rows[0];
+};
+
+export const deleteCategoria = async (id_categoria) => {
+    const query = `DELETE FROM categorias
+                   WHERE id_categoria = $1
+                   RETURNING *;`;
+    const values = [id_categoria];
+    const result = await db.query(query, values);
+    return result.rows[0];
+};
+
+export const getProductosPorCategoria = async (id_categoria) => {
+    const query = `SELECT p.* FROM productos p
+                   JOIN productosxcategorias pc ON p.id_producto = pc.id_producto
+                   WHERE pc.id_categoria = $1;`;
+    const values = [id_categoria];
+    const result = await db.query(query, values);
+    return result.rows;
+};
+
+export const insertProductoEnCategoria = async (id_categoria, id_producto) => {
+    const query = `INSERT INTO productosxcategorias (id_categoria, id_producto)
+                   VALUES ($1, $2)
+                   RETURNING *;`;
+    const values = [id_categoria, id_producto];
+    const result = await db.query(query, values);
+    return result.rows[0];
+};
+
+export const deleteProductoDeCategoria = async (id_categoria, id_producto) => {
+    const query = `DELETE FROM productosxcategorias
+                   WHERE id_categoria = $1 AND id_producto = $2
+                   RETURNING *;`;
+    const values = [id_categoria, id_producto];
+    const result = await db.query(query, values);
+    return result.rows[0];
+};
+
+export const deleteAllProductosDeCategoria = async (id_categoria) => {
+    const query = `DELETE FROM productosxcategorias
+                   WHERE id_categoria = $1;`;
+    const values = [id_categoria];
+    const result = await db.query(query);
+    return result.rowCount;
+};
+
+export const getProductosCategoriaByiD = async (id_categoria, id_producto) => {
+    const query = `SELECT * FROM productosxcategorias
+                   WHERE id_categoria = $1 AND id_producto = $2;`;
+    const values = [id_categoria, id_producto];
+    const result = await db.query(query, values);
+    return result.rows[0];
+};
