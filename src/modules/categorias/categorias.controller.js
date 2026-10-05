@@ -11,7 +11,7 @@ export const insertCategoria = async (nombre, id_tienda, productos = []) => {
 
     const idTienda = Number(id_tienda);
     if (!Number.isInteger(idTienda) || idTienda <= 0) {
-        const error = new Error("Ingresa un id_tienda valido");
+        const error = new Error("Ingresa un id_tienda válido");
         error.status = 400;
         throw error;
     }
@@ -25,30 +25,32 @@ export const insertCategoria = async (nombre, id_tienda, productos = []) => {
 
     const existeNombreCategoria = await categoriasModel.getCategoriaPorNombre(nombreLimpio, idTienda);
     if (existeNombreCategoria) {
-        const error = new Error(`Ya existe el nombre de categoria: ${nombreLimpio}`);
+        const error = new Error(`Ya existe una categoría llamada "${nombreLimpio}" en esta tienda`);
         error.status = 400;
         throw error;
     }
 
     const categoriaCreada = await categoriasModel.insertCategoria(nombreLimpio, idTienda);
 
-    // Si se proporcionan productos, asociarlos a la categoría
     if (Array.isArray(productos) && productos.length > 0) {
         for (const producto of productos) {
-            const idProducto = Number(producto.id_producto || producto);
-            if (Number.isInteger(idProducto) && idProducto > 0) {
-                try {
-                    await categoriasModel.insertProductoEnCategoria(categoriaCreada.id_categoria, idProducto);
-                } catch (error) {
-                    console.warn(`No se pudo asociar el producto ${idProducto}:`, error.message);
-                }
+            const idProducto = Number(producto.id_producto ?? producto.id ?? producto);
+
+            if (!Number.isInteger(idProducto) || idProducto <= 0) continue;
+
+            try {
+                await categoriasModel.insertProductoEnCategoria(
+                    categoriaCreada.id_categoria,
+                    idProducto
+                );
+            } catch (error) {
+                console.warn(`No se pudo asociar el producto ${idProducto}:`, error.message);
             }
         }
     }
 
     return categoriaCreada;
-
-}
+};
 
 export const getAllCategorias = async () => {
     const categorias = await categoriasModel.getAllCategorias();
@@ -70,10 +72,18 @@ export const getCategoriasPorTienda = async (id_tienda) => {
     return categorias;
 }
 
-export const updateCategoria = async (id_categoria, nombre, productos = []) => {
+export const updateCategoria = async (id_categoria, nombre, id_tienda, productos = []) => {
     const idCategoria = Number(id_categoria);
+    const idTienda = Number(id_tienda);
+
     if (!Number.isInteger(idCategoria) || idCategoria <= 0) {
         const error = new Error("Ingresa un id_categoria válido");
+        error.status = 400;
+        throw error;
+    }
+
+    if (!Number.isInteger(idTienda) || idTienda <= 0) {
+        const error = new Error("Ingresa un id_tienda válido");
         error.status = 400;
         throw error;
     }
@@ -85,76 +95,72 @@ export const updateCategoria = async (id_categoria, nombre, productos = []) => {
         throw error;
     }
 
-    const categoriaExiste = await categoriasModel.getCategoriasByiD(idCategoria);
+    const categoriaExiste = await categoriasModel.getCategoriaByIdYTienda(idCategoria, idTienda);
     if (!categoriaExiste) {
-        const error = new Error(`Categoría con id ${idCategoria} no encontrada`);
+        const error = new Error(`Categoría con id ${idCategoria} no encontrada en la tienda ${idTienda}`);
         error.status = 404;
         throw error;
     }
 
-    const categoriaActualizada = await categoriasModel.updateCategoria(idCategoria, nombreLimpio);
+    const duplicado = await categoriasModel.getCategoriaPorNombre(nombreLimpio, idTienda);
+    if (duplicado && duplicado.id_categoria !== idCategoria) {
+        const error = new Error(`Ya existe otra categoría llamada "${nombreLimpio}" en esta tienda`);
+        error.status = 400;
+        throw error;
+    }
 
-    // Si se proporcionan productos, actualizar la relación
-    if (Array.isArray(productos)) {
-        // Eliminar todos los productos actuales
-        await categoriasModel.deleteAllProductosDeCategoria(idCategoria);
+    const categoriaActualizada = await categoriasModel.updateCategoria(idCategoria, nombreLimpio, idTienda);
 
-        // Asociar los nuevos productos
+    await categoriasModel.deleteAllProductosDeCategoria(idCategoria);
+
+    if (Array.isArray(productos) && productos.length > 0) {
         for (const producto of productos) {
-            const idProducto = Number(producto.id_producto || producto);
-            if (Number.isInteger(idProducto) && idProducto > 0) {
-                try {
-                    await categoriasModel.insertProductoEnCategoria(idCategoria, idProducto);
-                } catch (error) {
-                    console.warn(`No se pudo asociar el producto ${idProducto}:`, error.message);
-                }
+            const idProducto = Number(producto.id_producto ?? producto.id ?? producto);
+
+            if (!Number.isInteger(idProducto) || idProducto <= 0) continue;
+
+            try {
+                await categoriasModel.insertProductoEnCategoria(
+                    idCategoria,
+                    idProducto,
+                );
+            } catch (error) {
+                console.warn(`No se pudo actualizar el producto ${idProducto}:`, error.message);
             }
         }
     }
 
     return categoriaActualizada;
-}
+};
 
-export const deleteCategoria = async (id_categoria) => {
+export const deleteCategoria = async (id_categoria, id_tienda) => {
     const idCategoria = Number(id_categoria);
+    const idTienda = Number(id_tienda);
+
     if (!Number.isInteger(idCategoria) || idCategoria <= 0) {
         const error = new Error("Ingresa un id_categoria válido");
         error.status = 400;
         throw error;
     }
 
-    const categoriaExiste = await categoriasModel.getCategoriasByiD(idCategoria);
+    if (!Number.isInteger(idTienda) || idTienda <= 0) {
+        const error = new Error("Ingresa un id_tienda válido");
+        error.status = 400;
+        throw error;
+    }
+
+    const categoriaExiste = await categoriasModel.getCategoriaByIdYTienda(idCategoria, idTienda);
     if (!categoriaExiste) {
-        const error = new Error(`Categoría con id ${idCategoria} no encontrada`);
+        const error = new Error(`Categoría con id ${idCategoria} no encontrada en la tienda ${idTienda}`);
         error.status = 404;
         throw error;
     }
 
-    // Eliminar todos los productos asociados a la categoría
     await categoriasModel.deleteAllProductosDeCategoria(idCategoria);
 
-    const categoriaEliminada = await categoriasModel.deleteCategoria(idCategoria);
+    const categoriaEliminada = await categoriasModel.deleteCategoria(idCategoria, idTienda);
     return categoriaEliminada;
-}
-
-export const getProductosPorCategoria = async (id_categoria) => {
-    const idCategoria = Number(id_categoria);
-    if (!Number.isInteger(idCategoria) || idCategoria <= 0) {
-        const error = new Error("Ingresa un id_categoria válido");
-        error.status = 400;
-        throw error;
-    }
-
-    const categoriaExiste = await categoriasModel.getCategoriasByiD(idCategoria);
-    if (!categoriaExiste) {
-        const error = new Error(`Categoría con id ${idCategoria} no encontrada`);
-        error.status = 404;
-        throw error;
-    }
-
-    const productos = await categoriasModel.getProductosPorCategoria(idCategoria);
-    return productos;
-}
+};
 
 export const insertProductoEnCategoria = async (id_categoria, id_producto) => {
     const idCategoria = Number(id_categoria);

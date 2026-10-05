@@ -6,18 +6,21 @@ const router = express.Router();
 router.post("/insert", async (req, res) => {
     try {
         const { nombre, id_tienda, productos = [] } = req.body;
+
         const result = await categoriasController.insertCategoria(nombre, id_tienda, productos);
+
         res.status(StatusCodes.CREATED).json(result);
-    }
-    catch (error) {
+    } catch (error) {
         console.error("Error en la ruta insertCategoria:", error);
         if (error.status) {
             return res.status(error.status).json({ message: error.message });
         }
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al agregar categoria", error: error.message });
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            message: "Error al agregar categoria",
+            error: error.message
+        });
     }
-
-})
+});
 
 router.get("/", async (req, res) => {
     try {
@@ -61,9 +64,10 @@ router.get("/tienda/:id_tienda", async (req, res) => {
 router.put("/update/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre, productos = [] } = req.body;
+        const { nombre, productos = [], id_tienda } = req.body;
 
-        const result = await categoriasController.updateCategoria(id, nombre, productos);
+        const result = await categoriasController.updateCategoria(id, nombre, id_tienda, productos);
+
         res.status(StatusCodes.OK).json({
             message: "Categoría actualizada con éxito",
             data: result
@@ -73,7 +77,10 @@ router.put("/update/:id", async (req, res) => {
         if (error.status) {
             return res.status(error.status).json({ message: error.message });
         }
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al actualizar categoría", error: error.message });
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            message: "Error al actualizar categoría",
+            error: error.message
+        });
     }
 });
 
@@ -81,7 +88,10 @@ router.put("/update/:id", async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await categoriasController.deleteCategoria(id);
+        const { id_tienda } = req.query;
+
+        const result = await categoriasController.deleteCategoria(id, id_tienda);
+
         res.status(StatusCodes.OK).json({
             message: "Categoría eliminada con éxito",
             data: result
@@ -91,7 +101,10 @@ router.delete("/delete/:id", async (req, res) => {
         if (error.status) {
             return res.status(error.status).json({ message: error.message });
         }
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Error al eliminar categoría", error: error.message });
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            message: "Error al eliminar categoría",
+            error: error.message
+        });
     }
 });
 

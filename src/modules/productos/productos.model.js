@@ -43,7 +43,17 @@ export const agregarProducto = async (producto) => {
     const values = [ nombre, precio, stock, imagen, activo, id_tienda, id_categoria, tipo, descripcion ];
 
     const result = await db.query(query, values);
-    return result.rows[0];
+    const productoCreado = result.rows[0];
+
+    // Mantener sincronizada la tabla productosxcategorias
+    if (id_categoria != null) {
+        await db.query(
+            `INSERT INTO productosxcategorias (id_categoria, id_producto) VALUES ($1, $2) ON CONFLICT DO NOTHING`,
+            [id_categoria, productoCreado.id_producto]
+        );
+    }
+
+    return productoCreado;
 };
 
 export const buscarProductoPorNombre = async (nombreBuscar) => {
@@ -104,7 +114,22 @@ export const modificarProducto = async (producto) => {
   ];
 
   const result = await db.query(query, values);
-  return result.rows[0];
+  const productoActualizado = result.rows[0];
+
+  // Mantener sincronizada la tabla productosxcategorias
+  await db.query(
+    `DELETE FROM productosxcategorias WHERE id_producto = $1`,
+    [id_producto]
+  );
+
+  if (id_categoria != null) {
+    await db.query(
+      `INSERT INTO productosxcategorias (id_categoria, id_producto) VALUES ($1, $2) ON CONFLICT DO NOTHING`,
+      [id_categoria, id_producto]
+    );
+  }
+
+  return productoActualizado;
 }
 
 export const eliminarProducto = async (id_producto) => {
