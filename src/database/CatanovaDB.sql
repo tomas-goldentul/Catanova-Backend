@@ -276,7 +276,9 @@ CREATE TABLE public.pedidos (
     direccion character varying(100) NOT NULL,
     id_usuario integer NOT NULL,
     entregado boolean NOT NULL,
-    metodo_pago character varying(50) NOT NULL
+    metodo_pago character varying(50) NOT NULL,
+    estado character varying(20) DEFAULT 'Pendiente'::character varying NOT NULL,
+    CONSTRAINT pedidos_estado_check CHECK (((estado)::text = ANY ((ARRAY['Pendiente'::character varying, 'En preparación'::character varying, 'Enviado'::character varying, 'Entregado'::character varying])::text[])))
 );
 
 

@@ -24,6 +24,7 @@ import etiquetasRoutes from "./modules/etiquetas/etiquetas.routes.js";
 import usuariosRoutes from "./modules/usuarios/usuarios.routes.js";
 import usuariosxtiendasRoutes from "./modules/usuariosxtiendas/usuariosxtiendas.routes.js";
 import asistenteRoutes from "./modules/asistente/asistente.routes.js";
+import enviosRoutes from "./modules/envios/envios.routes.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;          
@@ -55,6 +56,7 @@ app.use("/etiquetas", etiquetasRoutes);
 app.use("/usuarios", usuariosRoutes);
 app.use("/usuariosxtiendas", usuariosxtiendasRoutes);
 app.use("/asistente", asistenteRoutes);
+app.use("/envios", enviosRoutes);
 app.get("/", (req, res) => {
     res.send("¡Servidor de Catanova funcionando!");
 });
@@ -82,6 +84,17 @@ const aplicarMigraciones = async () => {
         console.log("Migración aplicada: columna 'direccion' en usuarios y tabla 'usuariosxtiendas'.");
     } catch (error) {
         console.error("No se pudo aplicar la migración de usuarios/tiendas:", error.message);
+    }
+
+    try {
+        const migracionPedidos = fs.readFileSync(
+            path.join(__dirname, "database/migracion_estado_pedidos.sql"),
+            "utf8"
+        );
+        await db.query(migracionPedidos);
+        console.log("Migración aplicada: estados, historial y envíos de pedidos.");
+    } catch (error) {
+        console.error("No se pudo aplicar la migración de estados/envíos de pedidos:", error.message);
     }
 };
 

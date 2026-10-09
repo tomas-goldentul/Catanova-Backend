@@ -1,5 +1,6 @@
 import express from "express";
-import { procesarNuevoPedido, getAllPedidos, getAllPedidosByIdUser, actualizarPedido, getPedidoDetallado, actualizarEstadoPedido } from "./pedidos.controller.js";
+import { procesarNuevoPedido, getAllPedidos, getAllPedidosByIdUser, actualizarPedido, getPedidoDetallado, actualizarEstadoPedido, ESTADOS_PEDIDO, getSeguimientoPedido } from "./pedidos.controller.js";
+import { verificarToken } from "../auth/auth.middleware.js";
 import { StatusCodes } from "http-status-codes";
 import { Result } from "pg";
 
@@ -78,6 +79,21 @@ router.put("/:id_pedido", async (req, res) => {
   }
 });
 
+// Datos para la pantalla de seguimiento (comprador del pedido o tienda con productos en él).
+router.get("/:id_pedido/seguimiento", verificarToken, async (req, res) => {
+  const { id_pedido } = req.params;
+  try {
+    const seguimiento = await getSeguimientoPedido(id_pedido, req.user);
+    return res.status(StatusCodes.OK).json({ success: true, data: seguimiento });
+  } catch (error) {
+    console.error(`[Error GET /pedidos/${id_pedido}/seguimiento]:`, error.message);
+    return res.status(error.status || StatusCodes.BAD_REQUEST).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
 router.get("/:id_pedido", async (req, res) => {
   const { id_pedido } = req.params;
   try {
@@ -100,23 +116,30 @@ router.get("/:id_pedido", async (req, res) => {
 });
 
 // Endpoint exclusivo para cambiar el estado de entrega (Repartidores / Admin)
-router.patch("/:id_pedido/estado", async (req, res) => {
+router.patch("/:id_pedido/estado", verificarToken, async (req, res) => {
   const { id_pedido } = req.params;
-  const { entregado } = req.body;
+  const { estado, entregado } = req.body;
 
-  if (entregado === undefined || typeof entregado !== "boolean") {
+  // Se acepta { estado } o, por compatibilidad, { entregado: boolean }.
+  const nuevoEstado = typeof estado === "string"
+    ? estado.trim()
+    : typeof entregado === "boolean"
+      ? (entregado ? "Entregado" : "Pendiente")
+      : null;
+
+  if (!nuevoEstado || !ESTADOS_PEDIDO.includes(nuevoEstado)) {
     return res.status(StatusCodes.BAD_REQUEST).json({
       success: false,
-      message: "El campo 'entregado' es obligatorio y debe ser un booleano (true/false)."
+      message: `El campo 'estado' es obligatorio. Valores permitidos: ${ESTADOS_PEDIDO.join(", ")}.`
     });
   }
 
   try {
-    const resultado = await actualizarEstadoPedido(id_pedido, entregado);
+    const resultado = await actualizarEstadoPedido(id_pedido, nuevoEstado, req.user);
     return res.status(StatusCodes.OK).json(resultado);
   } catch (error) {
     console.error(`[Error PATCH /pedidos/${id_pedido}/estado]:`, error.message);
-    return res.status(StatusCodes.BAD_REQUEST).json({
+    return res.status(error.status || StatusCodes.BAD_REQUEST).json({
       success: false,
       message: error.message
     });

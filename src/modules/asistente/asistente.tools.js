@@ -74,7 +74,7 @@ export const HERRAMIENTAS = [
       {
         name: "listarMisPedidos",
         description:
-          "Lista los pedidos realizados por el comprador actual (usuario logueado). Cada pedido incluye productos, cantidades, estado y fecha.",
+          "Lista los pedidos realizados por el comprador actual (usuario logueado). Cada pedido incluye productos, cantidades, estado (Pendiente, En preparación, Enviado o Entregado) y fecha.",
         parameters: { type: "object", properties: {} },
       },
       {
@@ -113,6 +113,7 @@ const agruparPedidos = (filas) => {
         fecha: current.fecha,
         direccion: current.direccion,
         entregado: current.entregado,
+        estado: current.estado,
         metodo_pago: current.metodo_pago,
         nombre_usuario: current.nombre_usuario || null,
         apellido_usuario: current.apellido_usuario || null,
@@ -151,6 +152,7 @@ const formatearPedidos = (pedidos) => {
       fecha: p.fecha,
       direccion: p.direccion,
       entregado: p.entregado,
+      estado: p.estado,
       metodo_pago: p.metodo_pago,
       cliente: p.nombre_usuario
         ? `${p.nombre_usuario}${p.apellido_usuario ? " " + p.apellido_usuario : ""}`.trim()
