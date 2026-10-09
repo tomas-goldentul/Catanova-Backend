@@ -47,7 +47,6 @@ export const HERRAMIENTAS = [
             },
           },
           required: ["nombre", "precio", "stock"],
-          
         },
       },
       {
@@ -70,7 +69,6 @@ export const HERRAMIENTAS = [
             id_pedido: { type: "integer", description: "ID del pedido a marcar como entregado." },
           },
           required: ["id_pedido"],
-          
         },
       },
       {
