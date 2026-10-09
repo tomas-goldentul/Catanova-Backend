@@ -88,12 +88,6 @@ export const insertProductoEnCategoria = async (id_categoria, id_producto) => {
     const values = [id_categoria, id_producto];
     const result = await db.query(query, values);
 
-    // Mantener sincronizado productos.id_categoria
-    await db.query(
-        `UPDATE productos SET id_categoria = $1 WHERE id_producto = $2`,
-        [id_categoria, id_producto]
-    );
-
     return result.rows[0];
 };
 
@@ -103,12 +97,6 @@ export const deleteProductoDeCategoria = async (id_categoria, id_producto) => {
                    RETURNING *;`;
     const values = [id_categoria, id_producto];
     const result = await db.query(query, values);
-
-    // Mantener sincronizado productos.id_categoria
-    await db.query(
-        `UPDATE productos SET id_categoria = NULL WHERE id_producto = $1 AND id_categoria = $2`,
-        [id_producto, id_categoria]
-    );
 
     return result.rows[0];
 };
