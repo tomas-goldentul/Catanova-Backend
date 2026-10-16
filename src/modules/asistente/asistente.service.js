@@ -7,7 +7,7 @@ const TIMEOUT_MS = Number(process.env.GEMINI_TIMEOUT_MS) || 60000;
 // Estados ante los que conviene probar el siguiente modelo:
 // 404 = modelo inexistente/no disponible, 429 = cuota agotada, 5xx = saturación o error del servidor.
 const ESTADOS_REINTENTABLES = new Set([404, 429, 500, 502, 503, 504]);
-const MODELOS_POR_DEFECTO = ["gemini-flash-latest", "gemini-3.8-flash", "gemini-3.5-flash-lite"];
+const MODELOS_POR_DEFECTO = ["gemini-2.0-flash", "gemini-1.5-flash-latest", "gemini-1.5-flash-8b"];
 
 export const PROMPTS = {
   vendedor: `Sos "Catanova", el asistente virtual de la plataforma Catanova, especializado en ayudar a vendedores de indumentaria a gestionar su negocio.

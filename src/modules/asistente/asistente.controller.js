@@ -61,7 +61,11 @@ export const chat = async (req, res) => {
 
     return res.status(200).json({ respuesta });
   } catch (error) {
-    const status = error.status || 500;
+    // Los errores 404 y 5xx provienen de la API de Gemini (modelo inexistente, saturación, etc.)
+    // y NO deben reenviarse como 404 al cliente porque se confunden con "ruta no encontrada".
+    // Se mapean a 502 Bad Gateway para indicar que el fallo es del servicio externo.
+    const upstream = Number(error.status) || 0;
+    const status = upstream === 400 ? 400 : upstream === 401 ? 401 : upstream === 429 ? 429 : 500;
     return res.status(status).json({
       message: error.message || "No se pudo procesar el mensaje con el asistente.",
     });
