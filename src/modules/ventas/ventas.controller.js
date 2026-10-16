@@ -10,23 +10,51 @@ export const verificarExistenciaVenta = async (id_venta) => {
 
 export const insertVenta = async (ventaData) => {
 	const {
-		fecha,
 		id_producto,
 		id_tienda,
-		id_usuario,
 		cantidad,
 		precio_unitario
 	} = ventaData;
 
-	if (!fecha || !id_producto || !id_tienda || !id_usuario || !cantidad || !precio_unitario) {
+	// id_usuario e id_pedido son opcionales (ventas manuales/presenciales)
+	if (!id_producto || !id_tienda || !cantidad || !precio_unitario) {
 		throw new Error("Faltan completar campos obligatorios");
 	}
 
-	const venta = {
-		...ventaData
-	};
-
+	const venta = { ...ventaData };
 	return await ventasModel.agregarVenta(venta);
+};
+
+// Registrar venta manual: descuenta stock en transacción atómica
+export const registrarVentaManual = async (ventaData) => {
+	const { id_producto, id_tienda, cantidad, precio_unitario, metodo_pago, id_usuario } = ventaData;
+
+	if (!id_producto || !id_tienda || !cantidad || !precio_unitario) {
+		throw new Error("Faltan completar campos obligatorios");
+	}
+
+	const cantidadNum = Number(cantidad);
+	const precioNum = Number(precio_unitario);
+
+	if (cantidadNum <= 0) throw new Error("La cantidad debe ser mayor a 0");
+	if (precioNum <= 0) throw new Error("El precio unitario debe ser mayor a 0");
+
+	const total = cantidadNum * precioNum;
+
+	return await ventasModel.registrarVentaConStock({
+		id_producto: Number(id_producto),
+		id_tienda: Number(id_tienda),
+		cantidad: cantidadNum,
+		precio_unitario: precioNum,
+		total,
+		metodo_pago: metodo_pago || null,
+		id_usuario: id_usuario ? Number(id_usuario) : null,
+	});
+};
+
+export const getVentasPorTienda = async (id_tienda) => {
+	const ventas = await ventasModel.getVentasPorTienda(id_tienda);
+	return ventas; // puede ser array vacío, es válido
 };
 
 export const getVentas = async () => {

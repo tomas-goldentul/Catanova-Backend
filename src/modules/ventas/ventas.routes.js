@@ -12,6 +12,27 @@ router.get("/", async (req, res) => {
 	}
 });
 
+// Ventas de una tienda con nombre de producto
+router.get("/tienda/:id", async (req, res) => {
+	try {
+		const ventas = await ventasController.getVentasPorTienda(req.params.id);
+		res.json(ventas);
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
+});
+
+// Registrar venta manual (descuenta stock en transacción)
+router.post("/manual", async (req, res) => {
+	try {
+		const venta = await ventasController.registrarVentaManual(req.body);
+		res.status(201).json(venta);
+	} catch (error) {
+		const status = error.message.includes("insuficiente") || error.message.includes("no existe") ? 400 : 500;
+		res.status(status).json({ message: error.message });
+	}
+});
+
 router.get("/ultimos/7dias", async (req, res) => {
 	try {
 		const ventas = await ventasController.getVentasUltimos7Dias();
