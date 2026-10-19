@@ -88,6 +88,8 @@ export const insertProductoEnCategoria = async (id_categoria, id_producto) => {
     const values = [id_categoria, id_producto];
     const result = await db.query(query, values);
 
+    console.log("Filas insertadas:", result.rows);
+    
     return result.rows[0];
 };
 

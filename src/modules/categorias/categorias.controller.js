@@ -1,5 +1,6 @@
 import * as categoriasModel from "./categorias.model.js";
 import * as tiendasModel from "../tiendas/tiendas.model.js";
+import * as productosModel from "../productos/productos.model.js";
 
 export const insertCategoria = async (nombre, id_tienda, productos = []) => {
     const nombreLimpio = typeof nombre === "string" ? nombre.trim() : "";
@@ -224,6 +225,7 @@ export const deleteProductoDeCategoria = async (id_categoria, id_producto) => {
 
     const productoYaExiste = await categoriasModel.getProductosCategoriaByiD(idCategoria, idProducto);
     if (!productoYaExiste) {
+        console.log('Asociación encontrada:', productoYaExiste);
         const error = new Error(`El producto con id ${idProducto} no está asociado a esta categoría`);
         error.status = 404;
         throw error;
@@ -248,3 +250,23 @@ export const checkProductoAsociado = async (id_categoria, id_producto) => {
     const productoAsociado = await categoriasModel.getProductosCategoriaByiD(idCategoria, idProducto);
     return productoAsociado;
 }
+
+export const getProductosPorCategoria = async (id_categoria) => {
+    const idCategoria = Number(id_categoria);
+
+    if (!Number.isInteger(idCategoria) || idCategoria <= 0) {
+        const error = new Error("Ingresa un id_categoria válido");
+        error.status = 400;
+        throw error;
+    }
+
+    const categoria = await categoriasModel.getCategoriasByiD(idCategoria);
+
+    if (!categoria) {
+        const error = new Error("Categoría no encontrada");
+        error.status = 404;
+        throw error;
+    }
+
+    return await productosModel.getProductosPorCategoria(idCategoria);
+};

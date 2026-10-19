@@ -154,12 +154,14 @@ export const getProductosPorCategoria = async (id_categoria, id_tienda = null) =
     let query = `
         SELECT p.*
         FROM productos p
-        WHERE p.id_categoria = $1
+        INNER JOIN productosxcategorias pc
+            ON pc.id_producto = p.id_producto
+        WHERE pc.id_categoria = $1
           AND p.activo = true
           AND p.eliminado = false
     `;
 
-    const values = [id_categoria];
+    const values = [Number(id_categoria)];
 
     if (id_tienda !== null && Number.isFinite(Number(id_tienda))) {
         query += ` AND p.id_tienda = $2`;
