@@ -1,5 +1,5 @@
 import express from "express";
-import { procesarNuevoPedido, getAllPedidos, getAllPedidosByIdUser, actualizarPedido, getPedidoDetallado, actualizarEstadoPedido, ESTADOS_PEDIDO, getSeguimientoPedido } from "./pedidos.controller.js";
+import { procesarNuevoPedido, getAllPedidos, getAllPedidosByIdUser, getPedidosByTienda, actualizarPedido, getPedidoDetallado, actualizarEstadoPedido, ESTADOS_PEDIDO, getSeguimientoPedido } from "./pedidos.controller.js";
 import { verificarToken } from "../auth/auth.middleware.js";
 import { StatusCodes } from "http-status-codes";
 import { Result } from "pg";
@@ -48,10 +48,23 @@ router.get("/getAll/:id_usuario", async (req, res) => {
     // Si usas un 404 para cuando no hay datos, queda más semántico que un BAD_REQUEST (400)
     const status = error.message.includes("No hay pedidos") ? StatusCodes.NOT_FOUND : StatusCodes.BAD_REQUEST;
     
-    return res.status(status).json({ 
-      success: false, 
-      message: error.message 
+    return res.status(status).json({
+      success: false,
+      message: error.message
     });
+  }
+});
+
+// Pedidos de la tienda logueada (se valida el token contra el id_tienda del parámetro).
+router.get("/getAll/tienda/:id_tienda", verificarToken, async (req, res) => {
+  const { id_tienda } = req.params;
+  try {
+    const resultados = await getPedidosByTienda(id_tienda, req.user);
+    return res.status(StatusCodes.OK).json({ success: true, data: resultados });
+  } catch (error) {
+    console.error("Error en la ruta GET /pedidos/getAll/tienda:", error.message);
+    const status = error.status || (error.message.includes("No hay pedidos") ? StatusCodes.NOT_FOUND : StatusCodes.BAD_REQUEST);
+    return res.status(status).json({ success: false, message: error.message });
   }
 });
 

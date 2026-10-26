@@ -143,6 +143,24 @@ export const getAllPedidosByIdUser = async (id_usuario) => {
   return agruparPedidos(filas);
 };
 
+// Devuelve los pedidos de la tienda logueada. Se valida que el token pertenezca
+// a la tienda indicada (no se puede consultar otra tienda cambiando la URL).
+export const getPedidosByTienda = async (id_tienda, usuarioToken) => {
+  if (!usuarioToken || usuarioToken.tipo !== "tienda" || !usuarioToken.id_tienda) {
+    throw crearError("Debés iniciar sesión como tienda para ver tus pedidos.", 401);
+  }
+  if (Number(usuarioToken.id_tienda) !== Number(id_tienda)) {
+    throw crearError("No tenés permiso para ver los pedidos de otra tienda.", 403);
+  }
+
+  const filas = await pedidosModel.getAllPedidosConDetallesByTienda(id_tienda);
+  if (filas.length === 0) {
+    throw crearError("No hay pedidos cargados para esta tienda", 404);
+  }
+
+  return agruparPedidos(filas);
+};
+
 export const actualizarPedido = async (id_pedido, datosActualizados) => {
   const { direccion, entregado, metodo_pago, productos, estado } = datosActualizados;
 
