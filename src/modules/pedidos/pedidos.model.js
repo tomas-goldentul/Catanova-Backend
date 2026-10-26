@@ -237,6 +237,51 @@ export const getPedidosPorTienda = async (id_tienda) => {
   return result.rows;
 };
 
+// Igual que getAllPedidosConDetalles, pero acotado a los productos de una tienda.
+// Trae los mismos joins (envios, tiendas) para que el front reciba el mismo
+// formato de datos que en GET /pedidos/getAll, pero solo los pedidos/productos
+// cuyo producto pertenece a la tienda indicada.
+export const getAllPedidosConDetallesByTienda = async (id_tienda) => {
+  const sql = `
+    SELECT
+      p.id_pedido,
+      p.fecha,
+      p.direccion,
+      p.id_usuario,
+      p.entregado,
+      p.estado,
+      p.metodo_pago,
+      u.nombre AS nombre_usuario,
+      u.apellido AS apellido_usuario,
+      dp.id_detallepedido,
+      dp.id_producto,
+      dp.cantidad,
+      dp.precio_total,
+      prod.nombre AS nombre_producto,
+      prod.precio AS precio_unitario,
+      prod.id_tienda AS id_tienda_producto,
+      t.nombre AS nombre_tienda,
+      e.id_envio,
+      e.codigo_seguimiento,
+      e.repartidor
+    FROM pedidos p
+    LEFT JOIN envios e
+      ON p.id_pedido = e.id_pedido
+    LEFT JOIN usuarios u
+      ON p.id_usuario = u.id_usuario
+    LEFT JOIN detallepedidos dp
+      ON p.id_pedido = dp.id_pedido
+    LEFT JOIN productos prod
+      ON dp.id_producto = prod.id_producto
+    LEFT JOIN tiendas t
+      ON prod.id_tienda = t.id_tienda
+    WHERE prod.id_tienda = $1
+    ORDER BY p.id_pedido ASC, dp.id_detallepedido ASC;
+  `;
+  const result = await db.query(sql, [id_tienda]);
+  return result.rows;
+};
+
 export const cambiarEstadoEntregado = async (id_pedido, entregado) => {
   await cambiarEstado(id_pedido, entregado ? 'Entregado' : 'Pendiente');
 };
