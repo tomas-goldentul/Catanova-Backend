@@ -80,23 +80,21 @@ export const modificarProducto = async (producto) => {
     imagen,
     activo,
     id_tienda,
-    id_categoria,
     tipo,
     descripcion
   } = producto;
 
   const query = `
     UPDATE productos
-      SET nombre = $1,
+    SET nombre = $1,
         precio = $2,
         stock = $3,
         imagen = $4,
         activo = $5,
         id_tienda = $6,
-        id_categoria = $7,
-        tipo = $8,
-        descripcion = $9
-      WHERE id_producto = $10
+        tipo = $7,
+        descripcion = $8
+    WHERE id_producto = $9
     RETURNING *;
   `;
 
@@ -107,30 +105,14 @@ export const modificarProducto = async (producto) => {
     imagen,
     activo,
     id_tienda,
-    id_categoria,
     tipo,
     descripcion,
     id_producto
   ];
 
   const result = await db.query(query, values);
-  const productoActualizado = result.rows[0];
-
-  // Mantener sincronizada la tabla productosxcategorias
-  await db.query(
-    `DELETE FROM productosxcategorias WHERE id_producto = $1`,
-    [id_producto]
-  );
-
-  if (id_categoria != null) {
-    await db.query(
-      `INSERT INTO productosxcategorias (id_categoria, id_producto) VALUES ($1, $2) ON CONFLICT DO NOTHING`,
-      [id_categoria, id_producto]
-    );
-  }
-
-  return productoActualizado;
-}
+  return result.rows[0];
+};
 
 export const eliminarProducto = async (id_producto) => {
   const query = `Update productos set eliminado = true WHERE id_producto = $1 RETURNING *;`

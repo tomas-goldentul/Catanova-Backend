@@ -93,12 +93,14 @@ export const actualizarProducto = async (datosProducto) => {
         nombre,
         precio: Number(precio),
         stock: Number(stock),
-        imagen: imagen || "",
-        activo: Boolean(activo),
+        imagen: imagen === undefined ? productoActual.imagen : (imagen || ""),
+        activo: activo === undefined ? productoActual.activo : Boolean(activo),
         id_tienda: Number(id_tienda),
-        id_categoria: id_categoria != null ? Number(id_categoria) : null,
-        tipo: tipo?.trim() || "",
-        descripcion: descripcion?.trim() || "",
+        id_categoria: id_categoria != null
+            ? Number(id_categoria)
+            : productoActual.id_categoria,
+        tipo: tipo === undefined ? (productoActual.tipo ?? "") : (tipo?.trim() || ""),
+        descripcion: descripcion === undefined ? (productoActual.descripcion ?? "") : (descripcion?.trim() || ""),
     };
 
     return await productosModel.modificarProducto(productoFormateado);
