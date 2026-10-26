@@ -26,6 +26,7 @@ const normalizarPedido = (filas) => {
     envio: primerFila.id_envio
       ? { id_envio: primerFila.id_envio, codigo_seguimiento: primerFila.codigo_seguimiento, repartidor: primerFila.repartidor }
       : null,
+    fecha_entrega_estimada: primerFila.fecha_entrega_estimada ?? null,
     metodo_pago: primerFila.metodo_pago,
     nombre_usuario: primerFila.nombre_usuario || null,
     apellido_usuario: primerFila.apellido_usuario || null,
@@ -75,6 +76,10 @@ const agruparPedidos = (filas) => {
         envio: current.id_envio
           ? { id_envio: current.id_envio, codigo_seguimiento: current.codigo_seguimiento, repartidor: current.repartidor }
           : null,
+        id_envio: current.id_envio ?? null,
+        codigo_seguimiento: current.codigo_seguimiento ?? null,
+        repartidor: current.repartidor ?? null,
+        fecha_entrega_estimada: current.fecha_entrega_estimada ?? null,
         metodo_pago: current.metodo_pago,
         nombre_usuario: current.nombre_usuario || null,
         apellido_usuario: current.apellido_usuario || null,
@@ -270,8 +275,15 @@ export const actualizarEstadoPedido = async (id_pedido, estado, usuarioToken) =>
   };
 };
 
+const validarId = (valor, campo) => {
+  if (!/^\d+$/.test(String(valor))) {
+    throw crearError(`El ID ${campo} no es válido.`, 400);
+  }
+};
+
 // Verifica que quien consulta sea el comprador del pedido o una tienda con productos en él.
 export const verificarAccesoPedido = async (id_pedido, usuarioToken) => {
+  validarId(id_pedido, "del pedido");
   const pedidoDB = await pedidosModel.getPedidoById(id_pedido);
   if (!pedidoDB) {
     throw crearError(`El pedido con ID ${id_pedido} no existe.`, 404);
@@ -290,6 +302,108 @@ export const verificarAccesoPedido = async (id_pedido, usuarioToken) => {
   }
 
   throw crearError("No tenés permiso para ver este pedido.", 403);
+};
+
+const verificarTiendaDelPedido = async (id_pedido, usuarioToken) => {
+  const { pedidoDB, rol } = await verificarAccesoPedido(id_pedido, usuarioToken);
+  if (rol !== "tienda") {
+    throw crearError("Solo la tienda del pedido puede hacer esta acción.", 403);
+  }
+  return pedidoDB;
+};
+
+const FORMATO_FECHA = /^(\d{4})-(\d{2})-(\d{2})$/;
+
+const formatearFechaAR = (fecha) => fecha.split("-").reverse().join("/");
+
+// Devuelve la fecha validada ("YYYY-MM-DD") o null para borrarla. pedidoDB viene de getPedidoById.
+export const validarFechaEntregaEstimada = (valor, pedidoDB) => {
+  if (valor === null || (typeof valor === "string" && !valor.trim())) return null;
+
+  const texto = typeof valor === "string" ? valor.trim() : "";
+  const partes = texto.match(FORMATO_FECHA);
+  if (!partes) {
+    throw crearError("La fecha estimada de entrega debe tener el formato AAAA-MM-DD.", 400);
+  }
+
+  const [anio, mes, dia] = partes.slice(1).map(Number);
+  const fecha = new Date(Date.UTC(anio, mes - 1, dia));
+  if (fecha.getUTCFullYear() !== anio || fecha.getUTCMonth() !== mes - 1 || fecha.getUTCDate() !== dia) {
+    throw crearError("La fecha estimada de entrega no es una fecha válida.", 400);
+  }
+
+  if (texto < pedidoDB.fecha_texto) {
+    throw crearError(`La fecha estimada de entrega no puede ser anterior a la fecha del pedido (${formatearFechaAR(pedidoDB.fecha_texto)}).`, 400);
+  }
+
+  return texto;
+};
+
+export const verificarFechaEstimadaEditable = (pedidoDB) => {
+  if (pedidoDB.estado === "Entregado" || pedidoDB.entregado) {
+    throw crearError("No se puede cambiar la fecha estimada de entrega de un pedido ya entregado.", 409);
+  }
+};
+
+export const actualizarFechaEstimada = async (id_pedido, datos, usuarioToken) => {
+  const pedidoDB = await verificarTiendaDelPedido(id_pedido, usuarioToken);
+
+  if (!datos || !("fecha_entrega_estimada" in datos)) {
+    throw crearError("El campo 'fecha_entrega_estimada' es obligatorio (usá null para borrarla).", 400);
+  }
+
+  verificarFechaEstimadaEditable(pedidoDB);
+  const fecha = validarFechaEntregaEstimada(datos.fecha_entrega_estimada, pedidoDB);
+
+  const actualizado = await pedidosModel.actualizarFechaEntregaEstimada(id_pedido, fecha);
+  return {
+    id_pedido: Number(actualizado.id_pedido),
+    fecha_entrega_estimada: actualizado.fecha_entrega_estimada
+  };
+};
+
+const TIPOS_NOTA = ["nota", "incidencia"];
+const MAX_LARGO_NOTA = 500;
+
+export const crearNotaPedido = async (id_pedido, datos, usuarioToken) => {
+  await verificarTiendaDelPedido(id_pedido, usuarioToken);
+
+  const { tipo, texto } = datos || {};
+  if (!TIPOS_NOTA.includes(tipo)) {
+    throw crearError(`El campo 'tipo' es obligatorio. Valores permitidos: ${TIPOS_NOTA.join(", ")}.`, 400);
+  }
+
+  const textoLimpio = typeof texto === "string" ? texto.trim() : "";
+  if (!textoLimpio) {
+    throw crearError("El texto de la nota no puede estar vacío.", 400);
+  }
+  // Se cuentan caracteres (no unidades UTF-16) igual que varchar(500).
+  if ([...textoLimpio].length > MAX_LARGO_NOTA) {
+    throw crearError(`El texto de la nota admite como máximo ${MAX_LARGO_NOTA} caracteres.`, 400);
+  }
+
+  const nota = await pedidosModel.crearNota(id_pedido, usuarioToken.id_tienda, tipo, textoLimpio);
+  return {
+    id_nota: nota.id_nota,
+    tipo: nota.tipo,
+    texto: nota.texto,
+    fecha_creacion: nota.fecha_creacion
+  };
+};
+
+export const eliminarNotaPedido = async (id_pedido, id_nota, usuarioToken) => {
+  await verificarTiendaDelPedido(id_pedido, usuarioToken);
+  validarId(id_nota, "de la nota");
+
+  const nota = await pedidosModel.getNotaById(id_nota);
+  if (!nota || Number(nota.id_pedido) !== Number(id_pedido)) {
+    throw crearError(`La nota con ID ${id_nota} no existe en el pedido ${id_pedido}.`, 404);
+  }
+  if (Number(nota.id_tienda) !== Number(usuarioToken.id_tienda)) {
+    throw crearError("Solo podés eliminar notas creadas por tu tienda.", 403);
+  }
+
+  return await pedidosModel.eliminarNota(id_nota);
 };
 
 const ultimoRegistro = (historial, estado) => {
@@ -369,10 +483,18 @@ export const getSeguimientoPedido = async (id_pedido, usuarioToken) => {
     }
   ];
 
+  // Las notas son internas de cada tienda: el comprador no las ve.
+  const notas = rol === "tienda"
+    ? await pedidosModel.getNotasPedido(id_pedido, usuarioToken.id_tienda)
+    : [];
+
   return {
     id_pedido: Number(primerFila.id_pedido),
     estado,
     fecha: primerFila.fecha,
+    fecha_entrega_estimada: primerFila.fecha_entrega_estimada ?? null,
+    fecha_entrega: regEntregado?.fecha || null,
+    notas,
     metodo_pago: primerFila.metodo_pago,
     comprador: {
       nombre: primerFila.nombre_usuario || null,

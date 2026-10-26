@@ -6,21 +6,21 @@ const JWT_SECRET = process.env.JWT_SECRET || "catanova_secret";
 export const verificarToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return res.status(401).json({ message: "Token requerido" });
+        return res.status(401).json({ success: false, message: "Token requerido" });
     }
 
     const token = authHeader.split(" ")[1];
 
     try {
         const payload = jwt.verify(token, JWT_SECRET);
-        req.user = payload; 
+        req.user = payload;
         next();
-    } catch (err) {       
+    } catch (err) {
         if (err.name === "TokenExpiredError") {
-            return res.status(401).json({ message: "Token expirado" });
+            return res.status(401).json({ success: false, message: "Token expirado" });
         }
 
-        return res.status(401).json({ message: "Token inválido" });
+        return res.status(401).json({ success: false, message: "Token inválido" });
     }
 };
 

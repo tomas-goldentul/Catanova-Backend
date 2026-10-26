@@ -1,5 +1,5 @@
 import express from "express";
-import { procesarNuevoPedido, getAllPedidos, getAllPedidosByIdUser, getPedidosByTienda, actualizarPedido, getPedidoDetallado, actualizarEstadoPedido, ESTADOS_PEDIDO, getSeguimientoPedido } from "./pedidos.controller.js";
+import { procesarNuevoPedido, getAllPedidos, getAllPedidosByIdUser, getPedidosByTienda, actualizarPedido, getPedidoDetallado, actualizarEstadoPedido, ESTADOS_PEDIDO, getSeguimientoPedido, actualizarFechaEstimada, crearNotaPedido, eliminarNotaPedido } from "./pedidos.controller.js";
 import { verificarToken } from "../auth/auth.middleware.js";
 import { StatusCodes } from "http-status-codes";
 import { Result } from "pg";
@@ -152,6 +152,50 @@ router.patch("/:id_pedido/estado", verificarToken, async (req, res) => {
     return res.status(StatusCodes.OK).json(resultado);
   } catch (error) {
     console.error(`[Error PATCH /pedidos/${id_pedido}/estado]:`, error.message);
+    return res.status(error.status || StatusCodes.BAD_REQUEST).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
+// Fecha estimada de entrega ("YYYY-MM-DD" o null para borrarla). Solo la tienda del pedido.
+router.patch("/:id_pedido/fecha-estimada", verificarToken, async (req, res) => {
+  const { id_pedido } = req.params;
+  try {
+    const resultado = await actualizarFechaEstimada(id_pedido, req.body, req.user);
+    return res.status(StatusCodes.OK).json({ success: true, data: resultado });
+  } catch (error) {
+    console.error(`[Error PATCH /pedidos/${id_pedido}/fecha-estimada]:`, error.message);
+    return res.status(error.status || StatusCodes.BAD_REQUEST).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
+// Notas e incidencias internas de la tienda sobre el pedido.
+router.post("/:id_pedido/notas", verificarToken, async (req, res) => {
+  const { id_pedido } = req.params;
+  try {
+    const nota = await crearNotaPedido(id_pedido, req.body, req.user);
+    return res.status(StatusCodes.CREATED).json({ success: true, data: nota });
+  } catch (error) {
+    console.error(`[Error POST /pedidos/${id_pedido}/notas]:`, error.message);
+    return res.status(error.status || StatusCodes.BAD_REQUEST).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
+router.delete("/:id_pedido/notas/:id_nota", verificarToken, async (req, res) => {
+  const { id_pedido, id_nota } = req.params;
+  try {
+    const nota = await eliminarNotaPedido(id_pedido, id_nota, req.user);
+    return res.status(StatusCodes.OK).json({ success: true, data: nota });
+  } catch (error) {
+    console.error(`[Error DELETE /pedidos/${id_pedido}/notas/${id_nota}]:`, error.message);
     return res.status(error.status || StatusCodes.BAD_REQUEST).json({
       success: false,
       message: error.message
