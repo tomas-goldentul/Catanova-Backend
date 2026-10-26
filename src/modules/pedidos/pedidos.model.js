@@ -270,6 +270,7 @@ export const getAllPedidosConDetallesByTienda = async (id_tienda) => {
       p.entregado,
       p.estado,
       p.metodo_pago,
+      to_char(p.fecha_entrega_estimada, 'YYYY-MM-DD') AS fecha_entrega_estimada,
       u.nombre AS nombre_usuario,
       u.apellido AS apellido_usuario,
       dp.id_detallepedido,
