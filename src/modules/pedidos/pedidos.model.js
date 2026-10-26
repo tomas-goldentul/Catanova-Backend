@@ -22,6 +22,7 @@ export const getAllPedidosConDetalles = async () => {
       p.entregado,
       p.estado,
       p.metodo_pago,
+      to_char(p.fecha_entrega_estimada, 'YYYY-MM-DD') AS fecha_entrega_estimada,
       u.nombre AS nombre_usuario,
       u.apellido AS apellido_usuario,
       dp.id_detallepedido,
@@ -63,6 +64,7 @@ export const getAllPedidosConDetallesByIdUser = async (id_usuario) => {
       p.entregado,
       p.estado,
       p.metodo_pago,
+      to_char(p.fecha_entrega_estimada, 'YYYY-MM-DD') AS fecha_entrega_estimada,
       u.nombre AS nombre_usuario,
       u.apellido AS apellido_usuario,
       dp.id_detallepedido,
@@ -96,11 +98,25 @@ export const getAllPedidosConDetallesByIdUser = async (id_usuario) => {
 
 export const getPedidoById = async (id_pedido) => {
   const sql = `
-    SELECT id_pedido, fecha, direccion, id_usuario, entregado, estado, metodo_pago
-    FROM pedidos 
+    SELECT id_pedido, fecha, direccion, id_usuario, entregado, estado, metodo_pago,
+      to_char(fecha, 'YYYY-MM-DD') AS fecha_texto,
+      to_char(fecha_entrega_estimada, 'YYYY-MM-DD') AS fecha_entrega_estimada
+    FROM pedidos
     WHERE id_pedido = $1;
   `;
   const result = await db.query(sql, [id_pedido]);
+  return result.rows[0];
+};
+
+// Las fechas sin hora se devuelven como texto "YYYY-MM-DD" para que no se corran por zona horaria.
+export const actualizarFechaEntregaEstimada = async (id_pedido, fecha_entrega_estimada) => {
+  const sql = `
+    UPDATE pedidos
+    SET fecha_entrega_estimada = $1
+    WHERE id_pedido = $2
+    RETURNING id_pedido, to_char(fecha_entrega_estimada, 'YYYY-MM-DD') AS fecha_entrega_estimada;
+  `;
+  const result = await db.query(sql, [fecha_entrega_estimada, id_pedido]);
   return result.rows[0];
 };
 
@@ -141,6 +157,7 @@ export const getPedidoConDetallesById = async (id_pedido) => {
       p.entregado,
       p.estado,
       p.metodo_pago,
+      to_char(p.fecha_entrega_estimada, 'YYYY-MM-DD') AS fecha_entrega_estimada,
       u.nombre AS nombre_usuario,
       u.apellido AS apellido_usuario,
       dp.id_detallepedido,
@@ -183,6 +200,7 @@ export const getPedidosPendientesPorTienda = async (id_tienda) => {
       p.entregado,
       p.estado,
       p.metodo_pago,
+      to_char(p.fecha_entrega_estimada, 'YYYY-MM-DD') AS fecha_entrega_estimada,
       u.nombre AS nombre_usuario,
       u.apellido AS apellido_usuario,
       dp.id_detallepedido,
@@ -215,6 +233,7 @@ export const getPedidosPorTienda = async (id_tienda) => {
       p.entregado,
       p.estado,
       p.metodo_pago,
+      to_char(p.fecha_entrega_estimada, 'YYYY-MM-DD') AS fecha_entrega_estimada,
       u.nombre AS nombre_usuario,
       u.apellido AS apellido_usuario,
       dp.id_detallepedido,
@@ -299,4 +318,42 @@ export const pedidoTieneProductosDeTienda = async (id_pedido, id_tienda) => {
   `;
   const result = await db.query(sql, [id_pedido, id_tienda]);
   return result.rowCount > 0;
+};
+
+export const crearNota = async (id_pedido, id_tienda, tipo, texto) => {
+  const sql = `
+    INSERT INTO pedido_notas (id_pedido, id_tienda, tipo, texto)
+    VALUES ($1, $2, $3, $4)
+    RETURNING id_nota, id_pedido, id_tienda, tipo, texto, fecha_creacion;
+  `;
+  const result = await db.query(sql, [id_pedido, id_tienda, tipo, texto]);
+  return result.rows[0];
+};
+
+// Notas de una tienda en un pedido, de la más nueva a la más vieja.
+export const getNotasPedido = async (id_pedido, id_tienda) => {
+  const sql = `
+    SELECT id_nota, tipo, texto, fecha_creacion
+    FROM pedido_notas
+    WHERE id_pedido = $1 AND id_tienda = $2
+    ORDER BY fecha_creacion DESC, id_nota DESC;
+  `;
+  const result = await db.query(sql, [id_pedido, id_tienda]);
+  return result.rows;
+};
+
+export const getNotaById = async (id_nota) => {
+  const sql = `
+    SELECT id_nota, id_pedido, id_tienda, tipo, texto, fecha_creacion
+    FROM pedido_notas
+    WHERE id_nota = $1;
+  `;
+  const result = await db.query(sql, [id_nota]);
+  return result.rows[0];
+};
+
+export const eliminarNota = async (id_nota) => {
+  const sql = `DELETE FROM pedido_notas WHERE id_nota = $1 RETURNING id_nota, tipo, texto, fecha_creacion;`;
+  const result = await db.query(sql, [id_nota]);
+  return result.rows[0];
 };

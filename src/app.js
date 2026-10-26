@@ -96,6 +96,17 @@ const aplicarMigraciones = async () => {
     } catch (error) {
         console.error("No se pudo aplicar la migración de estados/envíos de pedidos:", error.message);
     }
+
+    try {
+        const migracionSeguimiento = fs.readFileSync(
+            path.join(__dirname, "database/migracion_seguimiento_vendedor.sql"),
+            "utf8"
+        );
+        await db.query(migracionSeguimiento);
+        console.log("Migración aplicada: fecha estimada de entrega y notas de pedidos.");
+    } catch (error) {
+        console.error("No se pudo aplicar la migración de fecha estimada/notas de pedidos:", error.message);
+    }
 };
 
 // Inicio del servidor

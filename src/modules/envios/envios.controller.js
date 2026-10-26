@@ -1,5 +1,6 @@
 import * as enviosModel from "./envios.model.js";
 import * as pedidosModel from "../pedidos/pedidos.model.js";
+import { validarFechaEntregaEstimada } from "../pedidos/pedidos.controller.js";
 
 const crearError = (mensaje, status) => {
   const error = new Error(mensaje);
@@ -56,6 +57,8 @@ export const listarEnviosTienda = async (usuarioToken) => {
     repartidor: fila.repartidor,
     nombre_comprador: fila.nombre_comprador,
     direccion: fila.direccion,
+    fecha_entrega_estimada: fila.fecha_entrega_estimada,
+    cantidad_incidencias: Number(fila.cantidad_incidencias),
     cantidad_productos: Number(fila.cantidad_productos),
     total: Number(fila.total),
     puede_crear_envio: !fila.id_envio && (fila.estado === "Pendiente" || fila.estado === "En preparación")
@@ -73,7 +76,7 @@ export const editarEnvio = async (id_envio, datos, usuarioToken) => {
     throw crearError("No se puede editar el envío de un pedido ya entregado.", 409);
   }
 
-  const { direccion, nombre_comprador, repartidor } = datos || {};
+  const { direccion, nombre_comprador, repartidor, fecha_entrega_estimada } = datos || {};
   validarLargos({ direccion, nombre_comprador, repartidor });
 
   // Solo se cambian los campos enviados; no se aceptan vacíos.
@@ -85,16 +88,27 @@ export const editarEnvio = async (id_envio, datos, usuarioToken) => {
     }
   }
 
-  return await enviosModel.editarEnvio({
+  // La fecha estimada se guarda en el pedido; null la borra.
+  const fechaEstimada = fecha_entrega_estimada !== undefined
+    ? validarFechaEntregaEstimada(fecha_entrega_estimada, pedidoDB)
+    : undefined;
+
+  const envioEditado = await enviosModel.editarEnvio({
     id_envio: Number(id_envio),
     direccion: direccion !== undefined ? String(direccion).trim() : envio.direccion,
     nombre_comprador: nombre_comprador !== undefined ? String(nombre_comprador).trim() : envio.nombre_comprador,
     repartidor: repartidor !== undefined ? String(repartidor).trim() : envio.repartidor
   });
+
+  const pedido = fechaEstimada !== undefined
+    ? await pedidosModel.actualizarFechaEntregaEstimada(envio.id_pedido, fechaEstimada)
+    : pedidoDB;
+
+  return { ...envioEditado, fecha_entrega_estimada: pedido.fecha_entrega_estimada };
 };
 
 export const crearEnvio = async (datos, usuarioToken) => {
-  const { id_pedido, direccion, nombre_comprador, repartidor } = datos || {};
+  const { id_pedido, direccion, nombre_comprador, repartidor, fecha_entrega_estimada } = datos || {};
 
   if (!id_pedido) {
     throw crearError("El campo 'id_pedido' es obligatorio.", 400);
@@ -113,6 +127,11 @@ export const crearEnvio = async (datos, usuarioToken) => {
   if (await enviosModel.getEnvioPorPedido(id_pedido)) {
     throw crearError(`El pedido ${id_pedido} ya tiene un envío creado.`, 409);
   }
+
+  // Se valida antes de crear el envío para no dejarlo a medias.
+  const fechaEstimada = fecha_entrega_estimada !== undefined
+    ? validarFechaEntregaEstimada(fecha_entrega_estimada, pedidoDB)
+    : undefined;
 
   // Por defecto se usan la dirección y el nombre del comprador del pedido.
   const filas = await pedidosModel.getPedidoConDetallesById(id_pedido);
@@ -133,7 +152,11 @@ export const crearEnvio = async (datos, usuarioToken) => {
 
   await pedidosModel.cambiarEstado(id_pedido, "Enviado");
 
-  return envio;
+  const pedido = fechaEstimada !== undefined
+    ? await pedidosModel.actualizarFechaEntregaEstimada(id_pedido, fechaEstimada)
+    : pedidoDB;
+
+  return { ...envio, fecha_entrega_estimada: pedido.fecha_entrega_estimada };
 };
 
 export const getEnvioPorPedido = async (id_pedido, usuarioToken) => {

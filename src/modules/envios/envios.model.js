@@ -54,6 +54,9 @@ export const listarPedidosDeTienda = async (id_tienda) => {
       e.repartidor,
       COALESCE(e.nombre_comprador, TRIM(CONCAT(u.nombre, ' ', u.apellido))) AS nombre_comprador,
       COALESCE(e.direccion, p.direccion) AS direccion,
+      to_char(p.fecha_entrega_estimada, 'YYYY-MM-DD') AS fecha_entrega_estimada,
+      (SELECT COUNT(*) FROM pedido_notas n
+        WHERE n.id_pedido = p.id_pedido AND n.id_tienda = $1 AND n.tipo = 'incidencia') AS cantidad_incidencias,
       SUM(dp.cantidad) AS cantidad_productos,
       SUM(dp.precio_total) AS total
     FROM pedidos p
