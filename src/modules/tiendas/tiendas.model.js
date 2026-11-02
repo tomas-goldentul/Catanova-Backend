@@ -40,12 +40,13 @@ export const eliminarTiendaPorCuentaId = async (id_cuenta) => {
 }
 
 export const editarTienda = async (tienda) => {
- const {
-    id_tienda, 
+  const {
+    id_tienda,
     nombre,
     slogan,
     telefono,
     direccion,
+    establecimiento,
     color_primario,
     color_secundario,
     color_terciario,
@@ -58,11 +59,12 @@ export const editarTienda = async (tienda) => {
         slogan = $2, 
         telefono = $3, 
         direccion = $4, 
-        color_primario = $5, 
-        color_secundario = $6, 
-        color_terciario = $7,
-        abierta = $8
-    WHERE id_tienda = $9
+        establecimiento = $5,
+        color_primario = $6, 
+        color_secundario = $7, 
+        color_terciario = $8,
+        abierta = $9
+    WHERE id_tienda = $10
     RETURNING *;
   `;
 
@@ -71,11 +73,12 @@ export const editarTienda = async (tienda) => {
     slogan,
     telefono,
     direccion,
+    establecimiento,
     color_primario,
     color_secundario,
     color_terciario,
     abierta,
-    id_tienda 
+    id_tienda
   ];
 
   const result = await db.query(query, values);

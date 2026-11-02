@@ -58,23 +58,41 @@ export const updateTienda = async (datosTienda) => {
   }
 
   const tiendaActual = await getTiendaById(id_tienda);
+
   if (!tiendaActual) {
     throw new Error("La tienda no existe");
   }
 
   if (tiendaActual.nombre !== nombre) {
     const nombreDuplicado = await buscarTiendaPorNombre(nombre);
+
     if (nombreDuplicado) {
       throw new Error("El nuevo nombre ya está en uso");
     }
   }
 
+  // Si no se envía el año, conserva el que ya tenía la tienda.
+  const establecimiento = datosTienda.establecimiento === undefined
+    ? tiendaActual.establecimiento
+    : Number(datosTienda.establecimiento);
+
+  if (
+    !Number.isInteger(establecimiento) ||
+    establecimiento < 1900 ||
+    establecimiento > new Date().getFullYear()
+  ) {
+    throw new Error("El año de establecimiento no es válido");
+  }
+
   const datosLimpios = {
     ...datosTienda,
+    establecimiento,
     color_primario: datosTienda.color_primario || null,
     color_secundario: datosTienda.color_secundario || null,
     color_terciario: datosTienda.color_terciario || null,
-    abierta: datosTienda.abierta === undefined ? tiendaActual.abierta : Boolean(datosTienda.abierta)
+    abierta: datosTienda.abierta === undefined
+      ? tiendaActual.abierta
+      : Boolean(datosTienda.abierta)
   };
 
   return await editarTienda(datosLimpios);

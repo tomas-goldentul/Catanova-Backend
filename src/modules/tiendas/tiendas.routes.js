@@ -1,5 +1,5 @@
 import express from "express";
-import { insertTienda, updateTienda, getNombreTienda, getSloganTienda, getTiendas, abrirTienda, cerrarTienda } from "./tiendas.controller.js";
+import { insertTienda, updateTienda, getNombreTienda, getSloganTienda, getTiendas, getTiendaId, abrirTienda, cerrarTienda } from "./tiendas.controller.js";
 import { StatusCodes } from "http-status-codes";
 
 const router = express.Router();
@@ -179,6 +179,30 @@ router.put('/cerrar/:id', async (req, res) => {
             error: error.message
         });
     }
+});
+
+// Obtener tienda completa por ID
+router.get('/get/:id', async (req, res) => {
+  try {
+    const tienda = await getTiendaId(Number(req.params.id));
+
+    if (!tienda) {
+      return res.status(404).json({
+        message: "Tienda no encontrada"
+      });
+    }
+
+    return res.status(200).json({
+      message: "Tienda encontrada",
+      data: tienda
+    });
+
+  } catch (error) {
+    console.error("Error al obtener tienda:", error);
+    return res.status(500).json({
+      message: error.message
+    });
+  }
 });
 
 export default router;
