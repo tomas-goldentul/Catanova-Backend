@@ -1,5 +1,5 @@
 import express from "express";
-import { procesarNuevoPedido, getAllPedidos, getAllPedidosByIdUser, getPedidosByTienda, actualizarPedido, getPedidoDetallado, actualizarEstadoPedido, ESTADOS_PEDIDO, getSeguimientoPedido, actualizarFechaEstimada, crearNotaPedido, eliminarNotaPedido, cancelarPedido } from "./pedidos.controller.js";
+import { procesarNuevoPedido, getAllPedidos, getAllPedidosByIdUser, getPedidosByTienda, actualizarPedido, getPedidoDetallado, actualizarEstadoPedido, ESTADOS_PEDIDO, getSeguimientoPedido, actualizarFechaEstimada, crearNotaPedido, eliminarNotaPedido } from "./pedidos.controller.js";
 import { verificarToken } from "../auth/auth.middleware.js";
 import { StatusCodes } from "http-status-codes";
 import { Result } from "pg";
@@ -196,21 +196,6 @@ router.delete("/:id_pedido/notas/:id_nota", verificarToken, async (req, res) => 
     return res.status(StatusCodes.OK).json({ success: true, data: nota });
   } catch (error) {
     console.error(`[Error DELETE /pedidos/${id_pedido}/notas/${id_nota}]:`, error.message);
-    return res.status(error.status || StatusCodes.BAD_REQUEST).json({
-      success: false,
-      message: error.message
-    });
-  }
-});
-
-// Cancelar un pedido (solo la tienda dueña; devuelve stock automáticamente).
-router.patch("/:id_pedido/cancelar", verificarToken, async (req, res) => {
-  const { id_pedido } = req.params;
-  try {
-    const resultado = await cancelarPedido(id_pedido, req.user);
-    return res.status(StatusCodes.OK).json(resultado);
-  } catch (error) {
-    console.error(`[Error PATCH /pedidos/${id_pedido}/cancelar]:`, error.message);
     return res.status(error.status || StatusCodes.BAD_REQUEST).json({
       success: false,
       message: error.message
