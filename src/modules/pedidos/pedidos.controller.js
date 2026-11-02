@@ -4,7 +4,7 @@ import { insertarDetallePedido } from "../detallepedidos/detallepedidos.model.js
 import { getUsuarioPorCuenta } from "../usuarios/usuarios.model.js";
 import { getEnvioPorPedido } from "../envios/envios.model.js";
 
-export const ESTADOS_PEDIDO = ["Pendiente", "En preparación", "Enviado", "Entregado", "Cancelado"];
+export const ESTADOS_PEDIDO = ["Pendiente", "En preparación", "Enviado", "Entregado"];
 
 const crearError = (mensaje, status) => {
   const error = new Error(mensaje);
@@ -275,37 +275,6 @@ export const actualizarEstadoPedido = async (id_pedido, estado, usuarioToken) =>
   };
 };
 
-// Cancela un pedido: solo la tienda dueña puede hacerlo, y solo si no está Entregado ni ya Cancelado.
-// Al cancelar se devuelve el stock de todos los productos del pedido.
-export const cancelarPedido = async (id_pedido, usuarioToken) => {
-  const { pedidoDB, rol } = await verificarAccesoPedido(id_pedido, usuarioToken);
-
-  if (rol !== "tienda") {
-    throw crearError("Solo la tienda del pedido puede cancelarlo.", 403);
-  }
-
-  if (pedidoDB.estado === "Cancelado") {
-    throw crearError("El pedido ya está cancelado.", 409);
-  }
-
-  if (pedidoDB.estado === "Entregado") {
-    throw crearError("No se puede cancelar un pedido que ya fue entregado.", 409);
-  }
-
-  // Devolver stock de cada producto del pedido.
-  const detalles = await pedidosModel.getDetallesByPedidoId(id_pedido);
-  for (const detalle of detalles) {
-    await sumarStockProducto(detalle.id_producto, detalle.cantidad);
-  }
-
-  await pedidosModel.cambiarEstado(id_pedido, "Cancelado");
-
-  return {
-    success: true,
-    estado: "Cancelado",
-    message: `Pedido ${id_pedido} cancelado correctamente. Se restituyó el stock de ${detalles.length} producto(s).`
-  };
-};
 
 const validarId = (valor, campo) => {
   if (!/^\d+$/.test(String(valor))) {
