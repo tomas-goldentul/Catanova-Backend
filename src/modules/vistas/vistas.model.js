@@ -8,11 +8,12 @@ const normalizarVista = (row) => {
     };
 };
 
-export const getAllVistas = async () => {
+export const getTiendaDeProducto = async (id_producto) => {
     const result = await db.query(
-        "SELECT * FROM vistas ORDER BY fecha DESC"
+        "SELECT id_tienda FROM productos WHERE id_producto = $1",
+        [id_producto]
     );
-    return result.rows.map(normalizarVista);
+    return result.rows[0];
 };
 
 export const getVistaById = async (id) => {
@@ -54,32 +55,6 @@ export const getCantidadVistasProducto = async (id_producto) => {
     );
 
     return result.rows[0];
-};
-
-export const getCantidadVistasDesdeIntervalo = async (interval) => {
-    const result = await db.query(
-        `SELECT COUNT(*)::int AS cantidad
-         FROM vistas
-         WHERE fecha >= NOW() - INTERVAL '${interval}'`
-    );
-
-    return result.rows[0];
-};
-
-export const getCantidadVistasUltimos7Dias = async () => {
-    return await getCantidadVistasDesdeIntervalo("7 days");
-};
-
-export const getCantidadVistasUltimoMes = async () => {
-    return await getCantidadVistasDesdeIntervalo("1 month");
-};
-
-export const getCantidadVistasUltimoAno = async () => {
-    return await getCantidadVistasDesdeIntervalo("1 year");
-};
-
-export const getCantidadVistasUltimos2Anios = async () => {
-    return await getCantidadVistasDesdeIntervalo("2 years");
 };
 
 export const getVistasProducto = async (id_producto) => {

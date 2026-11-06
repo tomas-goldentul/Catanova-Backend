@@ -1,9 +1,12 @@
 import db from "../../config/db-config.js";
 
-export const getAllVentas = async () => {
-	const query = `SELECT * FROM ventas ORDER BY id_venta`;
-	const result = await db.query(query);
-	return result.rows;
+// fecha llega como ISO (idealmente con zona, ej. "2026-11-06T18:30:00.000Z") o Date.
+// Se convierte a la hora de reloj de la sesión de Postgres, que es como se guardan las demás fechas.
+const FECHA_A_SESION = "($1::timestamptz AT TIME ZONE current_setting('TimeZone'))";
+
+export const getTiendaDeProducto = async (id_producto) => {
+	const result = await db.query(`SELECT id_tienda FROM productos WHERE id_producto = $1`, [id_producto]);
+	return result.rows[0];
 };
 
 // Ventas de una tienda con JOIN a productos para traer el nombre
@@ -55,12 +58,18 @@ export const registrarVentaConStock = async (venta) => {
 
 		// Verificar stock con bloqueo de fila para evitar race conditions
 		const stockResult = await client.query(
-			`SELECT stock FROM productos WHERE id_producto = $1 FOR UPDATE`,
+			`SELECT stock, id_tienda FROM productos WHERE id_producto = $1 FOR UPDATE`,
 			[id_producto]
 		);
 
 		if (stockResult.rows.length === 0) {
 			throw new Error("El producto no existe");
+		}
+
+		if (Number(stockResult.rows[0].id_tienda) !== Number(id_tienda)) {
+			const error = new Error("El producto no pertenece a tu tienda.");
+			error.status = 403;
+			throw error;
 		}
 
 		const stockActual = Number(stockResult.rows[0].stock);
@@ -125,15 +134,15 @@ export const agregarVenta = async (venta) => {
 			cantidad,
 			precio_unitario,
 			total
-		) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING *;
+		) VALUES (COALESCE(${FECHA_A_SESION}, LOCALTIMESTAMP),$2,$3,$4,$5,$6,$7,$8) RETURNING *;
 	`;
 
 	const values = [
-		fecha,
+		fecha || null,
 		id_producto,
 		id_tienda,
-		id_usuario,
-		id_pedido,
+		id_usuario ?? null,
+		id_pedido ?? null,
 		cantidad,
 		precio_unitario,
 		totalComputed
@@ -160,7 +169,7 @@ export const editarVenta = async (venta) => {
 
 	const query = `
 		UPDATE ventas SET
-			fecha = $1,
+			fecha = COALESCE(${FECHA_A_SESION}, fecha),
 			id_producto = $2,
 			id_tienda = $3,
 			id_usuario = $4,
@@ -173,11 +182,11 @@ export const editarVenta = async (venta) => {
 	`;
 
 	const values = [
-		fecha,
+		fecha || null,
 		id_producto,
 		id_tienda,
-		id_usuario,
-		id_pedido,
+		id_usuario ?? null,
+		id_pedido ?? null,
 		cantidad,
 		precio_unitario,
 		totalComputed,
@@ -192,28 +201,6 @@ export const eliminarVenta = async (id_venta) => {
 	const query = `DELETE FROM ventas WHERE id_venta = $1 RETURNING *`;
 	const result = await db.query(query, [id_venta]);
 	return result.rows[0];
-};
-
-export const getVentasDesdeIntervalo = async (interval) => {
-	const query = `SELECT * FROM ventas WHERE fecha >= NOW() - INTERVAL '${interval}' ORDER BY fecha DESC`;
-	const result = await db.query(query);
-	return result.rows;
-};
-
-export const getVentasUltimos7Dias = async () => {
-	return await getVentasDesdeIntervalo('7 days');
-};
-
-export const getVentasUltimoMes = async () => {
-	return await getVentasDesdeIntervalo('1 month');
-};
-
-export const getVentasUltimoAno = async () => {
-	return await getVentasDesdeIntervalo('1 year');
-};
-
-export const getVentasUltimos2Anios = async () => {
-	return await getVentasDesdeIntervalo('2 years');
 };
 
 export const getCantidadVentasProducto = async (id_producto) => {

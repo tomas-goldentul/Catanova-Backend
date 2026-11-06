@@ -1,43 +1,57 @@
 import * as ventasModel from "./ventas.model.js";
+import { crearError, verificarDuenioTienda } from "../auth/auth.middleware.js";
 
-export const verificarExistenciaVenta = async (id_venta) => {
+// Devuelve la venta solo si pertenece a la tienda del token (404 si no existe, 403 si es de otra tienda).
+const obtenerVentaPropia = async (id_venta, usuarioToken) => {
+	verificarDuenioTienda(usuarioToken, usuarioToken?.id_tienda);
 	const venta = await ventasModel.getVentaById(id_venta);
 	if (!venta) {
-		throw new Error("La venta no existe");
+		throw crearError("La venta no existe", 404);
 	}
+	verificarDuenioTienda(usuarioToken, venta.id_tienda);
 	return venta;
 };
 
-export const insertVenta = async (ventaData) => {
-	const {
-		id_producto,
-		id_tienda,
-		cantidad,
-		precio_unitario
-	} = ventaData;
+const verificarProductoDeTienda = async (id_producto, id_tienda) => {
+	const producto = await ventasModel.getTiendaDeProducto(id_producto);
+	if (!producto) {
+		throw crearError("El producto no existe", 400);
+	}
+	if (Number(producto.id_tienda) !== Number(id_tienda)) {
+		throw crearError("El producto no pertenece a tu tienda.", 403);
+	}
+};
 
+export const insertVenta = async (ventaData, usuarioToken) => {
+	const id_tienda = ventaData.id_tienda ?? usuarioToken?.id_tienda;
+	verificarDuenioTienda(usuarioToken, id_tienda);
+
+	const { id_producto, cantidad, precio_unitario } = ventaData;
 	// id_usuario e id_pedido son opcionales (ventas manuales/presenciales)
-	if (!id_producto || !id_tienda || !cantidad || !precio_unitario) {
-		throw new Error("Faltan completar campos obligatorios");
+	if (!id_producto || !cantidad || !precio_unitario) {
+		throw crearError("Faltan completar campos obligatorios", 400);
 	}
 
-	const venta = { ...ventaData };
-	return await ventasModel.agregarVenta(venta);
+	await verificarProductoDeTienda(id_producto, id_tienda);
+	return await ventasModel.agregarVenta({ ...ventaData, id_tienda });
 };
 
 // Registrar venta manual: descuenta stock en transacción atómica
-export const registrarVentaManual = async (ventaData) => {
-	const { id_producto, id_tienda, cantidad, precio_unitario, metodo_pago, id_usuario } = ventaData;
+export const registrarVentaManual = async (ventaData, usuarioToken) => {
+	const id_tienda = ventaData.id_tienda ?? usuarioToken?.id_tienda;
+	verificarDuenioTienda(usuarioToken, id_tienda);
 
-	if (!id_producto || !id_tienda || !cantidad || !precio_unitario) {
-		throw new Error("Faltan completar campos obligatorios");
+	const { id_producto, cantidad, precio_unitario, metodo_pago, id_usuario } = ventaData;
+
+	if (!id_producto || !cantidad || !precio_unitario) {
+		throw crearError("Faltan completar campos obligatorios", 400);
 	}
 
 	const cantidadNum = Number(cantidad);
 	const precioNum = Number(precio_unitario);
 
-	if (cantidadNum <= 0) throw new Error("La cantidad debe ser mayor a 0");
-	if (precioNum <= 0) throw new Error("El precio unitario debe ser mayor a 0");
+	if (cantidadNum <= 0) throw crearError("La cantidad debe ser mayor a 0", 400);
+	if (precioNum <= 0) throw crearError("El precio unitario debe ser mayor a 0", 400);
 
 	const total = cantidadNum * precioNum;
 
@@ -52,58 +66,44 @@ export const registrarVentaManual = async (ventaData) => {
 	});
 };
 
-export const getVentasPorTienda = async (id_tienda) => {
-	const ventas = await ventasModel.getVentasPorTienda(id_tienda);
-	return ventas; // puede ser array vacío, es válido
+export const getVentasPorTienda = async (id_tienda, usuarioToken) => {
+	verificarDuenioTienda(usuarioToken, id_tienda);
+	return await ventasModel.getVentasPorTienda(id_tienda); // puede ser array vacío, es válido
 };
 
-export const getVentas = async () => {
-	const ventas = await ventasModel.getAllVentas();
-	if (!ventas || ventas.length === 0) {
-		throw new Error("No hay ventas cargadas");
-	}
-	return ventas;
+export const getVenta = async (id_venta, usuarioToken) => {
+	return await obtenerVentaPropia(id_venta, usuarioToken);
 };
 
-export const getVenta = async (id_venta) => {
-	return await verificarExistenciaVenta(id_venta);
-};
-
-export const updateVenta = async (ventaData) => {
+// Edición parcial: los campos que no vienen en el body conservan su valor actual.
+export const updateVenta = async (ventaData, usuarioToken) => {
 	const { id_venta } = ventaData;
-	await verificarExistenciaVenta(id_venta);
-	return await ventasModel.editarVenta(ventaData);
+	if (!id_venta) {
+		throw crearError("Falta el id_venta", 400);
+	}
+
+	const actual = await obtenerVentaPropia(id_venta, usuarioToken);
+	const cambios = Object.fromEntries(Object.entries(ventaData).filter(([, valor]) => valor !== undefined));
+	const venta = { ...actual, ...cambios };
+
+	// Si cambia la cantidad o el precio y no mandan total, se recalcula.
+	if ((cambios.cantidad !== undefined || cambios.precio_unitario !== undefined) && cambios.total === undefined) {
+		venta.total = Number(venta.cantidad) * Number(venta.precio_unitario);
+	}
+
+	verificarDuenioTienda(usuarioToken, venta.id_tienda);
+	if (Number(venta.id_producto) !== Number(actual.id_producto)) {
+		await verificarProductoDeTienda(venta.id_producto, venta.id_tienda);
+	}
+
+	return await ventasModel.editarVenta(venta);
 };
 
-export const deleteVenta = async (id_venta) => {
-	await verificarExistenciaVenta(id_venta);
+export const deleteVenta = async (id_venta, usuarioToken) => {
+	await obtenerVentaPropia(id_venta, usuarioToken);
 	return await ventasModel.eliminarVenta(id_venta);
 };
 
-export const getVentasUltimos7Dias = async () => {
-	const ventas = await ventasModel.getVentasUltimos7Dias();
-	if (!ventas || ventas.length === 0) throw new Error("No hay ventas en los últimos 7 días");
-	return ventas;
-};
-
-export const getVentasUltimoMes = async () => {
-	const ventas = await ventasModel.getVentasUltimoMes();
-	if (!ventas || ventas.length === 0) throw new Error("No hay ventas en el último mes");
-	return ventas;
-};
-
-export const getVentasUltimoAno = async () => {
-	const ventas = await ventasModel.getVentasUltimoAno();
-	if (!ventas || ventas.length === 0) throw new Error("No hay ventas en el último año");
-	return ventas;
-};
-
-export const getVentasUltimos2Anios = async () => {
-	const ventas = await ventasModel.getVentasUltimos2Anios();
-	if (!ventas || ventas.length === 0) throw new Error("No hay ventas en los últimos 2 años");
-	return ventas;
-};
-
 export const getCantidadVentasProducto = async (id_producto) => {
-    return await ventasModel.getCantidadVentasProducto(id_producto);
+	return await ventasModel.getCantidadVentasProducto(id_producto);
 };

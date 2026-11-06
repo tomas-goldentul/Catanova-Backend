@@ -9,7 +9,7 @@ import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 dotenv.config();
 
-import db from "./config/db-config.js";
+import db, { detectarZonaHorariaBase } from "./config/db-config.js";
 
 import tiendasRoutes from "./modules/tiendas/tiendas.routes.js";
 import productoRoutes from "./modules/productos/productos.routes.js";
@@ -25,6 +25,7 @@ import usuariosRoutes from "./modules/usuarios/usuarios.routes.js";
 import usuariosxtiendasRoutes from "./modules/usuariosxtiendas/usuariosxtiendas.routes.js";
 import asistenteRoutes from "./modules/asistente/asistente.routes.js";
 import enviosRoutes from "./modules/envios/envios.routes.js";
+import estadisticasRoutes from "./modules/estadisticas/estadisticas.routes.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;          
@@ -57,12 +58,21 @@ app.use("/usuarios", usuariosRoutes);
 app.use("/usuariosxtiendas", usuariosxtiendasRoutes);
 app.use("/asistente", asistenteRoutes);
 app.use("/envios", enviosRoutes);
+app.use("/estadisticas", estadisticasRoutes);
 app.get("/", (req, res) => {
     res.send("¡Servidor de Catanova funcionando!");
 });
 
 // Migraciones simples aplicadas al arrancar el servidor
 const aplicarMigraciones = async () => {
+    try {
+        const { zona, offsetSegundos } = await detectarZonaHorariaBase();
+        const zonaNode = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        console.log(`Zona horaria de Postgres: ${zona} (UTC${offsetSegundos >= 0 ? "+" : ""}${offsetSegundos / 3600}) | Node: ${zonaNode}`);
+    } catch (error) {
+        console.error("No se pudo detectar la zona horaria de Postgres, se asume UTC:", error.message);
+    }
+
     try {
         await db.query(`ALTER TABLE IF EXISTS productos ADD COLUMN IF NOT EXISTS descripcion TEXT DEFAULT '';`);
         await db.query(`ALTER TABLE IF EXISTS usuarios ADD COLUMN IF NOT EXISTS direccion VARCHAR(100);`);
