@@ -21,10 +21,14 @@ router.get("/producto/:id/cantidad", async (req, res) => {
 
 // --- Requieren token y ser dueño de la tienda ---
 
-// Ventas de una tienda con nombre de producto
+// Ventas de una tienda con nombre de producto.
+// Opcional: ?desde=YYYY-MM-DD&hasta=YYYY-MM-DD (rango [desde, hasta) en hora de Argentina).
 router.get("/tienda/:id", verificarToken, async (req, res) => {
 	try {
-		const ventas = await ventasController.getVentasPorTienda(req.params.id, req.user);
+		const ventas = await ventasController.getVentasPorTienda(req.params.id, req.user, {
+			desde: req.query.desde,
+			hasta: req.query.hasta,
+		});
 		res.json(ventas);
 	} catch (error) {
 		responderError(res, error, 400);

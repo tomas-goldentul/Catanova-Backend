@@ -66,9 +66,26 @@ export const registrarVentaManual = async (ventaData, usuarioToken) => {
 	});
 };
 
-export const getVentasPorTienda = async (id_tienda, usuarioToken) => {
+// Valida "YYYY-MM-DD" y que sea una fecha real (rechaza 2026-02-30). Ausente o vacío -> undefined.
+const parsearDiaQuery = (valor, nombre) => {
+	if (valor === undefined || valor === "") return undefined;
+	const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(valor));
+	const fecha = m && new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+	if (!m || fecha.getUTCFullYear() !== +m[1] || fecha.getUTCMonth() !== +m[2] - 1 || fecha.getUTCDate() !== +m[3]) {
+		throw crearError(`'${nombre}' inválido. Formato esperado: YYYY-MM-DD.`, 400);
+	}
+	return m[0];
+};
+
+// filtros opcionales { desde, hasta } en "YYYY-MM-DD": rango [desde, hasta) en hora de Argentina.
+export const getVentasPorTienda = async (id_tienda, usuarioToken, filtros = {}) => {
 	verificarDuenioTienda(usuarioToken, id_tienda);
-	return await ventasModel.getVentasPorTienda(id_tienda); // puede ser array vacío, es válido
+	const desde = parsearDiaQuery(filtros.desde, "desde");
+	const hasta = parsearDiaQuery(filtros.hasta, "hasta");
+	if (desde && hasta && desde >= hasta) {
+		throw crearError("'desde' tiene que ser anterior a 'hasta' (el rango es [desde, hasta)).", 400);
+	}
+	return await ventasModel.getVentasPorTienda(id_tienda, { desde, hasta }); // puede ser array vacío, es válido
 };
 
 export const getVenta = async (id_venta, usuarioToken) => {

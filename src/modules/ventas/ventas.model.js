@@ -9,8 +9,27 @@ export const getTiendaDeProducto = async (id_producto) => {
 	return result.rows[0];
 };
 
-// Ventas de una tienda con JOIN a productos para traer el nombre
-export const getVentasPorTienda = async (id_tienda) => {
+const TZ_ARGENTINA = "America/Argentina/Buenos_Aires";
+
+// Parámetro "YYYY-MM-DD" -> 00:00 de ese día en Argentina, expresado en la hora de reloj
+// de la sesión de Postgres, que es como está guardada ventas.fecha.
+const inicioDiaArgentina = (param) =>
+	`((${param}::date::timestamp AT TIME ZONE '${TZ_ARGENTINA}') AT TIME ZONE current_setting('TimeZone'))`;
+
+// Ventas de una tienda con JOIN a productos para traer el nombre.
+// desde/hasta opcionales ("YYYY-MM-DD"): rango [desde, hasta) en hora de Argentina.
+export const getVentasPorTienda = async (id_tienda, { desde, hasta } = {}) => {
+	const values = [id_tienda];
+	let filtroFecha = "";
+	if (desde) {
+		values.push(desde);
+		filtroFecha += ` AND v.fecha >= ${inicioDiaArgentina(`$${values.length}`)}`;
+	}
+	if (hasta) {
+		values.push(hasta);
+		filtroFecha += ` AND v.fecha < ${inicioDiaArgentina(`$${values.length}`)}`;
+	}
+
 	const query = `
 		SELECT
 			v.id_venta,
@@ -33,10 +52,10 @@ export const getVentasPorTienda = async (id_tienda) => {
 		FROM ventas v
 		JOIN productos p ON p.id_producto = v.id_producto
 		LEFT JOIN usuarios u ON u.id_usuario = v.id_usuario
-		WHERE v.id_tienda = $1
+		WHERE v.id_tienda = $1${filtroFecha}
 		ORDER BY v.fecha DESC
 	`;
-	const result = await db.query(query, [id_tienda]);
+	const result = await db.query(query, values);
 	return result.rows;
 };
 
