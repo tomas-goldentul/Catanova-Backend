@@ -31,10 +31,22 @@ export const agregarVista = async (vista) => {
         `INSERT INTO vistas(id_producto,id_usuario,fecha)
          VALUES($1,$2,NOW())
          RETURNING *`,
-        [id_producto, id_usuario]
+        [id_producto, id_usuario ?? null]
     );
 
     return result.rows[0];
+};
+
+// fecha se graba con NOW() en la hora de reloj de la sesión, por eso se compara con LOCALTIMESTAMP.
+export const existeVistaReciente = async (id_producto, id_usuario, minutos) => {
+    const result = await db.query(
+        `SELECT 1 FROM vistas
+         WHERE id_producto = $1 AND id_usuario = $2
+           AND fecha >= LOCALTIMESTAMP - make_interval(mins => $3::int)
+         LIMIT 1`,
+        [id_producto, id_usuario, minutos]
+    );
+    return result.rowCount > 0;
 };
 
 export const eliminarVista = async (id) => {

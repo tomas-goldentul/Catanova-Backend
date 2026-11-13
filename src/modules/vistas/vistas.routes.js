@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as vistasController from "./vistas.controller.js";
-import { verificarToken } from "../auth/auth.middleware.js";
+import { verificarToken, leerTokenOpcional } from "../auth/auth.middleware.js";
 import { getVistasTienda } from "../estadisticas/estadisticas.controller.js";
 
 const router = Router();
@@ -18,10 +18,12 @@ router.get("/producto/:id/cantidad", async (req, res) => {
     }
 });
 
+// Token opcional: con sesión de usuario se toma su id; la tienda dueña del producto no suma vistas.
+// 201 si se registró; 200 con { registrada: false, motivo } si no se cuenta ("propia" o "repetida").
 router.post("/", async (req, res) => {
     try {
-        const vista = await vistasController.insertVista(req.body);
-        res.status(201).json(vista);
+        const vista = await vistasController.insertVista(req.body || {}, leerTokenOpcional(req));
+        res.status(vista.registrada ? 201 : 200).json(vista);
     } catch (error) {
         responderError(res, error, 400);
     }
