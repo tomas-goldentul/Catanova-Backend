@@ -45,9 +45,10 @@ export const getRangos = async (periodo) => {
 };
 
 // Todas las operaciones de la tienda entre desde y hasta (instantes), una fila por producto vendido:
-//  - origen 'manual': filas de ventas SIN id_pedido (las de POST /ventas/manual). Se excluyen las
-//    ventas con id_pedido porque duplican el detalle del pedido (solo existen en el seed), y las
-//    marcadas como anuladas/canceladas en ventas.estado.
+//  - origen 'manual': filas de detalleventas de ventas SIN id_pedido (las de POST /ventas/manual).
+//    ventas es la cabecera (fecha, total, estado) y el producto/cantidad/subtotal está en detalleventas.
+//    Se excluyen las ventas con id_pedido porque duplican el detalle del pedido (solo existen en el
+//    seed), y las marcadas como anuladas/canceladas en ventas.estado.
 //  - origen 'pedido': filas de detallepedidos de productos de la tienda. El momento del pedido es el
 //    primer registro del historial (con hora); si no hay, la primera venta asociada al pedido; si
 //    tampoco, pedidos.fecha (solo día) a las 00:00 de Argentina.
@@ -59,11 +60,12 @@ export const getOperaciones = async (id_tienda, desde, hasta) => {
                 'v' || v.id_venta AS id_operacion,
                 NULL::int AS id_pedido,
                 NULL::text AS estado_pedido,
-                v.id_producto,
-                v.cantidad,
-                v.total AS monto,
+                dv.id_producto,
+                dv.cantidad,
+                dv.subtotal AS monto,
                 ${aInstante("v.fecha")} AS instante
             FROM ventas v
+            JOIN detalleventas dv ON dv.id_venta = v.id_venta
             WHERE v.id_tienda = $1
               AND v.id_pedido IS NULL
               AND lower(COALESCE(v.estado, 'Completada')) NOT IN ('anulada', 'cancelada')
