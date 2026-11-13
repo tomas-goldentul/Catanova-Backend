@@ -25,7 +25,7 @@ DECLARE
     vendibles   int;
     d int; n int; i int;
     v_local timestamp; v_inst timestamptz; v_prod int; v_cant int; v_precio numeric;
-    v_pedido int; v_estado text;
+    v_pedido int; v_estado text; v_venta int;
 BEGIN
     SELECT array_agg(id_producto ORDER BY id_producto) INTO prods
     FROM productos WHERE id_tienda = v_tienda AND activo = true AND eliminado = false;
@@ -39,7 +39,12 @@ BEGIN
     END IF;
     vendibles := array_length(prods, 1) - 1; -- el último queda sin ventas
 
-    -- Limpieza de una corrida anterior
+    -- Limpieza de una corrida anterior (nuevo estilo: cabecera en ventas + líneas en detalleventas)
+    DELETE FROM detalleventas
+    WHERE id_venta IN (
+        SELECT id_venta FROM ventas
+        WHERE id_tienda = v_tienda AND metodo_pago = 'Seed estadísticas'
+    );
     DELETE FROM ventas WHERE id_tienda = v_tienda AND metodo_pago = 'Seed estadísticas';
     DELETE FROM detallepedidos WHERE id_pedido IN (SELECT id_pedido FROM pedidos WHERE direccion LIKE 'SEED-ESTADISTICAS t' || v_tienda || ' %');
     DELETE FROM pedidos WHERE direccion LIKE 'SEED-ESTADISTICAS t' || v_tienda || ' %';
@@ -47,6 +52,7 @@ BEGIN
     PERFORM setseed(0.42);
 
     -- Ventas manuales: 0 a 3 por día durante 62 días. Hoy, solo antes de la hora actual.
+    -- Nuevo estilo: se crea la venta (cabecera) y su detalle en detalleventas.
     FOR d IN 0..62 LOOP
         FOR n IN 1..3 LOOP
             CONTINUE WHEN random() < 0.35;
@@ -55,17 +61,41 @@ BEGIN
             v_prod := prods[1 + floor(random() * vendibles)::int];
             v_cant := 1 + floor(random() * 3)::int;
             SELECT precio INTO v_precio FROM productos WHERE id_producto = v_prod;
-            INSERT INTO ventas (fecha, id_producto, id_tienda, id_usuario, id_pedido, cantidad, precio_unitario, total, metodo_pago, estado)
-            VALUES ((v_local AT TIME ZONE tz) AT TIME ZONE sesion, v_prod, v_tienda,
-                    CASE WHEN random() < 0.5 THEN usuarios[1 + floor(random() * array_length(usuarios, 1))::int] END,
-                    NULL, v_cant, v_precio, v_cant * v_precio, 'Seed estadísticas', 'Completada');
+
+            INSERT INTO ventas (fecha, id_tienda, id_usuario, id_pedido, total, metodo_pago, estado)
+            VALUES (
+                (v_local AT TIME ZONE tz) AT TIME ZONE sesion,
+                v_tienda,
+                CASE WHEN random() < 0.5 THEN usuarios[1 + floor(random() * array_length(usuarios, 1))::int] END,
+                NULL,
+                v_cant * v_precio,
+                'Seed estadísticas',
+                'Completada'
+            )
+            RETURNING id_venta INTO v_venta;
+
+            INSERT INTO detalleventas (id_venta, id_producto, cantidad, precio_unitario, subtotal)
+            VALUES (v_venta, v_prod, v_cant, v_precio, v_cant * v_precio);
         END LOOP;
     END LOOP;
 
     -- Una venta anulada hoy (NO debe sumar en las estadísticas)
-    INSERT INTO ventas (fecha, id_producto, id_tienda, id_usuario, id_pedido, cantidad, precio_unitario, total, metodo_pago, estado)
-    SELECT (hoy_local AT TIME ZONE tz) AT TIME ZONE sesion, prods[1], v_tienda, NULL, NULL, 10, precio, 10 * precio, 'Seed estadísticas', 'Anulada'
-    FROM productos WHERE id_producto = prods[1];
+    v_prod := prods[1];
+    SELECT precio INTO v_precio FROM productos WHERE id_producto = v_prod;
+    INSERT INTO ventas (fecha, id_tienda, id_usuario, id_pedido, total, metodo_pago, estado)
+    VALUES (
+        (hoy_local AT TIME ZONE tz) AT TIME ZONE sesion,
+        v_tienda,
+        NULL,
+        NULL,
+        10 * v_precio,
+        'Seed estadísticas',
+        'Anulada'
+    )
+    RETURNING id_venta INTO v_venta;
+
+    INSERT INTO detalleventas (id_venta, id_producto, cantidad, precio_unitario, subtotal)
+    VALUES (v_venta, v_prod, 10, v_precio, 10 * v_precio);
 
     -- Pedidos: uno cada 2 días (más uno extra hoy). Los recientes quedan en estados intermedios.
     FOR i IN 0..31 LOOP
