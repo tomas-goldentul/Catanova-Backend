@@ -74,7 +74,7 @@ export const HERRAMIENTAS = [
       {
         name: "listarMisPedidos",
         description:
-          "Lista los pedidos realizados por el comprador actual (usuario logueado). Cada pedido incluye productos, cantidades, estado (Pendiente, En preparación, Enviado o Entregado) y fecha.",
+          "Lista los pedidos realizados por el comprador actual (usuario logueado). Cada pedido incluye productos, cantidades, estado (Pendiente, En preparación, Enviado, Entregado o Cancelado) y fecha.",
         parameters: { type: "object", properties: {} },
       },
       {

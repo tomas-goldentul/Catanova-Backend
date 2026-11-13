@@ -4,7 +4,7 @@ import { insertarDetallePedido } from "../detallepedidos/detallepedidos.model.js
 import { getUsuarioPorCuenta } from "../usuarios/usuarios.model.js";
 import { getEnvioPorPedido } from "../envios/envios.model.js";
 
-export const ESTADOS_PEDIDO = ["Pendiente", "En preparación", "Enviado", "Entregado"];
+export const ESTADOS_PEDIDO = ["Pendiente", "En preparación", "Enviado", "Entregado", "Cancelado"];
 
 const crearError = (mensaje, status) => {
   const error = new Error(mensaje);
@@ -174,8 +174,8 @@ export const actualizarPedido = async (id_pedido, datosActualizados) => {
     throw new Error(`El pedido con ID ${id_pedido} no existe.`);
   }
 
-  if (pedidoDB.entregado) {
-    throw new Error("No se puede modificar un pedido que ya ha sido entregado.");
+  if (pedidoDB.entregado || pedidoDB.estado === "Cancelado") {
+    throw new Error("No se puede modificar un pedido que ya ha sido entregado o cancelado.");
   }
 
   if (estado !== undefined && !ESTADOS_PEDIDO.includes(estado)) {
@@ -223,7 +223,10 @@ export const actualizarPedido = async (id_pedido, datosActualizados) => {
 
   await pedidosModel.actualizarPedidoBase(id_pedido, nuevaDireccion, nuevoEntregado, nuevoMetodoPago);
 
-  const nuevoEstado = estado !== undefined ? estado : nuevoEntregado ? "Entregado" : pedidoDB.estado;
+  let nuevoEstado = estado !== undefined ? estado : nuevoEntregado ? "Entregado" : pedidoDB.estado;
+  if (nuevoEstado === "Cancelado" && pedidoDB.estado !== "Cancelado") {
+    await restaurarStockPedido(id_pedido);
+  }
   await pedidosModel.cambiarEstado(id_pedido, nuevoEstado);
 
   return {
@@ -243,6 +246,13 @@ export const getPedidoDetallado = async (id_pedido) => {
   return normalizarPedido(filas)[0];
 };
 
+const restaurarStockPedido = async (id_pedido) => {
+  const detalles = await pedidosModel.getDetallesByPedidoId(id_pedido);
+  for (const detalle of detalles) {
+    await sumarStockProducto(detalle.id_producto, detalle.cantidad);
+  }
+};
+
 export const actualizarEstadoPedido = async (id_pedido, estado, usuarioToken) => {
   if (!ESTADOS_PEDIDO.includes(estado)) {
     throw crearError(`Estado inválido. Valores permitidos: ${ESTADOS_PEDIDO.join(", ")}.`, 400);
@@ -257,12 +267,23 @@ export const actualizarEstadoPedido = async (id_pedido, estado, usuarioToken) =>
     throw crearError("No se puede revertir el estado de un pedido que ya fue entregado.", 409);
   }
 
+  if (pedidoDB.estado === "Cancelado" && estado !== "Cancelado") {
+    throw crearError("No se puede cambiar el estado de un pedido cancelado.", 409);
+  }
+
   // "Enviado" solo se asigna creando un envío, y se sale de él entregando o eliminando el envío.
   if (estado === "Enviado" && pedidoDB.estado !== "Enviado") {
     throw crearError("Para pasar un pedido a 'Enviado' creá un envío (POST /envios).", 409);
   }
   if (pedidoDB.estado === "Enviado" && estado !== "Enviado" && estado !== "Entregado") {
     throw crearError("El pedido tiene un envío creado: para volver atrás eliminá el envío (DELETE /envios/:id_envio).", 409);
+  }
+
+  if (estado === "Cancelado" && pedidoDB.estado !== "Cancelado") {
+    if (pedidoDB.estado === "Entregado") {
+      throw crearError("No se puede cancelar un pedido que ya fue entregado.", 409);
+    }
+    await restaurarStockPedido(id_pedido);
   }
 
   await pedidosModel.cambiarEstado(id_pedido, estado);
@@ -343,6 +364,9 @@ export const validarFechaEntregaEstimada = (valor, pedidoDB) => {
 export const verificarFechaEstimadaEditable = (pedidoDB) => {
   if (pedidoDB.estado === "Entregado" || pedidoDB.entregado) {
     throw crearError("No se puede cambiar la fecha estimada de entrega de un pedido ya entregado.", 409);
+  }
+  if (pedidoDB.estado === "Cancelado") {
+    throw crearError("No se puede cambiar la fecha estimada de entrega de un pedido cancelado.", 409);
   }
 };
 
