@@ -54,19 +54,19 @@ const toolsHabilitadas = () =>
 const esReintentable = (error) =>
   ESTADOS_REINTENTABLES.has(Number(error?.status)) || !error?.status;
 
-async function llamarGemini({ modelo, apiKey, system, contenido }) {
+async function llamarGemini({ modelo, apiKey, system, contenido, conHerramientas = true, temperature = 0.7, maxOutputTokens = 800 }) {
   const url = `${GEMINI_API_URL}/${encodeURIComponent(modelo)}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
   const body = {
     system_instruction: { parts: [{ text: system }] },
     contents: contenido,
     generationConfig: {
-      temperature: 0.7,
-      maxOutputTokens: 800,
+      temperature,
+      maxOutputTokens,
     },
   };
 
-  if (toolsHabilitadas()) {
+  if (conHerramientas && toolsHabilitadas()) {
     body.tools = HERRAMIENTAS;
   }
 
@@ -168,4 +168,38 @@ export async function consultarGemini({ mensaje, modo, historial = [], contexto 
   }
 
   throw ultimoError || new Error("No se pudo obtener respuesta del asistente.");
+}
+
+
+// Texto libre a partir de un prompt, SIN herramientas (no toca datos). Usa la misma lista de
+// modelos con fallback que el chat. Devuelve { texto, modelo }.
+export async function generarTexto({ system, prompt, temperature = 0.4, maxOutputTokens = 1024 }) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey || !String(apiKey).trim()) {
+    const error = new Error("El servicio de IA no está configurado (falta GEMINI_API_KEY en el servidor).");
+    error.status = 503;
+    throw error;
+  }
+
+  const contenido = [{ role: "user", parts: [{ text: String(prompt) }] }];
+  let ultimoError;
+  for (const modelo of obtenerModelos()) {
+    try {
+      const payload = await llamarGemini({ modelo, apiKey, system, contenido, conHerramientas: false, temperature, maxOutputTokens });
+      const texto = (payload?.candidates?.[0]?.content?.parts || [])
+        .map((parte) => (typeof parte?.text === "string" && !parte.thought ? parte.text : ""))
+        .join("")
+        .trim();
+      if (texto) return { texto, modelo };
+      ultimoError = Object.assign(new Error("La IA no devolvió texto."), { status: 502 });
+    } catch (error) {
+      ultimoError = error;
+      if (!esReintentable(error)) break;
+      console.warn(`[asistente] generarTexto: el modelo "${modelo}" falló (${error.status || "sin estado"}): ${error.message}.`);
+    }
+  }
+
+  const error = new Error(`No se pudo generar el texto con IA: ${ultimoError?.message || "error desconocido"}`);
+  error.status = [400, 401, 429].includes(Number(ultimoError?.status)) ? Number(ultimoError.status) : 502;
+  throw error;
 }

@@ -24,6 +24,17 @@ export const verificarToken = (req, res, next) => {
     }
 };
 
+// Para rutas públicas que se comportan distinto con sesión: payload del token o null (nunca falla).
+export const leerTokenOpcional = (req) => {
+    const authHeader = req.headers.authorization || "";
+    if (!authHeader.startsWith("Bearer ")) return null;
+    try {
+        return jwt.verify(authHeader.slice(7), JWT_SECRET);
+    } catch {
+        return null;
+    }
+};
+
 export const crearError = (mensaje, status) => {
     const error = new Error(mensaje);
     error.status = status;

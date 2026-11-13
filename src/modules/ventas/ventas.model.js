@@ -42,6 +42,8 @@ export const getVentasPorTienda = async (id_tienda, { desde, hasta } = {}) => {
 			v.id_producto,
 			v.id_tienda,
 			v.id_usuario,
+			v.id_pedido,
+			CASE WHEN v.id_pedido IS NULL THEN 'manual' ELSE 'pedido' END AS origen,
 			p.nombre AS nombre_producto,
 			p.imagen,
 			CASE

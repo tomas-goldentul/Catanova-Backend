@@ -16,7 +16,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node --watch src/app.js"
+    "server": "node --watch src/app.js",
+    "seed:estadisticas": "node src/database/correr-seed-estadisticas.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

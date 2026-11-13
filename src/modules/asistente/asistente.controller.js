@@ -7,6 +7,11 @@ const JWT_SECRET = process.env.JWT_SECRET || "catanova_secret";
 
 const leerIdentidad = async (req, contexto) => {
   const identidad = { ...(contexto && typeof contexto === "object" ? contexto : {}) };
+  // La identidad sale SOLO del token: el cliente no puede elegir tienda/usuario mandándolos en el contexto.
+  delete identidad.id_tienda;
+  delete identidad.id_usuario;
+  delete identidad.id_cuenta;
+  delete identidad.tipo;
   const header = req.headers.authorization || "";
   const token = header.startsWith("Bearer ") ? header.slice(7) : null;
 

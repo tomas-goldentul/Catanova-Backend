@@ -3,95 +3,135 @@ import db from "../../config/db-config.js";
 export const TZ = "America/Argentina/Buenos_Aires";
 
 // ventas.fecha y vistas.fecha son "timestamp without time zone" y se graban con
-// CURRENT_TIMESTAMP / NOW(), o sea en la zona horaria de la sesión de la base.
-// Para compararlas con instantes reales (timestamptz) se pasa el límite a la hora
-// local de la sesión, y para agrupar se pasa la fecha a la hora de Argentina.
+// CURRENT_TIMESTAMP / NOW(), o sea con la hora de reloj de la zona de la sesión de la base.
+// Para compararlas con instantes reales (timestamptz) se pasa el límite a la hora de la sesión,
+// y para convertirlas a instante se interpretan en la zona de la sesión.
 const aSesion = (param) => `(${param}::timestamptz AT TIME ZONE current_setting('TimeZone'))`;
-const aHoraArgentina = (col) => `((${col} AT TIME ZONE current_setting('TimeZone')) AT TIME ZONE '${TZ}')`;
+const aInstante = (col) => `(${col} AT TIME ZONE current_setting('TimeZone'))`;
 
-// Rangos del período actual y del anterior (misma duración transcurrida), calculados en hora de Argentina.
-// diasAtras: cuántos días antes de hoy empieza el período (0, 6 o 29).
-// duracion: largo del período en días (1, 7 o 30), que es lo que se corre el período anterior.
-export const getRangos = async (diasAtras, duracion) => {
+// hoy: desde las 00:00. semana: desde el lunes 00:00. mes: desde el día 1 00:00 (hora de Argentina).
+const PERIODOS_SQL = {
+    hoy: { trunc: "day", paso: "1 day" },
+    semana: { trunc: "week", paso: "7 days" }, // date_trunc('week') arranca el lunes
+    mes: { trunc: "month", paso: "1 month" },
+};
+
+// Período actual = [inicio, ahora]. Período anterior = el mismo tramo corrido un día/semana/mes:
+// [inicio - paso, ahora - paso). Para el mes, Postgres recorta al último día si el mes anterior
+// es más corto (31/03 15:00 -> 28/02 15:00).
+export const getRangos = async (periodo) => {
+    const { trunc, paso } = PERIODOS_SQL[periodo];
     const sql = `
+        WITH b AS (
+            SELECT
+                now() AS ahora,
+                (now() AT TIME ZONE $1) AS local,
+                date_trunc($2, now() AT TIME ZONE $1) AS inicio_local,
+                $3::interval AS paso
+        )
         SELECT
-            now() AS hasta,
-            to_char(now() AT TIME ZONE $1, 'YYYY-MM-DD') AS hoy,
-            extract(hour FROM now() AT TIME ZONE $1)::int AS hora_actual,
-            (((now() AT TIME ZONE $1)::date - $2::int)::timestamp AT TIME ZONE $1) AS desde,
-            (((now() AT TIME ZONE $1)::date - $2::int - $3::int)::timestamp AT TIME ZONE $1) AS desde_anterior,
-            (((now() AT TIME ZONE $1) - make_interval(days => $3::int)) AT TIME ZONE $1) AS hasta_anterior,
-            ((date_trunc('month', now() AT TIME ZONE $1) - interval '5 months') AT TIME ZONE $1) AS desde_meses
+            ahora AS hasta,
+            (inicio_local AT TIME ZONE $1) AS desde,
+            ((inicio_local - paso) AT TIME ZONE $1) AS desde_anterior,
+            ((local - paso) AT TIME ZONE $1) AS hasta_anterior,
+            to_char(inicio_local, 'YYYY-MM-DD') AS dia_inicio,
+            to_char(local, 'YYYY-MM-DD') AS hoy,
+            extract(hour FROM local)::int AS hora_actual,
+            extract(day FROM (date_trunc('month', local) + interval '1 month - 1 day'))::int AS dias_mes
+        FROM b
     `;
-    const result = await db.query(sql, [TZ, diasAtras, duracion]);
+    const result = await db.query(sql, [TZ, trunc, paso]);
     return result.rows[0];
 };
 
-// Facturación, unidades y cantidad de ventas del período actual y del anterior.
-export const getResumenVentas = async (id_tienda, r) => {
-    const actual = `fecha >= ${aSesion("$2")} AND fecha <= ${aSesion("$3")}`;
-    const anterior = `fecha >= ${aSesion("$4")} AND fecha < ${aSesion("$5")}`;
+// Todas las operaciones de la tienda entre desde y hasta (instantes), una fila por producto vendido:
+//  - origen 'manual': filas de ventas SIN id_pedido (las de POST /ventas/manual). Se excluyen las
+//    ventas con id_pedido porque duplican el detalle del pedido (solo existen en el seed), y las
+//    marcadas como anuladas/canceladas en ventas.estado.
+//  - origen 'pedido': filas de detallepedidos de productos de la tienda. El momento del pedido es el
+//    primer registro del historial (con hora); si no hay, la primera venta asociada al pedido; si
+//    tampoco, pedidos.fecha (solo día) a las 00:00 de Argentina.
+export const getOperaciones = async (id_tienda, desde, hasta) => {
     const sql = `
+        WITH manuales AS (
+            SELECT
+                'manual'::text AS origen,
+                'v' || v.id_venta AS id_operacion,
+                NULL::int AS id_pedido,
+                NULL::text AS estado_pedido,
+                v.id_producto,
+                v.cantidad,
+                v.total AS monto,
+                ${aInstante("v.fecha")} AS instante
+            FROM ventas v
+            WHERE v.id_tienda = $1
+              AND v.id_pedido IS NULL
+              AND lower(COALESCE(v.estado, 'Completada')) NOT IN ('anulada', 'cancelada')
+              AND v.fecha >= ${aSesion("$2")}
+              AND v.fecha <= ${aSesion("$3")}
+        ),
+        ped AS (
+            SELECT DISTINCT p.id_pedido, p.estado, p.fecha
+            FROM pedidos p
+            JOIN detallepedidos dp ON dp.id_pedido = p.id_pedido
+            JOIN productos prod ON prod.id_producto = dp.id_producto
+            WHERE prod.id_tienda = $1
+        ),
+        ped_creado AS (
+            SELECT
+                ped.id_pedido,
+                ped.estado,
+                COALESCE(
+                    CASE WHEN h.solo_fecha THEN NULL ELSE h.fecha END,
+                    ${aInstante("vt.primera_venta")},
+                    (ped.fecha::timestamp AT TIME ZONE $4)
+                ) AS creado
+            FROM ped
+            LEFT JOIN LATERAL (
+                SELECT fecha, solo_fecha
+                FROM pedidos_historial_estado
+                WHERE id_pedido = ped.id_pedido
+                ORDER BY fecha ASC, id_historial ASC
+                LIMIT 1
+            ) h ON true
+            LEFT JOIN LATERAL (
+                SELECT MIN(fecha) AS primera_venta FROM ventas WHERE id_pedido = ped.id_pedido
+            ) vt ON true
+        ),
+        items_pedido AS (
+            SELECT
+                'pedido'::text,
+                'p' || pc.id_pedido,
+                pc.id_pedido,
+                pc.estado::text,
+                dp.id_producto,
+                dp.cantidad,
+                dp.precio_total,
+                pc.creado
+            FROM ped_creado pc
+            JOIN detallepedidos dp ON dp.id_pedido = pc.id_pedido
+            JOIN productos prod ON prod.id_producto = dp.id_producto AND prod.id_tienda = $1
+            WHERE pc.creado >= $2::timestamptz
+              AND pc.creado <= $3::timestamptz
+        )
         SELECT
-            COALESCE(SUM(total) FILTER (WHERE ${actual}), 0)      AS facturacion_actual,
-            COALESCE(SUM(cantidad) FILTER (WHERE ${actual}), 0)   AS unidades_actual,
-            COUNT(*) FILTER (WHERE ${actual})                     AS ventas_actual,
-            COALESCE(SUM(total) FILTER (WHERE ${anterior}), 0)    AS facturacion_anterior,
-            COALESCE(SUM(cantidad) FILTER (WHERE ${anterior}), 0) AS unidades_anterior,
-            COUNT(*) FILTER (WHERE ${anterior})                   AS ventas_anterior
-        FROM ventas
-        WHERE id_tienda = $1
-          AND fecha >= ${aSesion("$4")}
-          AND fecha <= ${aSesion("$3")}
+            ops.*,
+            to_char(ops.instante AT TIME ZONE $4, 'YYYY-MM-DD') AS dia_local,
+            to_char(ops.instante AT TIME ZONE $4, 'HH24') AS hora_local
+        FROM (SELECT * FROM manuales UNION ALL SELECT * FROM items_pedido) ops
     `;
-    const result = await db.query(sql, [id_tienda, r.desde, r.hasta, r.desde_anterior, r.hasta_anterior]);
-    return result.rows[0];
-};
-
-// Ventas agrupadas por una clave de fecha en hora de Argentina (formato de to_char).
-// Se usa para la serie (por hora o por día) y para las ventas por mes.
-export const getVentasAgrupadas = async (id_tienda, desde, hasta, formato) => {
-    const sql = `
-        SELECT
-            to_char(${aHoraArgentina("fecha")}, $4) AS clave,
-            COALESCE(SUM(total), 0)    AS facturacion,
-            COALESCE(SUM(cantidad), 0) AS unidades,
-            COUNT(*)                   AS ventas
-        FROM ventas
-        WHERE id_tienda = $1
-          AND fecha >= ${aSesion("$2")}
-          AND fecha <= ${aSesion("$3")}
-        GROUP BY 1
-    `;
-    const result = await db.query(sql, [id_tienda, desde, hasta, formato]);
+    const result = await db.query(sql, [id_tienda, desde, hasta, TZ]);
     return result.rows;
 };
 
-// Productos con sus ventas del período: los que tuvieron ventas (aunque hoy estén
-// inactivos o eliminados) más todos los activos de la tienda (con 0 si no vendieron).
-export const getProductosDelPeriodo = async (id_tienda, desde, hasta) => {
+// Todos los productos de la tienda (también inactivos y eliminados, para poder nombrar lo vendido).
+export const getProductosTienda = async (id_tienda) => {
     const sql = `
-        WITH vendidos AS (
-            SELECT id_producto, SUM(cantidad) AS unidades, SUM(total) AS facturacion
-            FROM ventas
-            WHERE id_tienda = $1
-              AND fecha >= ${aSesion("$2")}
-              AND fecha <= ${aSesion("$3")}
-            GROUP BY id_producto
-        )
-        SELECT
-            p.id_producto,
-            p.nombre,
-            p.imagen,
-            (p.id_tienda = $1 AND p.activo = true AND p.eliminado = false) AS activo,
-            COALESCE(v.unidades, 0)    AS unidades,
-            COALESCE(v.facturacion, 0) AS facturacion
-        FROM productos p
-        LEFT JOIN vendidos v ON v.id_producto = p.id_producto
-        WHERE v.id_producto IS NOT NULL
-           OR (p.id_tienda = $1 AND p.activo = true AND p.eliminado = false)
+        SELECT id_producto, nombre, imagen, (activo = true AND eliminado = false) AS activo
+        FROM productos
+        WHERE id_tienda = $1
     `;
-    const result = await db.query(sql, [id_tienda, desde, hasta]);
+    const result = await db.query(sql, [id_tienda]);
     return result.rows;
 };
 
@@ -126,52 +166,5 @@ export const getVistasPorProducto = async (id_tienda, desde, hasta) => {
         ORDER BY cantidad DESC, vi.id_producto
     `;
     const result = await db.query(sql, [id_tienda, desde, hasta]);
-    return result.rows;
-};
-
-// Pedidos de la tienda (los que tienen al menos un producto suyo), agrupados por estado.
-// pedidos.fecha es solo DATE, así que el momento de creación se toma del primer
-// registro del historial de estados (que tiene hora). Para pedidos viejos sin
-// historial con hora se usa la fecha del pedido a las 00:00 de Argentina.
-// "monto" es solo la parte del pedido que corresponde a productos de esta tienda.
-export const getPedidosPorEstado = async (id_tienda, r) => {
-    const actual = `creado >= $2::timestamptz AND creado <= $3::timestamptz`;
-    const anterior = `creado >= $4::timestamptz AND creado < $5::timestamptz`;
-    const sql = `
-        WITH ped AS (
-            SELECT p.id_pedido, p.estado, p.fecha, SUM(dp.precio_total) AS monto
-            FROM pedidos p
-            JOIN detallepedidos dp ON dp.id_pedido = p.id_pedido
-            JOIN productos prod ON prod.id_producto = dp.id_producto
-            WHERE prod.id_tienda = $1
-            GROUP BY p.id_pedido, p.estado, p.fecha
-        ),
-        cre AS (
-            SELECT
-                ped.estado,
-                ped.monto,
-                COALESCE(
-                    CASE WHEN h.solo_fecha THEN NULL ELSE h.fecha END,
-                    (ped.fecha::timestamp AT TIME ZONE $6)
-                ) AS creado
-            FROM ped
-            LEFT JOIN LATERAL (
-                SELECT fecha, solo_fecha
-                FROM pedidos_historial_estado
-                WHERE id_pedido = ped.id_pedido
-                ORDER BY fecha ASC, id_historial ASC
-                LIMIT 1
-            ) h ON true
-        )
-        SELECT
-            estado,
-            COUNT(*) FILTER (WHERE ${actual})            AS actual,
-            COUNT(*) FILTER (WHERE ${anterior})          AS anterior,
-            COALESCE(SUM(monto) FILTER (WHERE ${actual}), 0) AS facturacion,
-            COUNT(*)                                     AS historico
-        FROM cre
-        GROUP BY estado
-    `;
-    const result = await db.query(sql, [id_tienda, r.desde, r.hasta, r.desde_anterior, r.hasta_anterior, TZ]);
     return result.rows;
 };
